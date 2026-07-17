@@ -1,0 +1,16 @@
+include ARCHITECTURE.md
+include ADOPTION.md
+include BENCHMARK.md
+include CHANGELOG.md
+include CONTRIBUTING.md
+include EVIDENCE.json
+include LICENSE
+include README.md
+include RELEASE.md
+include SECURITY.md
+include VERIFICATION.md
+recursive-include conformance *.json *.md *.py
+recursive-include benchmarks *.json *.md
+recursive-include examples *.py
+recursive-include openline_lite/schemas *.json
+recursive-include tests *.py

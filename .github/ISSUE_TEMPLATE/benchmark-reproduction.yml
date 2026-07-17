@@ -1,0 +1,42 @@
+name: Benchmark reproduction
+description: Share a reproduction, counterexample, or workload-specific break-even.
+title: "[benchmark] "
+labels: ["benchmark"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for testing the claim. Negative and non-breaking-even results are welcome.
+  - type: input
+    id: commit
+    attributes:
+      label: Commit or release
+      placeholder: v0.3.0 or full commit SHA
+    validations:
+      required: true
+  - type: input
+    id: command
+    attributes:
+      label: Exact command
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment and tokenizer
+      description: Include OS, Python, tokenizer, and relevant package versions.
+    validations:
+      required: true
+  - type: textarea
+    id: workload
+    attributes:
+      label: Workload and retention rule
+      description: Describe trace shape, depths, fact budget, and any source modifications.
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: Result
+      description: Attach or link the raw JSON output and summarize what reproduced or failed.
+    validations:
+      required: true

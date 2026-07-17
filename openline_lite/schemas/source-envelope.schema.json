@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:openline:lite:schema:source-envelope:v1",
+  "title": "OpenLine Lite source receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["payload", "payload_sha256", "proof"],
+  "properties": {
+    "payload_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "issuer", "issued_at", "run_id", "sequence", "action", "claim", "evidence"],
+      "properties": {
+        "schema": {"const": "olp.source.v1"},
+        "issuer": {"type": "string", "minLength": 1},
+        "issued_at": {"type": "string", "minLength": 1},
+        "run_id": {"type": "string", "minLength": 1},
+        "sequence": {"type": "integer", "minimum": 0},
+        "parent_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "action": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "name"],
+          "properties": {
+            "type": {"type": "string", "minLength": 1},
+            "name": {"type": "string", "minLength": 1},
+            "target": {"type": "string"}
+          }
+        },
+        "claim": {"type": "string", "minLength": 1},
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "sha256"],
+            "properties": {
+              "id": {"type": "string", "minLength": 1},
+              "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "media_type": {"type": "string"}
+            }
+          }
+        },
+        "extensions": {"type": "object"}
+      }
+    },
+    "proof": {"$ref": "#/$defs/proof"}
+  },
+  "$defs": {
+    "proof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["alg", "key_id", "public_key", "signature"],
+      "properties": {
+        "alg": {"const": "Ed25519"},
+        "key_id": {"type": "string", "minLength": 1},
+        "public_key": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "signature": {"type": "string", "pattern": "^[0-9a-f]{128}$"}
+      }
+    }
+  }
+}

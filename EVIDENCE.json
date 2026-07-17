@@ -1,0 +1,92 @@
+{
+  "schema": "openline.release-evidence.v1",
+  "release": "openline-lite-0.3.1",
+  "verified_at": "2026-07-17T23:35:18Z",
+  "environment": {
+    "platform": "Linux-6.12.47-x86_64-with-glibc2.39",
+    "python": "3.12.13",
+    "cryptography": "46.0.0",
+    "tiktoken": "0.12.0",
+    "ruff": "0.15.2",
+    "build": "1.3.0"
+  },
+  "checks": [
+    {
+      "name": "format_and_lint",
+      "command": "ruff format --check . && ruff check .",
+      "result": "pass"
+    },
+    {
+      "name": "unit_and_integration_tests",
+      "command": "python -m unittest discover -s tests -v",
+      "result": "pass",
+      "tests_run": 44,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "name": "conformance",
+      "command": "python -m conformance.run",
+      "result": "pass",
+      "cases": 6
+    },
+    {
+      "name": "runnable_handoff",
+      "command": "python -m examples.handoff",
+      "result": "pass",
+      "jsonl_lines": 3
+    },
+    {
+      "name": "hostile_json_complexity_regression",
+      "command": "exercise depth-2000 JSON and oversized JSON Pointer indexes through every ingestion path",
+      "result": "pass",
+      "canonical_depth_limit": 128,
+      "canonical_node_limit": 100000
+    },
+    {
+      "name": "package_build",
+      "command": "python -m build",
+      "result": "pass",
+      "artifacts": [
+        "openline_lite-0.3.1-py3-none-any.whl",
+        "openline_lite-0.3.1.tar.gz"
+      ]
+    },
+    {
+      "name": "clean_wheel_smoke",
+      "command": "install wheel in an isolated venv; run pip check, demo, lexical benchmark, and packaged-schema checks",
+      "result": "pass",
+      "packaged_schemas": 5
+    },
+    {
+      "name": "static_release_scan",
+      "command": "scan source and package artifacts for cache files, private-key files, unfinished markers, and network-client imports",
+      "result": "pass"
+    }
+  ],
+  "reference_benchmark": {
+    "path": "benchmarks/results/reference-cl100k.json",
+    "sha256": "d6e96412173119c655cc62b4edfce3261a8fbc72a11eac974ec02e0484153d31",
+    "tokenizer": "tiktoken:cl100k_base",
+    "depths": [1, 2, 4, 8, 16, 32],
+    "iterations_per_depth": 50,
+    "max_claims_in_prompt": 3,
+    "one_handoff_first_tested_break_even_depth": 2,
+    "cumulative_first_tested_break_even_depth": 4,
+    "depth_16_one_handoff_reduction_percent": 85.8,
+    "depth_16_cumulative_reduction_percent": 74.3,
+    "openline_lite_fixture_decisions_correct": "9/9",
+    "signature_only_fixture_decisions_correct": "3/9",
+    "combined_score": null
+  },
+  "claim_boundaries": [
+    "Synthetic benchmark; no LLM was called.",
+    "Decision-fixture correctness is not model-output quality.",
+    "Break-even depths are not universal constants.",
+    "Evidence is checked when the receiver decision is issued; prompt compaction does not eliminate evidence work.",
+    "No named third-party receipt compatibility is claimed.",
+    "Canonical JSON exceeding 128 levels or 100,000 values is rejected before appraisal.",
+    "No hardware-backed key custody, transparency-log inclusion, semantic truth, executed rollback, or production safety is claimed.",
+    "No independent external reproduction is recorded in this release."
+  ]
+}

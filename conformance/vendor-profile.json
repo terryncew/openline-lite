@@ -1,0 +1,28 @@
+{
+  "profile_id": "conformance.vendor.v1",
+  "source_format": "conformance.vendor.receipt.v1",
+  "signed_object": "/record",
+  "proof": {
+    "algorithm": "/proof/algorithm",
+    "key_id": "/proof/key_id",
+    "public_key": "/proof/public_key",
+    "signature": "/proof/signature"
+  },
+  "fields": {
+    "issuer": "/record/actor",
+    "issued_at": "/record/issued",
+    "run_id": "/record/run",
+    "sequence": "/record/sequence",
+    "action_type": "/record/action/type",
+    "action_name": "/record/action/name",
+    "action_target": null,
+    "claim": "/record/claim",
+    "evidence": "/record/evidence"
+  },
+  "evidence_fields": {
+    "id": "id",
+    "sha256": "hash",
+    "media_type": "media_type"
+  }
+}
+

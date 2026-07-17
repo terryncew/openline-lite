@@ -1,0 +1,304 @@
+{
+  "benchmark": "synthetic_lightweight_handoff",
+  "break_even": {
+    "cumulative_first_tested_depth": 4,
+    "meaning": "The first tested depth where verified prompt tokens are less than or equal to full-history prompt tokens. This is not an interpolated universal threshold; rerun it on your own traces and tokenizer.",
+    "one_handoff_first_tested_depth": 2,
+    "tested_depths": [
+      1,
+      2,
+      4,
+      8,
+      16,
+      32
+    ]
+  },
+  "combined_score": null,
+  "cost_by_depth": [
+    {
+      "cumulative_at_every_handoff": {
+        "full_history_prompt_tokens": 83,
+        "prompt_token_reduction_percent": -27.7,
+        "unsigned_compact_prompt_tokens": 62,
+        "unsigned_token_reduction_percent": 25.3,
+        "verified_handoff_prompt_tokens": 106,
+        "verified_overhead_tokens_vs_unsigned": 44
+      },
+      "depth": 1,
+      "latency_ms": {
+        "issue_and_gate_per_event_p50": 1.525,
+        "verify_chain_and_project_cpu_p50": 0.611,
+        "verify_chain_and_project_p50": 0.612,
+        "verify_chain_and_project_p95": 0.712
+      },
+      "local_storage_and_evidence": {
+        "evidence_bytes_outside_prompt": 30,
+        "evidence_items_checked_during_issue_and_gate": 1,
+        "evidence_reads_during_verify_and_project": 0,
+        "receipt_bytes_outside_prompt": 2786,
+        "verify_and_project_peak_python_alloc_bytes": 7501
+      },
+      "max_claims_in_prompt": 3,
+      "one_handoff": {
+        "full_history_prompt_bytes": 332,
+        "full_history_prompt_tokens": 83,
+        "prompt_token_reduction_percent": -27.7,
+        "unsigned_compact_prompt_bytes": 164,
+        "unsigned_compact_prompt_tokens": 62,
+        "unsigned_token_reduction_percent": 25.3,
+        "verified_handoff_prompt_bytes": 256,
+        "verified_handoff_prompt_tokens": 106,
+        "verified_overhead_tokens_vs_unsigned": 44
+      }
+    },
+    {
+      "cumulative_at_every_handoff": {
+        "full_history_prompt_tokens": 249,
+        "prompt_token_reduction_percent": -2.8,
+        "unsigned_compact_prompt_tokens": 165,
+        "unsigned_token_reduction_percent": 33.7,
+        "verified_handoff_prompt_tokens": 256,
+        "verified_overhead_tokens_vs_unsigned": 91
+      },
+      "depth": 2,
+      "latency_ms": {
+        "issue_and_gate_per_event_p50": 0.86,
+        "verify_chain_and_project_cpu_p50": 1.239,
+        "verify_chain_and_project_p50": 1.24,
+        "verify_chain_and_project_p95": 1.393
+      },
+      "local_storage_and_evidence": {
+        "evidence_bytes_outside_prompt": 60,
+        "evidence_items_checked_during_issue_and_gate": 2,
+        "evidence_reads_during_verify_and_project": 0,
+        "receipt_bytes_outside_prompt": 5653,
+        "verify_and_project_peak_python_alloc_bytes": 12854
+      },
+      "max_claims_in_prompt": 3,
+      "one_handoff": {
+        "full_history_prompt_bytes": 665,
+        "full_history_prompt_tokens": 166,
+        "prompt_token_reduction_percent": 10.2,
+        "unsigned_compact_prompt_bytes": 276,
+        "unsigned_compact_prompt_tokens": 103,
+        "unsigned_token_reduction_percent": 38.0,
+        "verified_handoff_prompt_bytes": 368,
+        "verified_handoff_prompt_tokens": 149,
+        "verified_overhead_tokens_vs_unsigned": 46
+      }
+    },
+    {
+      "cumulative_at_every_handoff": {
+        "full_history_prompt_tokens": 830,
+        "prompt_token_reduction_percent": 24.8,
+        "unsigned_compact_prompt_tokens": 453,
+        "unsigned_token_reduction_percent": 45.4,
+        "verified_handoff_prompt_tokens": 624,
+        "verified_overhead_tokens_vs_unsigned": 171
+      },
+      "depth": 4,
+      "latency_ms": {
+        "issue_and_gate_per_event_p50": 0.9,
+        "verify_chain_and_project_cpu_p50": 2.511,
+        "verify_chain_and_project_p50": 2.512,
+        "verify_chain_and_project_p95": 3.718
+      },
+      "local_storage_and_evidence": {
+        "evidence_bytes_outside_prompt": 120,
+        "evidence_items_checked_during_issue_and_gate": 4,
+        "evidence_reads_during_verify_and_project": 0,
+        "receipt_bytes_outside_prompt": 11387,
+        "verify_and_project_peak_python_alloc_bytes": 18792
+      },
+      "max_claims_in_prompt": 3,
+      "one_handoff": {
+        "full_history_prompt_bytes": 1331,
+        "full_history_prompt_tokens": 332,
+        "prompt_token_reduction_percent": 43.7,
+        "unsigned_compact_prompt_bytes": 388,
+        "unsigned_compact_prompt_tokens": 144,
+        "unsigned_token_reduction_percent": 56.6,
+        "verified_handoff_prompt_bytes": 480,
+        "verified_handoff_prompt_tokens": 187,
+        "verified_overhead_tokens_vs_unsigned": 43
+      }
+    },
+    {
+      "cumulative_at_every_handoff": {
+        "full_history_prompt_tokens": 2988,
+        "prompt_token_reduction_percent": 54.0,
+        "unsigned_compact_prompt_tokens": 1029,
+        "unsigned_token_reduction_percent": 65.6,
+        "verified_handoff_prompt_tokens": 1375,
+        "verified_overhead_tokens_vs_unsigned": 346
+      },
+      "depth": 8,
+      "latency_ms": {
+        "issue_and_gate_per_event_p50": 0.8,
+        "verify_chain_and_project_cpu_p50": 4.781,
+        "verify_chain_and_project_p50": 4.782,
+        "verify_chain_and_project_p95": 5.325
+      },
+      "local_storage_and_evidence": {
+        "evidence_bytes_outside_prompt": 244,
+        "evidence_items_checked_during_issue_and_gate": 8,
+        "evidence_reads_during_verify_and_project": 0,
+        "receipt_bytes_outside_prompt": 22863,
+        "verify_and_project_peak_python_alloc_bytes": 36028
+      },
+      "max_claims_in_prompt": 3,
+      "one_handoff": {
+        "full_history_prompt_bytes": 2671,
+        "full_history_prompt_tokens": 664,
+        "prompt_token_reduction_percent": 71.8,
+        "unsigned_compact_prompt_bytes": 391,
+        "unsigned_compact_prompt_tokens": 144,
+        "unsigned_token_reduction_percent": 78.3,
+        "verified_handoff_prompt_bytes": 483,
+        "verified_handoff_prompt_tokens": 187,
+        "verified_overhead_tokens_vs_unsigned": 43
+      }
+    },
+    {
+      "cumulative_at_every_handoff": {
+        "full_history_prompt_tokens": 11288,
+        "prompt_token_reduction_percent": 74.3,
+        "unsigned_compact_prompt_tokens": 2181,
+        "unsigned_token_reduction_percent": 80.7,
+        "verified_handoff_prompt_tokens": 2902,
+        "verified_overhead_tokens_vs_unsigned": 721
+      },
+      "depth": 16,
+      "latency_ms": {
+        "issue_and_gate_per_event_p50": 0.821,
+        "verify_chain_and_project_cpu_p50": 9.353,
+        "verify_chain_and_project_p50": 9.354,
+        "verify_chain_and_project_p95": 10.35
+      },
+      "local_storage_and_evidence": {
+        "evidence_bytes_outside_prompt": 504,
+        "evidence_items_checked_during_issue_and_gate": 16,
+        "evidence_reads_during_verify_and_project": 0,
+        "receipt_bytes_outside_prompt": 45875,
+        "verify_and_project_peak_python_alloc_bytes": 69597
+      },
+      "max_claims_in_prompt": 3,
+      "one_handoff": {
+        "full_history_prompt_bytes": 5393,
+        "full_history_prompt_tokens": 1328,
+        "prompt_token_reduction_percent": 85.8,
+        "unsigned_compact_prompt_bytes": 401,
+        "unsigned_compact_prompt_tokens": 144,
+        "unsigned_token_reduction_percent": 89.2,
+        "verified_handoff_prompt_bytes": 496,
+        "verified_handoff_prompt_tokens": 188,
+        "verified_overhead_tokens_vs_unsigned": 44
+      }
+    },
+    {
+      "cumulative_at_every_handoff": {
+        "full_history_prompt_tokens": 43824,
+        "prompt_token_reduction_percent": 86.3,
+        "unsigned_compact_prompt_tokens": 4485,
+        "unsigned_token_reduction_percent": 89.8,
+        "verified_handoff_prompt_tokens": 5983,
+        "verified_overhead_tokens_vs_unsigned": 1498
+      },
+      "depth": 32,
+      "latency_ms": {
+        "issue_and_gate_per_event_p50": 0.819,
+        "verify_chain_and_project_cpu_p50": 18.068,
+        "verify_chain_and_project_p50": 18.069,
+        "verify_chain_and_project_p95": 19.37
+      },
+      "local_storage_and_evidence": {
+        "evidence_bytes_outside_prompt": 1032,
+        "evidence_items_checked_during_issue_and_gate": 32,
+        "evidence_reads_during_verify_and_project": 0,
+        "receipt_bytes_outside_prompt": 91907,
+        "verify_and_project_peak_python_alloc_bytes": 145202
+      },
+      "max_claims_in_prompt": 3,
+      "one_handoff": {
+        "full_history_prompt_bytes": 10865,
+        "full_history_prompt_tokens": 2656,
+        "prompt_token_reduction_percent": 92.9,
+        "unsigned_compact_prompt_bytes": 401,
+        "unsigned_compact_prompt_tokens": 144,
+        "unsigned_token_reduction_percent": 94.6,
+        "verified_handoff_prompt_bytes": 496,
+        "verified_handoff_prompt_tokens": 189,
+        "verified_overhead_tokens_vs_unsigned": 45
+      }
+    }
+  ],
+  "decision_quality": {
+    "case_count": 9,
+    "cases": {
+      "evidence_hash_mismatch": {
+        "expected": "DENY",
+        "openline_lite": "DENY",
+        "signature_only": "COMMIT"
+      },
+      "expired": {
+        "expected": "QUARANTINE",
+        "openline_lite": "QUARANTINE",
+        "signature_only": "COMMIT"
+      },
+      "future_timestamp": {
+        "expected": "DENY",
+        "openline_lite": "DENY",
+        "signature_only": "COMMIT"
+      },
+      "missing_evidence": {
+        "expected": "QUARANTINE",
+        "openline_lite": "QUARANTINE",
+        "signature_only": "COMMIT"
+      },
+      "policy_disallowed": {
+        "expected": "DENY",
+        "openline_lite": "DENY",
+        "signature_only": "COMMIT"
+      },
+      "signed_unsupported": {
+        "expected": "DENY",
+        "openline_lite": "DENY",
+        "signature_only": "COMMIT"
+      },
+      "tampered_signature": {
+        "expected": "DENY",
+        "openline_lite": "DENY",
+        "signature_only": "DENY"
+      },
+      "untrusted_source": {
+        "expected": "QUARANTINE",
+        "openline_lite": "QUARANTINE",
+        "signature_only": "QUARANTINE"
+      },
+      "valid": {
+        "expected": "COMMIT",
+        "openline_lite": "COMMIT",
+        "signature_only": "COMMIT"
+      }
+    },
+    "openline_lite_accuracy_percent": 100.0,
+    "openline_lite_correct": 9,
+    "signature_only_accuracy_percent": 33.3,
+    "signature_only_correct": 3
+  },
+  "environment": {
+    "cryptography": "46.0.0",
+    "openline_lite": "0.3.1",
+    "platform": "Linux-6.12.47-x86_64-with-glibc2.39",
+    "python": "3.12.13",
+    "tiktoken": "0.12.0"
+  },
+  "evidence_scope": "Evidence is checked once when the receiver issues each gate decision. The handoff verifier trusts pinned receiver-signed decisions and does not re-open evidence; full independent replay requires the retained bundle.",
+  "interpretation": "Bounded selection creates the prompt-token reduction after a measurable break-even depth. The unsigned compact control shows that compression alone is cheaper. OpenLine Lite adds local chain and claim-support verification before facts enter the compact handoff; at shallow depths that metadata can cost more tokens than carrying the short history.",
+  "iterations_per_depth": 50,
+  "prompt_scope": "Counts only text inserted into the next model prompt. Receipts and evidence stay outside the prompt and are reported separately as stored bytes.",
+  "quality_scope": "Disposition correctness on nine declared policy fixtures, not general model-output quality.",
+  "retention_policy": "The complete receipt chain is retained locally; the prompt projection includes only the latest 3 accepted action-and-fact items.",
+  "schema": "olp.lite-benchmark.v1",
+  "tokenizer": "tiktoken:cl100k_base"
+}

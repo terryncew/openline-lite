@@ -1,0 +1,38 @@
+name: Adapter proposal
+description: Propose a version-pinned receipt-format adapter with public fixtures.
+title: "[adapter] "
+labels: ["adapter"]
+body:
+  - type: input
+    id: format
+    attributes:
+      label: Exact format and version
+    validations:
+      required: true
+  - type: input
+    id: spec
+    attributes:
+      label: Public specification URL
+    validations:
+      required: true
+  - type: textarea
+    id: trust
+    attributes:
+      label: Signing and trust boundary
+      description: State who signs, what bytes are signed, where trust is configured, and what cannot be verified offline.
+    validations:
+      required: true
+  - type: textarea
+    id: fixtures
+    attributes:
+      label: Public fixtures or generator
+      description: Include valid, invalid-signature, untrusted-key, missing-field, and evidence-mismatch cases.
+    validations:
+      required: true
+  - type: checkboxes
+    id: limits
+    attributes:
+      label: Claim boundary
+      options:
+        - label: I understand that a mapping profile is not a compatibility claim until its fixtures pass conformance.
+          required: true

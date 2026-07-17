@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:openline:lite:schema:decision-envelope:v1",
+  "title": "OpenLine Lite signed decision receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["payload", "payload_sha256", "proof"],
+  "properties": {
+    "payload_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "gate_id", "issued_at", "source_format", "source_sha256", "policy", "verdict", "decision", "reason_codes", "side_effect_observed", "assessments"],
+      "properties": {
+        "schema": {"const": "olp.decision.v1"},
+        "gate_id": {"type": "string", "minLength": 1},
+        "issued_at": {"type": "string", "minLength": 1},
+        "source_format": {"type": "string", "minLength": 1},
+        "source_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "policy": {"type": "object"},
+        "verdict": {"enum": ["VERIFIED", "REJECTED", "UNDECIDABLE"]},
+        "decision": {"enum": ["COMMIT", "QUARANTINE", "DENY", "NO_BADGE", "ROLLBACK_REQUEST"]},
+        "reason_codes": {"type": "array", "items": {"type": "string"}},
+        "side_effect_observed": {"type": "boolean"},
+        "assessments": {"type": "object"}
+      }
+    },
+    "proof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["alg", "key_id", "public_key", "signature"],
+      "properties": {
+        "alg": {"const": "Ed25519"},
+        "key_id": {"type": "string", "minLength": 1},
+        "public_key": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "signature": {"type": "string", "pattern": "^[0-9a-f]{128}$"}
+      }
+    }
+  }
+}

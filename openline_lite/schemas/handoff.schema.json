@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:openline:lite:schema:handoff:v1",
+  "title": "OpenLine Lite verified handoff projection",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "run_id",
+    "chain_length",
+    "tip_hash",
+    "accepted_count",
+    "omitted_accepted_count",
+    "excluded_count",
+    "excluded_by_reason",
+    "ignored_decision_count",
+    "allowed_policy_hashes",
+    "items"
+  ],
+  "properties": {
+    "schema": {"const": "olp.handoff.v1"},
+    "run_id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "chain_length": {"type": "integer", "minimum": 1},
+    "tip_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "accepted_count": {"type": "integer", "minimum": 0},
+    "omitted_accepted_count": {"type": "integer", "minimum": 0},
+    "excluded_count": {"type": "integer", "minimum": 0},
+    "excluded_by_reason": {
+      "type": "object",
+      "additionalProperties": {"type": "integer", "minimum": 1}
+    },
+    "ignored_decision_count": {"type": "integer", "minimum": 0},
+    "allowed_policy_hashes": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["sequence", "action", "source_claim", "support_facts"],
+        "properties": {
+          "sequence": {"type": "integer", "minimum": 0},
+          "action": {"type": "string"},
+          "source_claim": {"type": "string"},
+          "support_facts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["rule_id", "evidence_id", "pointer", "expected"],
+              "properties": {
+                "rule_id": {"type": "string", "minLength": 1},
+                "evidence_id": {"type": "string", "minLength": 1},
+                "pointer": {"type": "string", "pattern": "^($|/)"},
+                "expected": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
