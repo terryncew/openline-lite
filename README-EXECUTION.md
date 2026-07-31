@@ -25,7 +25,7 @@ The successful preflight establishes 30/30 exact Git parent checkouts, access to
 
 ## Execution architecture
 
-The GitHub Actions workflow is **exact-tag-only**. Pushing the run branch does **not** run the experiment. The irreversible trigger is creating/pushing the single exact tag `RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_001` on the reviewed run-branch commit. This avoids GitHub's requirement that `workflow_dispatch` workflows exist on the default branch while preserving a deliberate typed one-shot trigger. A repository-level assignment-lock artifact plus prior `assign-once` job history blocks a second assignment attempt, including the artifact-upload failure edge case.
+The GitHub Actions workflow is **exact-tag-only**. Pushing the run branch does **not** run the experiment. The original trigger tag `RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_001` is preserved as historical evidence of the first infrastructure-only failure, which stopped before assignment. The repaired runner triggers only from the new exact tag `RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_001_RETRY1` on the reviewed repaired commit. Do not delete, move, or recreate the original tag. A repository-level assignment-lock artifact plus prior `assign-once` job history blocks a second assignment attempt whenever `assign-once` actually ran; a prior run whose `assign-once` job was skipped is not treated as an assignment attempt.
 
 The workflow separates outputs into three artifacts:
 
@@ -88,9 +88,9 @@ The only user-created GitHub Actions repository secret required is:
 
 GitHub provides `GITHUB_TOKEN` automatically to the assignment-lock guard. It is never passed to the agent shell.
 
-## Exact-tag real-run trigger
+## Exact retry-tag real-run trigger
 
-Do not create the trigger tag while reviewing the branch.
+Do not create the retry trigger tag while reviewing the branch. Preserve the original `RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_001` tag unchanged as historical evidence.
 
 When you are deliberately ready to create the irreversible real assignment:
 
@@ -100,9 +100,9 @@ When you are deliberately ready to create the irreversible real assignment:
 4. Review the pushed run-branch commit and verify it descends from the green preflight commit.
 5. On that exact reviewed commit, create the tag named exactly:
 
-   `RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_001`
+   `RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_001_RETRY1`
 
-6. Push that tag exactly once. The tag push is the irreversible scientific trigger.
+6. Push that retry tag exactly once. The retry-tag push is the irreversible scientific trigger.
 7. Immediately download and separately preserve the sealed-condition artifact and secret-key artifact when the assignment job succeeds; do not send the key to the scorer.
 8. Do not use **Re-run all jobs** or **Re-run failed jobs**. `GITHUB_RUN_ATTEMPT != 1` is rejected, and a delete/recreate-tag attempt is blocked by prior `assign-once` job history or the assignment-lock artifact.
 

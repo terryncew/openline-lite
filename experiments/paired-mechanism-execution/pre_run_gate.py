@@ -167,13 +167,15 @@ def main():
     ap.add_argument("--runner-manifest")
     ap.add_argument("--allow-missing-api-key-for-test", action="store_true")
     args = ap.parse_args()
+    out = Path(args.out)
     obj = run_gate(
-        out=Path(args.out),
+        out=out,
         require_api_key=not args.allow_missing_api_key_for_test,
         runner_manifest=Path(args.runner_manifest) if args.runner_manifest else None,
     )
-    Path(args.out).write_bytes(pretty_json_bytes(obj))
-    print(json.dumps({"status": obj["status"], "receipt": args.out}, indent=2))
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_bytes(pretty_json_bytes(obj))
+    print(json.dumps({"status": obj["status"], "receipt": str(out)}, indent=2))
 
 
 if __name__ == "__main__":

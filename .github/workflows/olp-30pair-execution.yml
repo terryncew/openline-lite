@@ -3,7 +3,7 @@ name: OLP 30-pair real execution — exact tag only
 on:
   push:
     tags:
-      - "RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_001"
+      - "RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_001_RETRY1"
 
 permissions:
   contents: read
@@ -16,7 +16,7 @@ concurrency:
 env:
   EXEC_ROOT: experiments/paired-mechanism-execution
   PINNED_MODEL: gpt-5.5-2026-04-23
-  REAL_RUN_TAG: RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_001
+  REAL_RUN_TAG: RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_001_RETRY1
 
 jobs:
   pre-run-gate:

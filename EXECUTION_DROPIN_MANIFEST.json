@@ -3,25 +3,28 @@
   "engineering_repairs": [
     "exact-tag push trigger replaces branch-only workflow_dispatch",
     "condition-map commitment includes a secret 256-bit nonce inside encrypted plaintext",
-    "pre-run failures emit literal EXECUTION_BLOCKED.json"
+    "pre-run failures emit literal EXECUTION_BLOCKED.json",
+    "successful pre-run receipt creates its parent directory before writing",
+    "first failed trigger remains historical; repaired workflow listens only to RETRY1",
+    "guard regression proves skipped assign-once does not count as an assignment attempt while any non-skipped assign-once still blocks"
   ],
   "experiment_id": "olp-core21-paired-mechanism-001",
   "files": {
     ".github/workflows/olp-30pair-execution.yml": {
-      "bytes": 9354,
-      "sha256": "9885bf508ae12783934e228184960180a7d21a474d8b3e0c93c6fd609a4de319"
+      "bytes": 9368,
+      "sha256": "e323e27fb29c58d2851b0ff2247c00c08d5f7f62ef2d39c3aa620f070aa5ae4e"
     },
     "README-EXECUTION.md": {
-      "bytes": 7274,
-      "sha256": "ca983ae8946c90684596b4b00a15d7f0f86fd0ce9e8465249554a111d34bd5e7"
+      "bytes": 7560,
+      "sha256": "64001abccba4c9d4749f6b6bdbda99034681a3eb8f5734ea5bf07086fd300dac"
     },
     "experiments/paired-mechanism-execution/DRY_RUN_RECEIPT.json": {
       "bytes": 2959,
-      "sha256": "68cb9f5d165f9a647aeee82f34247028fa60206657ae08f98efd24acab39c479"
+      "sha256": "035f655d9425c002bb51a58ecc8668ca7763e90e9401f64039b9544857e230cd"
     },
     "experiments/paired-mechanism-execution/RUNNER_MANIFEST.json": {
       "bytes": 1781,
-      "sha256": "f1dfbb75b3987cba46e8761f95fff220988921002b8cb7856d778154f4c5f17b"
+      "sha256": "d38734a3de514c8315afed675df069ec614eca91daf72668d38c163fec71674b"
     },
     "experiments/paired-mechanism-execution/TRACE_FORMAT.json": {
       "bytes": 1917,
@@ -88,8 +91,8 @@
       "sha256": "61ec6c57707e1bf5b621f4f6802e73171bdf5c43d4f310fc24d2b4e40486dfb1"
     },
     "experiments/paired-mechanism-execution/pre_run_gate.py": {
-      "bytes": 6650,
-      "sha256": "b20a0885700091322d7e1a56af82bf0748eb9c239ebe8a76148b4d31868c958b"
+      "bytes": 6703,
+      "sha256": "b0bc90d8bc709a64f848a935d428cad86e5d8a3016ac0e4030a4e8bb8d53603a"
     },
     "experiments/paired-mechanism-execution/release_check.py": {
       "bytes": 3158,
@@ -104,8 +107,8 @@
       "sha256": "b4a0f78c3078da46cefbe8e8707cafe17281e86b29ed213ef4b2dfd0a9a079f4"
     },
     "experiments/paired-mechanism-execution/tests/test_execution.py": {
-      "bytes": 19069,
-      "sha256": "114c4a71254d8c0c403462f73c0e9d1182d3c38512a15b6598172b67ffaf7059"
+      "bytes": 22327,
+      "sha256": "811ef8fce5f0f070db21e6b673ba72e9b38d5ba491ecc5b3c3f0647dc8769c2b"
     },
     "experiments/paired-mechanism-execution/tool_runtime.py": {
       "bytes": 9718,
@@ -116,7 +119,9 @@
       "sha256": "353b0b51036f25755ec34984f715538711fb49c9b7755157244704e4ab5e427f"
     }
   },
+  "original_trigger_historical": "RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_001",
   "real_assignment_created": false,
+  "retry_trigger": "RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_001_RETRY1",
   "schema": "openline.paired-mechanism-benchmark.execution-dropin-manifest.v1",
   "scientific_content_changed": false,
   "source_green_preflight_commit": "54d906cce8354bd58d1fd664a5028c4e0ec1f0be",

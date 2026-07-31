@@ -60,7 +60,7 @@
     },
     {
       "check": "unit_tests",
-      "passed": 23,
+      "passed": 26,
       "status": "PASS"
     },
     {

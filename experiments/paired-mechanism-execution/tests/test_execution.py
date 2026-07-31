@@ -17,6 +17,7 @@ if str(HERE) not in sys.path:
     sys.path.insert(0, str(HERE))
 
 import pre_run_gate
+import guard_once
 from assignment import decrypt_map_in_memory, generate_assignment
 from collect_execution import collect
 from common import FROZEN_HASHES, PREFLIGHT_PASS_SHA256, sha256_file
@@ -165,6 +166,25 @@ class ExecutionHarnessTests(unittest.TestCase):
             self.assertTrue(blocked.exists())
             self.assertEqual(json.loads(blocked.read_text())["status"], "EXECUTION_BLOCKED")
 
+    def test_successful_pre_run_gate_creates_missing_nested_output_directory(self):
+        with tempfile.TemporaryDirectory() as td, \
+             mock.patch.object(pre_run_gate, "verify_network_sandbox", lambda out: None), \
+             mock.patch.object(pre_run_gate.shutil, "which", return_value="/usr/bin/fake"):
+            out = Path(td) / "never" / "existed" / "build" / "PRE_RUN_GATE.json"
+            self.assertFalse(out.parent.exists())
+            argv = [
+                "pre_run_gate.py",
+                "--out", str(out),
+                "--allow-missing-api-key-for-test",
+            ]
+            with mock.patch.object(sys, "argv", argv):
+                pre_run_gate.main()
+            self.assertTrue(out.exists())
+            obj = json.loads(out.read_text("utf-8"))
+            self.assertEqual(obj["status"], "PRE_RUN_GATE_PASS")
+            self.assertEqual(obj["real_condition_assignments"], 0)
+            self.assertEqual(obj["benchmark_model_calls"], 0)
+
     def test_unicode_final_quarter_truncation_exact(self):
         text = "A🙂Bé中Z"  # six Unicode code points
         # ceil(6/4)=2 => keep first four code points exactly.
@@ -294,6 +314,45 @@ class ExecutionHarnessTests(unittest.TestCase):
         workflow = (HERE.parents[1] / ".github" / "workflows" / "olp-30pair-execution.yml").read_text("utf-8")
         self.assertIn("Assignment job reruns are forbidden", workflow)
 
+    def test_guard_ignores_prior_run_when_assign_once_was_skipped(self):
+        calls = []
+        def fake_api(url, token):
+            calls.append(url)
+            if "/actions/artifacts?" in url:
+                return {"artifacts": []}
+            if "/actions/runs?" in url:
+                return {"workflow_runs": [{
+                    "id": 111,
+                    "path": ".github/workflows/olp-30pair-execution.yml",
+                    "name": "OLP 30-pair real execution — exact tag only",
+                }]}
+            if "/actions/runs/111/jobs?" in url:
+                return {"jobs": [{"id": 222, "name": "assign-once", "status": "completed", "conclusion": "skipped"}]}
+            raise AssertionError(url)
+        with mock.patch.object(guard_once, "api_json", side_effect=fake_api):
+            evidence = guard_once.prior_assignment_evidence("owner/repo", "token", "999")
+        self.assertEqual(evidence, [])
+        self.assertTrue(any("/actions/runs/111/jobs?" in u for u in calls))
+
+    def test_guard_still_blocks_prior_run_when_assign_once_actually_ran(self):
+        def fake_api(url, token):
+            if "/actions/artifacts?" in url:
+                return {"artifacts": []}
+            if "/actions/runs?" in url:
+                return {"workflow_runs": [{
+                    "id": 111,
+                    "path": ".github/workflows/olp-30pair-execution.yml",
+                    "name": "OLP 30-pair real execution — exact tag only",
+                }]}
+            if "/actions/runs/111/jobs?" in url:
+                return {"jobs": [{"id": 222, "name": "assign-once", "status": "completed", "conclusion": "failure"}]}
+            raise AssertionError(url)
+        with mock.patch.object(guard_once, "api_json", side_effect=fake_api):
+            evidence = guard_once.prior_assignment_evidence("owner/repo", "token", "999")
+        self.assertEqual(len(evidence), 1)
+        self.assertEqual(evidence[0]["kind"], "prior_assign_job_attempt")
+        self.assertEqual(evidence[0]["job_conclusion"], "failure")
+
     def test_public_execution_filenames_are_opaque(self):
         allowed = re.compile(r"^P\d{2}-[XY]\.json$")
         for i in range(1, 31):
@@ -307,7 +366,9 @@ class ExecutionHarnessTests(unittest.TestCase):
         self.assertIn('GITHUB_RUN_ATTEMPT', workflow)
         self.assertIn('Behavioral execution reruns are forbidden', workflow)
         self.assertIn('on:\n  push:\n    tags:', workflow)
-        self.assertIn('RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_001', workflow)
+        self.assertIn('RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_001_RETRY1', workflow)
+        self.assertNotIn('      - "RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_001"', workflow)
+        self.assertNotIn('REAL_RUN_TAG: RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_001\n', workflow)
         self.assertIn('refs/tags/${REAL_RUN_TAG}', workflow)
         self.assertIn('git merge-base --is-ancestor 54d906cce8354bd58d1fd664a5028c4e0ec1f0be HEAD', workflow)
         self.assertNotIn('workflow_dispatch:', workflow)
