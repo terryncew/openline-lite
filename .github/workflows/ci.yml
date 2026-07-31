@@ -18,7 +18,8 @@ jobs:
           python-version: "3.12"
       - run: python -m pip install ruff==0.15.2
       - run: ruff check .
-      - run: ruff format --check .
+      # Calibration Trial is a sealed research artifact: lint it, but do not rewrite its bytes.
+      - run: ruff format --check --exclude experiments/calibration-trial .
 
   test:
     runs-on: ubuntu-latest

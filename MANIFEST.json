@@ -2,9 +2,9 @@
   "bundle_type": "root-ready integration drop-in for terryncew/openline-lite",
   "files": [
     {
-      "bytes": 2741,
+      "bytes": 2877,
       "path": ".github/workflows/ci.yml",
-      "sha256": "760bb44218f517c7c46531cac5fd33195e06d79433b210a82281225a863c501c"
+      "sha256": "716c32fc14126fb5eced9cae2f7890452ecc46188e683900d7cc9523635a1220"
     },
     {
       "bytes": 294,
@@ -77,9 +77,9 @@
       "sha256": "7209156d557df3d9896025a3ce28d6a15f0883565d541ed6a9d574e87b2887f2"
     },
     {
-      "bytes": 26318,
+      "bytes": 26374,
       "path": "experiments/calibration-trial/tests/test_trial.py",
-      "sha256": "b2db4ef2d08859eda623fc7926931238325eeece20db0a5b2d3be333f6273d0c"
+      "sha256": "b2aab41c68227e33544fb4b6effcb6b094ad53a140aab936b92dfb313ca880a6"
     }
   ],
   "protocol_sha256": "0ada007d43739e60ded38c193b5912314791442a77b0080df6b0c19ac25d45f0",

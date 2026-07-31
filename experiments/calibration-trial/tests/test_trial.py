@@ -12,15 +12,15 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from calibration_trial.common import (
+from calibration_trial.common import (  # noqa: E402
     TrialError,
     load_json,
     load_jsonl,
     sha256_obj,
     validate_session,
 )
-from calibration_trial.independent_verify import verify as independent_verify
-from calibration_trial.trial import (
+from calibration_trial.independent_verify import verify as independent_verify  # noqa: E402
+from calibration_trial.trial import (  # noqa: E402
     _exact_paired_randomization,
     evaluate,
     freeze,
@@ -29,7 +29,7 @@ from calibration_trial.trial import (
     score,
     unlock_outcomes,
 )
-from examples.synthetic_fixture import build, continuation, iso, session
+from examples.synthetic_fixture import build, continuation, iso, session  # noqa: E402
 
 
 class CalibrationTrialTests(unittest.TestCase):
