@@ -1,0 +1,36 @@
+{
+  "build_provenance": "terminal summary supplied by investigator; this 002 build does not open 001 traces, key, or condition material",
+  "diagnostic_boundary": {
+    "do_not_claim_http_429_without_external_telemetry": true,
+    "model_api_root_cause": "UNRESOLVED_FROM_001_PUBLIC_RECEIPTS",
+    "paired_missingness_is_not_evidence_of_condition_blindness": true,
+    "reason": "001 pair jobs collapsed underlying API detail into MODEL_API_FAILURE and whole-pair abort architecture can remove both opaque records together."
+  },
+  "experiment_id": "olp-core21-paired-mechanism-002",
+  "predecessor_experiment_id": "olp-core21-paired-mechanism-001",
+  "predecessor_terminal_state": {
+    "assignment_created": true,
+    "complete_pairs": 11,
+    "execution_receipt_sha256": "69bb222222353973761742c31bc35a3f5b05a2d7f9331184ad63f70821b43d57",
+    "expected_opaque_execution_records": 60,
+    "instrumentation_invalid_executions": 0,
+    "kappa_scored": false,
+    "missing_opaque_execution_records": 38,
+    "nested_public_bundle_sha256": "d7ce252aa6c4df34cf54b22ef94b8ff69d54bed96d0c50bdf2e0c8029ebffea4",
+    "pair_count": 30,
+    "scientific_signal_inspected": false,
+    "status": "EXECUTION_INCOMPLETE_BLIND",
+    "successful_returned_model": "gpt-5.5-2026-04-23",
+    "unblinded": false,
+    "valid_opaque_execution_records": 22
+  },
+  "prohibited_carry_forward": [
+    "001 condition map",
+    "001 secret key",
+    "001 condition plaintext",
+    "001 scientific scores",
+    "condition-linked 001 effects"
+  ],
+  "relationship": "fresh preregistered rerun following blinded infrastructure-aborted run; no 001 scoring or unblinding occurred before 002 freeze.",
+  "schema": "openline.paired-mechanism-benchmark.rerun-lineage.v1"
+}

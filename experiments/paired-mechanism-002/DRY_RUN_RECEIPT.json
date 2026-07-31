@@ -1,0 +1,74 @@
+{
+  "001_scored": false,
+  "001_unblinded": false,
+  "002_real_assignment_created": false,
+  "benchmark_model_calls": 0,
+  "capacity_probe_model_calls_made_during_local_release_check": 0,
+  "checks": [
+    {
+      "check": "scientific_hash:BENCHMARK_DESIGN_FROZEN.json",
+      "sha256": "fd0b9eb2e2f494031bac8448dba3f6344071a4d8f2ea9285d2c3fd8ecc159f7f",
+      "status": "PASS"
+    },
+    {
+      "check": "scientific_hash:PAIR_SET_FROZEN.json",
+      "sha256": "5c622e0deaf500f7f39d9c5afece7550c1fa4859155d8b7191eb67bb0a725533",
+      "status": "PASS"
+    },
+    {
+      "check": "scientific_hash:SIGNAL_SCHEMA_FROZEN_SCOPE_REPAIRED.json",
+      "sha256": "88dbb498881e84e32b7599ec2ec1bf186a923bc17d7e0c67c4d09cf2b9cddb8d",
+      "status": "PASS"
+    },
+    {
+      "check": "scientific_hash:PERTURBATION_SPEC_FROZEN_SCOPE_REPAIRED.json",
+      "sha256": "1a94515d691b86719b17885c3bf983fbe7d052affebc22406ec35b34fc9bc9e4",
+      "status": "PASS"
+    },
+    {
+      "check": "hash:PARENT_MAP_FROZEN_002.json",
+      "sha256": "47e971adeaeed613a2a81c6ac2c14004003ca844c32ecf0ff7751222140e194d",
+      "status": "PASS"
+    },
+    {
+      "check": "hash:LINEAGE_001_ABORT.json",
+      "sha256": "168a8b68209b48099e112cba2595117d88d0fdc28992dcc36eca0552a55e022a",
+      "status": "PASS"
+    },
+    {
+      "check": "runner_manifest",
+      "runner_files": 18,
+      "status": "PASS",
+      "workflow_files": 2
+    },
+    {
+      "check": "unit_tests",
+      "passed": 23,
+      "status": "PASS"
+    },
+    {
+      "check": "compileall",
+      "status": "PASS"
+    },
+    {
+      "check": "dry_preflight_nested_output",
+      "disposition": "NOT_CLEARED_NO_EXTERNAL_PROBE",
+      "status": "PASS"
+    },
+    {
+      "check": "real_assignment_absent",
+      "status": "PASS"
+    }
+  ],
+  "experiment_id": "olp-core21-paired-mechanism-002",
+  "schema": "openline.paired-mechanism-benchmark.002-dry-run.v1",
+  "scientific_content_changed": false,
+  "scientific_payload_byte_identical_to_001": true,
+  "statements": [
+    "REAL_ASSIGNMENT_NOT_CREATED",
+    "BENCHMARK_MODEL_CALLS_0",
+    "UNBLINDED_FALSE"
+  ],
+  "status": "DRY_RUN_PASS",
+  "unblinded": false
+}

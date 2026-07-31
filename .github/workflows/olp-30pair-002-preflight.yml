@@ -1,0 +1,48 @@
+name: OLP 30-pair 002 sustained-capacity preflight
+
+on:
+  push:
+    branches:
+      - "preflight/olp-core21-paired-mechanism-002"
+    paths:
+      - ".github/workflows/olp-30pair-002-preflight.yml"
+      - ".github/workflows/olp-30pair-002-execution.yml"
+      - "experiments/paired-mechanism-002/**"
+      - "README-002-PREFLIGHT.md"
+
+permissions:
+  contents: read
+
+jobs:
+  preflight-002-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install frozen execution dependency
+        run: python -m pip install --disable-pip-version-check cryptography==46.0.4
+      - name: Confirm no 002 real assignment material exists
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -d experiments/paired-mechanism-002/build/assignment
+          ! find experiments/paired-mechanism-002 -type f \( -name 'secret_key.bin' -o -name 'condition_map.enc' -o -name 'blinded_run_manifest.json' -o -name 'ASSIGNMENT_LOCK.json' \) | grep -q .
+      - name: Run 002 sustained-capacity preflight
+        run: python experiments/paired-mechanism-002/preflight_002.py --out experiments/paired-mechanism-002/build/PREFLIGHT_002_PASS.json
+      - name: Upload sealed 002 preflight receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: olp-30pair-002-preflight-receipt
+          path: |
+            experiments/paired-mechanism-002/build/PREFLIGHT_002_*.json
+            experiments/paired-mechanism-002/build/PREFLIGHT_002_*.json.sha256
+          if-no-files-found: error
+          retention-days: 90

@@ -1,0 +1,64 @@
+{
+  "benchmark_model_calls": 0,
+  "diagnostic_boundaries": [
+    "Do not claim 001 was HTTP 429 without independent account/API telemetry.",
+    "Do not treat paired X/Y missingness in 001 as evidence of condition-blindness; whole-pair abort is architectural.",
+    "Do not inspect, score, decrypt, or carry forward 001 scientific payload outcomes or condition material."
+  ],
+  "execution_infrastructure": {
+    "api_retry_policy": {
+      "429_quota_spend_exhaustion_retryable": false,
+      "authentication_model_mismatch_malformed_or_permanent_failures_retryable": false,
+      "backoff_seconds": [
+        2,
+        4,
+        8
+      ],
+      "completed_response_retryable": false,
+      "jitter": false,
+      "max_attempts_per_request": 4,
+      "retry_after_cap_seconds": 15,
+      "retryable_http_statuses": [
+        429,
+        500,
+        502,
+        503,
+        504
+      ],
+      "retryable_transport_categories": [
+        "TIMEOUT",
+        "CONNECTION_RESET",
+        "DNS_TEMPORARY",
+        "CONNECTION_REFUSED"
+      ],
+      "whole_pair_restart_by_retry": false
+    },
+    "capacity_preflight": {
+      "benchmark_content_sent": false,
+      "count": 12,
+      "interval_seconds": 1,
+      "model": "gpt-5.5-2026-04-23",
+      "reasoning_effort": "medium"
+    },
+    "controlled_timeout_margin_seconds": 360,
+    "controlled_worst_case_pair_seconds": 3240,
+    "infrastructure_receipts_public": true,
+    "matrix_max_parallel": 1,
+    "pair_job_timeout_seconds": 3600,
+    "retry_sleep_charged_inside_frozen_wall_budget": true
+  },
+  "experiment_id": "olp-core21-paired-mechanism-002",
+  "lineage_statement": "fresh preregistered rerun following blinded infrastructure-aborted run; no 001 scoring or unblinding occurred before 002 freeze.",
+  "real_assignment_created": false,
+  "schema": "openline.paired-mechanism-benchmark.002-execution-freeze.v1",
+  "scientific_content_changed": false,
+  "scientific_payload_hashes": {
+    "BENCHMARK_DESIGN_FROZEN.json": "fd0b9eb2e2f494031bac8448dba3f6344071a4d8f2ea9285d2c3fd8ecc159f7f",
+    "PAIR_SET_FROZEN.json": "5c622e0deaf500f7f39d9c5afece7550c1fa4859155d8b7191eb67bb0a725533",
+    "PERTURBATION_SPEC_FROZEN_SCOPE_REPAIRED.json": "1a94515d691b86719b17885c3bf983fbe7d052affebc22406ec35b34fc9bc9e4",
+    "SIGNAL_SCHEMA_FROZEN_SCOPE_REPAIRED.json": "88dbb498881e84e32b7599ec2ec1bf186a923bc17d7e0c67c4d09cf2b9cddb8d"
+  },
+  "source_scientific_experiment_id": "olp-core21-paired-mechanism-001",
+  "status": "EXECUTION_LAYER_FROZEN_BEFORE_002_ASSIGNMENT",
+  "unblinded": false
+}

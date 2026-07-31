@@ -1,0 +1,212 @@
+name: OLP 30-pair 002 real execution — exact tag only
+
+on:
+  push:
+    tags:
+      - "RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_002"
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: olp-core21-paired-mechanism-002-real-assignment
+  cancel-in-progress: false
+
+env:
+  EXEC_ROOT: experiments/paired-mechanism-002
+  REAL_RUN_TAG: RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_002
+
+jobs:
+  pre_run_002:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    outputs:
+      preflight_sha256: ${{ steps.preflight_sha.outputs.sha256 }}
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      GITHUB_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Require exact 002 trigger tag
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "${GITHUB_EVENT_NAME}" = "push"
+          test "${GITHUB_REF_TYPE}" = "tag"
+          test "${GITHUB_REF}" = "refs/tags/${REAL_RUN_TAG}"
+      - run: python -m pip install --disable-pip-version-check cryptography==46.0.4
+      - name: Verify no prior 002 assignment attempt
+        run: python "$EXEC_ROOT/guard_once.py"
+      - name: Re-run exact frozen 002 preflight immediately before assignment
+        run: python "$EXEC_ROOT/preflight_002.py" --out "$EXEC_ROOT/build/PREFLIGHT_002_PASS.json"
+      - name: Bind preflight receipt SHA to this run
+        id: preflight_sha
+        shell: bash
+        run: |
+          set -euo pipefail
+          SHA=$(sha256sum "$EXEC_ROOT/build/PREFLIGHT_002_PASS.json" | awk '{print $1}')
+          echo "sha256=$SHA" >> "$GITHUB_OUTPUT"
+      - name: Upload pre-assignment 002 preflight receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: olp-30pair-002-pre-run-preflight
+          path: |
+            ${{ env.EXEC_ROOT }}/build/PREFLIGHT_002_*.json
+            ${{ env.EXEC_ROOT }}/build/PREFLIGHT_002_*.json.sha256
+          if-no-files-found: error
+          retention-days: 90
+
+  assign-once:
+    needs: pre_run_002
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --disable-pip-version-check cryptography==46.0.4
+      - name: Generate fresh 002 blinded assignment exactly once
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "${GITHUB_RUN_ATTEMPT}" = "1"
+          mkdir -p "$EXEC_ROOT/build/assignment/public" "$EXEC_ROOT/build/assignment/sealed" "$EXEC_ROOT/build/assignment/secret"
+          RM_SHA=$(sha256sum "$EXEC_ROOT/RUNNER_MANIFEST.json" | awk '{print $1}')
+          python "$EXEC_ROOT/assignment.py" \
+            --pair-set "$EXEC_ROOT/frozen_scientific/PAIR_SET_FROZEN.json" \
+            --public-dir "$EXEC_ROOT/build/assignment/public" \
+            --sealed-dir "$EXEC_ROOT/build/assignment/sealed" \
+            --secret-dir "$EXEC_ROOT/build/assignment/secret" \
+            --design-sha256 fd0b9eb2e2f494031bac8448dba3f6344071a4d8f2ea9285d2c3fd8ecc159f7f \
+            --pair-set-sha256 5c622e0deaf500f7f39d9c5afece7550c1fa4859155d8b7191eb67bb0a725533 \
+            --signal-schema-sha256 88dbb498881e84e32b7599ec2ec1bf186a923bc17d7e0c67c4d09cf2b9cddb8d \
+            --perturbation-sha256 1a94515d691b86719b17885c3bf983fbe7d052affebc22406ec35b34fc9bc9e4 \
+            --preflight-pass-sha256 "${{ needs.pre_run_002.outputs.preflight_sha256 }}" \
+            --runner-manifest-sha256 "$RM_SHA"
+      - name: Persist 002 assignment lock first
+        uses: actions/upload-artifact@v4
+        with:
+          name: olp-30pair-002-assignment-lock
+          path: |
+            ${{ env.EXEC_ROOT }}/build/assignment/public/blinded_run_manifest.json
+            ${{ env.EXEC_ROOT }}/build/assignment/public/ASSIGNMENT_LOCK.json
+          if-no-files-found: error
+          retention-days: 90
+      - name: Persist 002 sealed condition material
+        uses: actions/upload-artifact@v4
+        with:
+          name: olp-30pair-002-sealed-condition-material
+          path: ${{ env.EXEC_ROOT }}/build/assignment/sealed/SEALED_CONDITION_BUNDLE.zip
+          if-no-files-found: error
+          retention-days: 90
+      - name: Persist 002 secret key separately — DO NOT SCORE
+        uses: actions/upload-artifact@v4
+        with:
+          name: olp-30pair-002-secret-key-material-DO-NOT-SCORE
+          path: ${{ env.EXEC_ROOT }}/build/assignment/secret/secret_key.bin
+          if-no-files-found: error
+          retention-days: 90
+
+  execute-pairs:
+    needs: assign-once
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        pair_id: [P01,P02,P03,P04,P05,P06,P07,P08,P09,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30]
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --disable-pip-version-check cryptography==46.0.4
+      - uses: actions/download-artifact@v4
+        with:
+          name: olp-30pair-002-assignment-lock
+          path: private/public-assignment
+      - uses: actions/download-artifact@v4
+        with:
+          name: olp-30pair-002-sealed-condition-material
+          path: private/sealed
+      - uses: actions/download-artifact@v4
+        with:
+          name: olp-30pair-002-secret-key-material-DO-NOT-SCORE
+          path: private/key
+      - name: Execute opaque 002 pair once; bounded retries occur only inside individual API requests
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "${GITHUB_RUN_ATTEMPT}" = "1"
+          mkdir -p "pair-output/${{ matrix.pair_id }}"
+          python "$EXEC_ROOT/execute_pair.py" \
+            --pair-id "${{ matrix.pair_id }}" \
+            --manifest private/public-assignment/blinded_run_manifest.json \
+            --sealed-condition-zip private/sealed/SEALED_CONDITION_BUNDLE.zip \
+            --secret-key private/key/secret_key.bin \
+            --out-dir "pair-output/${{ matrix.pair_id }}"
+      - name: Upload public 002 pair output or infrastructure receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: olp-30pair-002-public-${{ matrix.pair_id }}
+          path: pair-output/${{ matrix.pair_id }}/
+          if-no-files-found: error
+          retention-days: 90
+
+  collect-public:
+    needs: [pre_run_002, assign-once, execute-pairs]
+    if: always() && needs.assign-once.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --disable-pip-version-check cryptography==46.0.4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: olp-30pair-002-public-*
+          path: collected/pairs
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          name: olp-30pair-002-assignment-lock
+          path: collected/assignment
+      - uses: actions/download-artifact@v4
+        with:
+          name: olp-30pair-002-sealed-condition-material
+          path: collected/sealed
+      - name: Build blind public 002 bundle including infrastructure receipts
+        shell: bash
+        run: |
+          set -euo pipefail
+          RM_SHA=$(sha256sum "$EXEC_ROOT/RUNNER_MANIFEST.json" | awk '{print $1}')
+          python "$EXEC_ROOT/collect_execution.py" \
+            --pair-artifacts collected/pairs \
+            --blinded-manifest collected/assignment/blinded_run_manifest.json \
+            --assignment-lock collected/assignment/ASSIGNMENT_LOCK.json \
+            --sealed-condition-zip collected/sealed/SEALED_CONDITION_BUNDLE.zip \
+            --out-dir collected/public-final \
+            --runner-manifest-sha256 "$RM_SHA" \
+            --preflight-pass-sha256 "${{ needs.pre_run_002.outputs.preflight_sha256 }}"
+      - name: Upload PUBLIC 002 scorer bundle
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: olp-30pair-002-PUBLIC-SCORER-EXECUTION-BUNDLE
+          path: collected/public-final/
+          if-no-files-found: error
+          retention-days: 90

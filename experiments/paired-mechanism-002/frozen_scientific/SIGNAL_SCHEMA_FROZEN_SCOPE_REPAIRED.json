@@ -1,0 +1,99 @@
+{
+  "benchmark_revision": "RESEALED_AFTER_SCOPE_REPAIR",
+  "binds_benchmark_design_sha256": "fd0b9eb2e2f494031bac8448dba3f6344071a4d8f2ea9285d2c3fd8ecc159f7f",
+  "boundary": "This is a provenance/scope repair only. Signal features, formulas, weights, normalization, smoothing, epsilon window, missing-value policy, and threshold policy are unchanged from source signal schema 5f0577ef8fa439e31f912dabe6cb059e74f6c78c125f14dcb58f00bc66e095c8. Benchmark interpretation remains governed by the already-frozen benchmark design.",
+  "experiment_id": "olp-core21-paired-mechanism-001",
+  "purpose": "Define the only operational signal that kappa may see in the frozen 30-pair mechanism benchmark before randomization.",
+  "schema": "openline.core21.operational-signal-preregistration.scope-repair.v1",
+  "scientific_content": {
+    "component_transforms": {
+      "dependency_churn_micros": {
+        "domain": "[0,1000000]",
+        "first_step_previous": "empty set",
+        "formula": "Let P be dependency edge identities after the previous step and C after the current step. If union(P,C) is empty, return 0; otherwise floor(|symmetric_difference(P,C)| * 1000000 / |union(P,C)|)."
+      },
+      "revision_pressure_micros": {
+        "domain": "[0,1000000]",
+        "formula": "0 if write_events == 0 else floor(revision_events * 1000000 / write_events)"
+      },
+      "state_change_density_micros": {
+        "domain": "[0,1000000]",
+        "first_step_previous": "empty mapping",
+        "formula": "Let P be canonical state-field key/value pairs after the previous step and C after the current step. Let K = union(keys(P),keys(C)). If K is empty, return 0. Otherwise count keys whose presence or exact canonical value differs between P and C, and return floor(changed_keys * 1000000 / |K|)."
+      }
+    },
+    "composite_signal": {
+      "formula": "signal_t = floor((333334*revision_pressure_micros + 333333*dependency_churn_micros + 333333*state_change_density_micros) / 1000000)",
+      "manual_weighting": "forbidden",
+      "normalization": "fixed formulas only; no corpus/A-B normalization",
+      "output_domain": "[0,1000000]",
+      "weights_micros": {
+        "dependency_churn": 333333,
+        "revision_pressure": 333334,
+        "state_change_density": 333333
+      }
+    },
+    "core21_parameters": {
+      "algorithm_id": "cole-portable-core-2.1-draft",
+      "epsilon_role": "Secondary diagnostic only. If fewer than 10 signal points are present, epsilon is UNAVAILABLE; it must not be resized to rescue the primary test.",
+      "epsilon_window": 10,
+      "kappa_formula": "For consecutive smoothed signal values x0,x1,x2: numerator=abs(x2-2*x1+x0); dx=x1-x0; base=1000000^2+dx^2; kappa_point=floor(numerator*1000000^3/(base*isqrt(base))); kappa_micros=max(kappa_point over valid triples).",
+      "smoothing_window": 1
+    },
+    "label_blindness": {
+      "forbidden_inputs": [
+        "contradiction labels",
+        "semantic contradiction scores",
+        "fracture labels",
+        "case identity as A or B",
+        "manual severity judgments",
+        "any feature or weight chosen after inspecting A/B metric results"
+      ],
+      "rule": "The transform may use only event structure available without knowing whether a trace is the clean control or contradiction fracture."
+    },
+    "missing_value_policy": {
+      "rule": "Do not impute missing required step observations. If any required observation needed by a component is absent or malformed, the trace is UNAVAILABLE for the kappa test.",
+      "zero_is_not_missing": true
+    },
+    "required_step_observations": {
+      "dependency_edges_after_step": "Set of typed dependency edge identities present after the step. Edge identity includes endpoints and declared relation type, but no semantic severity weighting.",
+      "revision_events": "Subset of write_events that update, replace, retract, undo, or restore an object that existed before the step. Classification uses operation type/object identity only, never natural-language semantic meaning.",
+      "state_fields_after_step": "Mapping of tracked state-field identifiers to exact canonical values after the step. Field identifiers must be declared by the trace format, not invented during scoring.",
+      "write_events": "Count of explicit add/update/delete mutations to tracked working-state objects during the step."
+    },
+    "step_order": {
+      "minimum_steps_for_kappa": 3,
+      "reordering": "forbidden",
+      "rule": "Use trace steps in original chronological order."
+    },
+    "threshold_policy": {
+      "allowed_primary_claims": [
+        "negative tie",
+        "directional sensitivity"
+      ],
+      "calibrated_kappa_threshold": null,
+      "forbidden_claim": "Do not claim threshold-based detection or operational separation from this A/B run unless a threshold independently predating this signal schema is later demonstrated to have been valid and frozen beforehand.",
+      "reason": "No preexisting calibrated threshold is valid for this newly frozen operational signal schema. Uncalibrated Core reference thresholds are not detection thresholds for this fixture."
+    }
+  },
+  "scientific_content_sha256": "8bc863a89aa11ab7f217c6618652526207fb732f3993a6ba67383aa6cb4c6809",
+  "scope_repair": {
+    "blocked_preflight_receipt_sha256": "7383db129c7121a06350eb19ca83e40080d17811a64f362dd2c2c04b1d6aaa9b",
+    "reason": "The source signal schema was scientifically frozen before the earlier A/B fixture but was scoped to a different experiment identity. This artifact rebinds the exact same scientific signal content to olp-core21-paired-mechanism-001 before any real condition assignment or benchmark model call.",
+    "scientific_content_changed": false,
+    "source_experiment_id": "core21-kappa-contradiction-fracture-001",
+    "source_signal_schema_sha256": "5f0577ef8fa439e31f912dabe6cb059e74f6c78c125f14dcb58f00bc66e095c8"
+  },
+  "source_anti_rescue_rules_verbatim": [
+    "Run A and B exactly once after this receipt is frozen.",
+    "Do not change feature definitions after seeing A/B.",
+    "Do not change composite weights after seeing A/B.",
+    "Do not change normalization after seeing A/B.",
+    "Do not change smoothing_window after seeing A/B.",
+    "Do not change epsilon_window after seeing A/B.",
+    "Do not add a semantic contradiction feature after seeing A/B.",
+    "Do not substitute another operational signal if kappa ties.",
+    "Epsilon cannot rescue a negative kappa result."
+  ],
+  "status": "SIGNAL_SCHEMA_FROZEN_BEFORE_RANDOMIZATION"
+}

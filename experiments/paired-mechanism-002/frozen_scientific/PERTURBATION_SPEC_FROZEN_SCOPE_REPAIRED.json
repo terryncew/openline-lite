@@ -1,0 +1,87 @@
+{
+  "anti_variant_shopping": [
+    "Do not change the 25% truncation fraction after any benchmark execution.",
+    "Do not switch to stale-result substitution, edge deletion, contradiction injection, or another perturbation.",
+    "Do not choose a different eligible read based on observed behavior; always use the first eligible read_file request.",
+    "Do not extend the 20-tool-call eligibility search after observing invalid pairs.",
+    "Do not expose raw perturbation bookkeeping to the scorer.",
+    "Do not change the post-fork scoring anchor or signal window after any result."
+  ],
+  "binds_benchmark_design_sha256": "fd0b9eb2e2f494031bac8448dba3f6344071a4d8f2ea9285d2c3fd8ecc159f7f",
+  "binds_pair_set_sha256": "5c622e0deaf500f7f39d9c5afece7550c1fa4859155d8b7191eb67bb0a725533",
+  "binds_signal_schema_sha256": "88dbb498881e84e32b7599ec2ec1bf186a923bc17d7e0c67c4d09cf2b9cddb8d",
+  "claim_boundary": "A positive result supports directional mechanism sensitivity to this one upstream information-loss intervention. It does not establish contradiction detection, general perturbation detection, task correctness, or predictive validity.",
+  "experiment_id": "olp-core21-paired-mechanism-001",
+  "fixed_equalities_between_branches": [
+    "task prompt",
+    "repository checkpoint",
+    "common-prefix model messages",
+    "common-prefix tool calls/results",
+    "fork workspace bytes",
+    "model snapshot and reasoning effort",
+    "system prompt",
+    "tool schemas",
+    "tool-call and wall-clock budgets",
+    "network policy"
+  ],
+  "fork_and_injection": {
+    "clean_branch": "Return the exact UTF-8 text that read_file would normally return from the cloned workspace.",
+    "common_prefix": "For each pair, execute one common agent prefix from the frozen repository checkpoint and task until the first eligible read_file tool call has been requested by the agent but before its tool result is delivered. Persist and clone the complete agent/checkpointer/workspace state at that boundary into two branches.",
+    "eligibility": {
+      "decode": "strict UTF-8",
+      "if_no_eligible_event": "PAIR_INSTRUMENTATION_INVALID; seal this status while still blinded; do not replace the pair and do not inspect condition-linked metric effects.",
+      "maximum_common_prefix_tool_calls_to_find_event": 20,
+      "minimum_text_codepoints": 1024,
+      "target": "repository-relative regular file",
+      "tool": "read_file",
+      "tool_call_status": "requested normally by the agent"
+    },
+    "one_shot": "Apply the perturbation only to that single eligible tool result. Every later tool call in both branches executes normally against its own evolving workspace.",
+    "perturbed_branch": "Let text contain N Unicode code points. Remove exactly ceil(N/4) code points from the end and return the remaining prefix. Do not add a truncation marker, warning, synthetic error, or condition label.",
+    "pre_fork_state_mutation": "none",
+    "tool_call_request_mutation": "none",
+    "workspace_file_mutation": "none at injection time"
+  },
+  "invalidity_rules_blinded": [
+    "checkpoint_ref cannot be resolved",
+    "workspace cannot be cloned byte-identically at fork",
+    "no eligible read_file request occurs within first 20 common-prefix tool calls",
+    "eligible read_file result is not strict UTF-8 or has fewer than 1024 code points",
+    "instrumentation cannot emit all required frozen signal observations",
+    "branch receives a different model/tool/budget configuration"
+  ],
+  "name": "single_silent_read_tail_truncation_25pct",
+  "no_replacement": "A mechanically invalid randomized pair is not replaced after assignment. Invalidity is sealed while condition-blind and reported in the final denominator accounting.",
+  "schema": "openline.paired-mechanism-benchmark.perturbation-spec.v1",
+  "scientific_intent": "Introduce one mechanically defined upstream information-loss perturbation before the affected continuation is instrumented, then observe whether the agent's natural operational behavior produces higher kappa. The perturbation does not directly edit kappa inputs or graph labels.",
+  "scoring_boundary": {
+    "anchor": "fork checkpoint immediately before the eligible read_file result is delivered",
+    "condition_specific_metadata": "forbidden",
+    "filenames": "opaque execution IDs only",
+    "raw_payload_policy": "Before scorer ingestion, remove raw tool-result text from both branches. Preserve only the structural operational events required by the frozen signal schema.",
+    "signal_window": "post-fork continuation only, through frozen termination condition",
+    "strip_before_scorer": [
+      "condition",
+      "clean/perturbed labels",
+      "perturbation_applied",
+      "original_text",
+      "returned_text",
+      "original_length",
+      "returned_length",
+      "truncation_fraction",
+      "assignment bookkeeping",
+      "decryption/key material"
+    ]
+  },
+  "signal_noninterference": {
+    "forbidden": [
+      "setting revision counters directly because the condition is PERTURBED",
+      "adding a contradiction/fracture feature",
+      "editing dependency edges solely to encode condition",
+      "editing state-change counters solely to encode condition",
+      "manual severity weights"
+    ],
+    "rule": "Revision pressure, dependency churn, and state-change density must arise only from the agent's subsequent natural execution and the frozen operational-event mapper."
+  },
+  "status": "PERTURBATION_SPEC_FROZEN_BEFORE_RANDOMIZATION"
+}
