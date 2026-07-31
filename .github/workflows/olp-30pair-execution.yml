@@ -1,0 +1,254 @@
+name: OLP 30-pair real execution — exact tag only
+
+on:
+  push:
+    tags:
+      - "RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_001"
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: olp-core21-paired-mechanism-001-real-assignment
+  cancel-in-progress: false
+
+env:
+  EXEC_ROOT: experiments/paired-mechanism-execution
+  PINNED_MODEL: gpt-5.5-2026-04-23
+  REAL_RUN_TAG: RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_001
+
+jobs:
+  pre-run-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      GITHUB_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Require exact one-shot trigger tag and green-base ancestry
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "${GITHUB_EVENT_NAME}" = "push"
+          test "${GITHUB_REF_TYPE}" = "tag"
+          test "${GITHUB_REF}" = "refs/tags/${REAL_RUN_TAG}"
+          git merge-base --is-ancestor 54d906cce8354bd58d1fd664a5028c4e0ec1f0be HEAD
+      - name: Install frozen execution dependency
+        run: python -m pip install --disable-pip-version-check cryptography==46.0.4
+      - name: Verify no prior real assignment artifact exists
+        run: python "$EXEC_ROOT/guard_once.py"
+      - name: Run pre-assignment gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          RM_SHA=$(sha256sum "$EXEC_ROOT/RUNNER_MANIFEST.json" | awk '{print $1}')
+          echo "RUNNER_MANIFEST_SHA256=$RM_SHA" >> "$GITHUB_ENV"
+          python "$EXEC_ROOT/pre_run_gate.py" \
+            --out "$EXEC_ROOT/build/PRE_RUN_GATE.json" \
+            --runner-manifest "$EXEC_ROOT/RUNNER_MANIFEST.json"
+      - name: Upload pre-run gate receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: olp-30pair-pre-run-gate
+          path: |
+            ${{ env.EXEC_ROOT }}/build/PRE_RUN_GATE.json
+            ${{ env.EXEC_ROOT }}/build/EXECUTION_BLOCKED.json
+          if-no-files-found: error
+          retention-days: 90
+
+  assign-once:
+    needs: pre-run-gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --disable-pip-version-check cryptography==46.0.4
+      - name: Generate the one real blinded assignment
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${GITHUB_RUN_ATTEMPT}" != "1" ]; then
+            echo "Assignment job reruns are forbidden; this run attempt is ${GITHUB_RUN_ATTEMPT}." >&2
+            exit 3
+          fi
+          mkdir -p "$EXEC_ROOT/build/assignment/public" "$EXEC_ROOT/build/assignment/sealed" "$EXEC_ROOT/build/assignment/secret"
+          RM_SHA=$(sha256sum "$EXEC_ROOT/RUNNER_MANIFEST.json" | awk '{print $1}')
+          python "$EXEC_ROOT/assignment.py" \
+            --pair-set "$EXEC_ROOT/frozen/PAIR_SET_FROZEN.json" \
+            --public-dir "$EXEC_ROOT/build/assignment/public" \
+            --sealed-dir "$EXEC_ROOT/build/assignment/sealed" \
+            --secret-dir "$EXEC_ROOT/build/assignment/secret" \
+            --design-sha256 fd0b9eb2e2f494031bac8448dba3f6344071a4d8f2ea9285d2c3fd8ecc159f7f \
+            --pair-set-sha256 5c622e0deaf500f7f39d9c5afece7550c1fa4859155d8b7191eb67bb0a725533 \
+            --signal-schema-sha256 88dbb498881e84e32b7599ec2ec1bf186a923bc17d7e0c67c4d09cf2b9cddb8d \
+            --perturbation-sha256 1a94515d691b86719b17885c3bf983fbe7d052affebc22406ec35b34fc9bc9e4 \
+            --preflight-pass-sha256 3b2aa2ca991b82a343ac7a4bdc953947f4db45f07bf072925da07c02182b6d98 \
+            --runner-manifest-sha256 "$RM_SHA"
+      - name: Persist assignment lock and blinded manifest FIRST
+        uses: actions/upload-artifact@v4
+        with:
+          name: olp-30pair-assignment-lock
+          path: |
+            ${{ env.EXEC_ROOT }}/build/assignment/public/blinded_run_manifest.json
+            ${{ env.EXEC_ROOT }}/build/assignment/public/ASSIGNMENT_LOCK.json
+          if-no-files-found: error
+          retention-days: 90
+      - name: Persist sealed condition material separately
+        uses: actions/upload-artifact@v4
+        with:
+          name: olp-30pair-sealed-condition-material
+          path: ${{ env.EXEC_ROOT }}/build/assignment/sealed/SEALED_CONDITION_BUNDLE.zip
+          if-no-files-found: error
+          retention-days: 90
+      - name: Persist secret key material separately — DO NOT SCORE
+        uses: actions/upload-artifact@v4
+        with:
+          name: olp-30pair-secret-key-material-DO-NOT-SCORE
+          path: ${{ env.EXEC_ROOT }}/build/assignment/secret/secret_key.bin
+          if-no-files-found: error
+          retention-days: 90
+
+  execute-pairs:
+    needs: assign-once
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        pair_id:
+          - P01
+          - P02
+          - P03
+          - P04
+          - P05
+          - P06
+          - P07
+          - P08
+          - P09
+          - P10
+          - P11
+          - P12
+          - P13
+          - P14
+          - P15
+          - P16
+          - P17
+          - P18
+          - P19
+          - P20
+          - P21
+          - P22
+          - P23
+          - P24
+          - P25
+          - P26
+          - P27
+          - P28
+          - P29
+          - P30
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --disable-pip-version-check cryptography==46.0.4
+      - name: Download blinded manifest
+        uses: actions/download-artifact@v4
+        with:
+          name: olp-30pair-assignment-lock
+          path: private/public-assignment
+      - name: Download sealed condition material
+        uses: actions/download-artifact@v4
+        with:
+          name: olp-30pair-sealed-condition-material
+          path: private/sealed
+      - name: Download secret key material privately
+        uses: actions/download-artifact@v4
+        with:
+          name: olp-30pair-secret-key-material-DO-NOT-SCORE
+          path: private/key
+      - name: Execute opaque pair exactly once
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${GITHUB_RUN_ATTEMPT}" != "1" ]; then
+            echo "Behavioral execution reruns are forbidden by the frozen protocol." >&2
+            exit 3
+          fi
+          mkdir -p "pair-output/${{ matrix.pair_id }}"
+          python "$EXEC_ROOT/execute_pair.py" \
+            --pair-id "${{ matrix.pair_id }}" \
+            --manifest private/public-assignment/blinded_run_manifest.json \
+            --sealed-condition-zip private/sealed/SEALED_CONDITION_BUNDLE.zip \
+            --secret-key private/key/secret_key.bin \
+            --out-dir "pair-output/${{ matrix.pair_id }}"
+      - name: Upload opaque public pair output even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: olp-30pair-public-${{ matrix.pair_id }}
+          path: pair-output/${{ matrix.pair_id }}/
+          if-no-files-found: error
+          retention-days: 90
+
+  collect-public:
+    needs: [assign-once, execute-pairs]
+    if: always() && needs.assign-once.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --disable-pip-version-check cryptography==46.0.4
+      - name: Download all opaque pair outputs
+        uses: actions/download-artifact@v4
+        with:
+          pattern: olp-30pair-public-*
+          path: collected/pairs
+          merge-multiple: true
+      - name: Download blinded manifest / assignment lock
+        uses: actions/download-artifact@v4
+        with:
+          name: olp-30pair-assignment-lock
+          path: collected/assignment
+      - name: Download sealed condition bundle only for its public hash
+        uses: actions/download-artifact@v4
+        with:
+          name: olp-30pair-sealed-condition-material
+          path: collected/sealed
+      - name: Build public scorer bundle and completeness receipt
+        shell: bash
+        run: |
+          set -euo pipefail
+          RM_SHA=$(sha256sum "$EXEC_ROOT/RUNNER_MANIFEST.json" | awk '{print $1}')
+          python "$EXEC_ROOT/collect_execution.py" \
+            --pair-artifacts collected/pairs \
+            --blinded-manifest collected/assignment/blinded_run_manifest.json \
+            --assignment-lock collected/assignment/ASSIGNMENT_LOCK.json \
+            --sealed-condition-zip collected/sealed/SEALED_CONDITION_BUNDLE.zip \
+            --out-dir collected/public-final \
+            --runner-manifest-sha256 "$RM_SHA"
+      - name: Upload PUBLIC scorer bundle — safe to bring to scorer
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: olp-30pair-PUBLIC-SCORER-EXECUTION-BUNDLE
+          path: collected/public-final/
+          if-no-files-found: error
+          retention-days: 90

@@ -1,0 +1,16 @@
+{
+  "condition_input": false,
+  "dependency_edges_after_step": "Accumulated typed trace edges. read_file adds reads edges; search_text adds searches edges for matched files; list_tree adds lists edges; run_shell adds executes|workspace:.; every detected mutation adds writes edges. Endpoint identity and relation type are structural only and carry no severity weight.",
+  "experiment_id": "olp-core21-paired-mechanism-001",
+  "minimum_steps_for_kappa": 3,
+  "purpose": "Mechanical label-blind realization of the already-frozen operational observations for execution export; it does not alter formulas, weights, smoothing, thresholds, pairs, perturbation, or interpretation.",
+  "raw_payload_export": false,
+  "revision_events": "Subset of changed paths that existed at any point before the current step. New never-before-seen paths are writes but not revisions; updates, deletes, and restores are revisions.",
+  "schema": "openline.paired-mechanism-benchmark.trace-format.v1",
+  "scientific_artifact_change": false,
+  "scoring_anchor": "Immediately before the eligible read_file result is delivered; the eligible read_file completion is post-fork step 1.",
+  "state_fields_after_step": "Mapping file:<repository-relative-path> to sha256:<exact-file-byte-digest> or ABSENT for every tracked file object after the step.",
+  "step": "One completed post-fork agent tool call, in original chronological order. Model-only responses are not signal steps.",
+  "tracked_working_state_objects": "Repository regular-file objects referenced by read_file/search_text or changed by any completed tool call. .git metadata is excluded from signal state. Harness-owned .agent-home and .git metadata are excluded.",
+  "write_events": "Number of repository file-object paths whose exact byte content or presence changes across the completed tool call. This is condition-blind and includes changes caused by apply_patch or run_shell."
+}

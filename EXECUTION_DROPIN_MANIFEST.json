@@ -1,0 +1,124 @@
+{
+  "benchmark_model_calls": 0,
+  "engineering_repairs": [
+    "exact-tag push trigger replaces branch-only workflow_dispatch",
+    "condition-map commitment includes a secret 256-bit nonce inside encrypted plaintext",
+    "pre-run failures emit literal EXECUTION_BLOCKED.json"
+  ],
+  "experiment_id": "olp-core21-paired-mechanism-001",
+  "files": {
+    ".github/workflows/olp-30pair-execution.yml": {
+      "bytes": 9354,
+      "sha256": "9885bf508ae12783934e228184960180a7d21a474d8b3e0c93c6fd609a4de319"
+    },
+    "README-EXECUTION.md": {
+      "bytes": 7274,
+      "sha256": "ca983ae8946c90684596b4b00a15d7f0f86fd0ce9e8465249554a111d34bd5e7"
+    },
+    "experiments/paired-mechanism-execution/DRY_RUN_RECEIPT.json": {
+      "bytes": 2959,
+      "sha256": "68cb9f5d165f9a647aeee82f34247028fa60206657ae08f98efd24acab39c479"
+    },
+    "experiments/paired-mechanism-execution/RUNNER_MANIFEST.json": {
+      "bytes": 1781,
+      "sha256": "f1dfbb75b3987cba46e8761f95fff220988921002b8cb7856d778154f4c5f17b"
+    },
+    "experiments/paired-mechanism-execution/TRACE_FORMAT.json": {
+      "bytes": 1917,
+      "sha256": "479d577d6ec0fade4ef90d7479e609f191eaab057046e1c883f299bb83b73f0c"
+    },
+    "experiments/paired-mechanism-execution/assignment.py": {
+      "bytes": 10557,
+      "sha256": "40a3ea64a7ebe38cb798f2b2796deae7f42157406b62832aca6a2e1b7d6bd759"
+    },
+    "experiments/paired-mechanism-execution/collect_execution.py": {
+      "bytes": 7505,
+      "sha256": "11a12bc1ad6c16ee3adf6c78e4432049d7984dbdb57a127f6704e9d539e1ad2b"
+    },
+    "experiments/paired-mechanism-execution/common.py": {
+      "bytes": 2414,
+      "sha256": "05f79a4f4950c9bcc7eb233ac0e2a5e446d5252dd3d3c98030fe73402f894f5d"
+    },
+    "experiments/paired-mechanism-execution/execute_pair.py": {
+      "bytes": 21086,
+      "sha256": "ccd1eb53c15fbc289378e2713968e9762f06c7fef1961f1d0c97f1da7cd55960"
+    },
+    "experiments/paired-mechanism-execution/frozen/BENCHMARK_DESIGN_FROZEN.json": {
+      "bytes": 5756,
+      "sha256": "fd0b9eb2e2f494031bac8448dba3f6344071a4d8f2ea9285d2c3fd8ecc159f7f"
+    },
+    "experiments/paired-mechanism-execution/frozen/PAIR_SET_FROZEN.json": {
+      "bytes": 20303,
+      "sha256": "5c622e0deaf500f7f39d9c5afece7550c1fa4859155d8b7191eb67bb0a725533"
+    },
+    "experiments/paired-mechanism-execution/frozen/PERTURBATION_SPEC_FROZEN_SCOPE_REPAIRED.json": {
+      "bytes": 5507,
+      "sha256": "1a94515d691b86719b17885c3bf983fbe7d052affebc22406ec35b34fc9bc9e4"
+    },
+    "experiments/paired-mechanism-execution/frozen/PREFLIGHT_BLOCKED_RUNNER_NETWORK.json": {
+      "bytes": 4009,
+      "sha256": "34bdd220ff865421b3d1ba3c014274ae553e037288e1d2ec3619713187d78e68"
+    },
+    "experiments/paired-mechanism-execution/frozen/PREFLIGHT_BLOCKED_SCOPE_MISMATCH.json": {
+      "bytes": 2834,
+      "sha256": "7383db129c7121a06350eb19ca83e40080d17811a64f362dd2c2c04b1d6aaa9b"
+    },
+    "experiments/paired-mechanism-execution/frozen/PREFLIGHT_PASS.json": {
+      "bytes": 13638,
+      "sha256": "3b2aa2ca991b82a343ac7a4bdc953947f4db45f07bf072925da07c02182b6d98"
+    },
+    "experiments/paired-mechanism-execution/frozen/PREFLIGHT_PASS.json.sha256": {
+      "bytes": 86,
+      "sha256": "59f1e71bb1987a1f35b06e6ce720eb0a2b541456289b068ac4df03a1b81138a7"
+    },
+    "experiments/paired-mechanism-execution/frozen/RESEALED_AFTER_SCOPE_REPAIR.json": {
+      "bytes": 1154,
+      "sha256": "050e8e643d04af4c0c18158d084110ea2b001a33ea57d8d5d22bd32e95501564"
+    },
+    "experiments/paired-mechanism-execution/frozen/SIGNAL_SCHEMA_FROZEN_SCOPE_REPAIRED.json": {
+      "bytes": 6547,
+      "sha256": "88dbb498881e84e32b7599ec2ec1bf186a923bc17d7e0c67c4d09cf2b9cddb8d"
+    },
+    "experiments/paired-mechanism-execution/guard_once.py": {
+      "bytes": 4883,
+      "sha256": "5dc6dfad666e837bbd5226900846e9b091d6dd3381edffcf5844395b453deb8c"
+    },
+    "experiments/paired-mechanism-execution/perturbation.py": {
+      "bytes": 629,
+      "sha256": "61ec6c57707e1bf5b621f4f6802e73171bdf5c43d4f310fc24d2b4e40486dfb1"
+    },
+    "experiments/paired-mechanism-execution/pre_run_gate.py": {
+      "bytes": 6650,
+      "sha256": "b20a0885700091322d7e1a56af82bf0748eb9c239ebe8a76148b4d31868c958b"
+    },
+    "experiments/paired-mechanism-execution/release_check.py": {
+      "bytes": 3158,
+      "sha256": "6b02d7c7ad2ce4e6ed7e91fd28802676420eb4b7c97369df641f51be0f6a0b9d"
+    },
+    "experiments/paired-mechanism-execution/requirements-execution.txt": {
+      "bytes": 21,
+      "sha256": "ba5dd4592ae2d0d83245ce3e3ef8be50cd4bf93fc2fb9577caf7219d2ac3800d"
+    },
+    "experiments/paired-mechanism-execution/responses_agent.py": {
+      "bytes": 5469,
+      "sha256": "b4a0f78c3078da46cefbe8e8707cafe17281e86b29ed213ef4b2dfd0a9a079f4"
+    },
+    "experiments/paired-mechanism-execution/tests/test_execution.py": {
+      "bytes": 19069,
+      "sha256": "114c4a71254d8c0c403462f73c0e9d1182d3c38512a15b6598172b67ffaf7059"
+    },
+    "experiments/paired-mechanism-execution/tool_runtime.py": {
+      "bytes": 9718,
+      "sha256": "57521a00d5c7d87c544c460a85f00d50c1353c2918a5d7a41fb23d84298ac9d9"
+    },
+    "experiments/paired-mechanism-execution/trace_format.py": {
+      "bytes": 5407,
+      "sha256": "353b0b51036f25755ec34984f715538711fb49c9b7755157244704e4ab5e427f"
+    }
+  },
+  "real_assignment_created": false,
+  "schema": "openline.paired-mechanism-benchmark.execution-dropin-manifest.v1",
+  "scientific_content_changed": false,
+  "source_green_preflight_commit": "54d906cce8354bd58d1fd664a5028c4e0ec1f0be",
+  "unblinded": false
+}

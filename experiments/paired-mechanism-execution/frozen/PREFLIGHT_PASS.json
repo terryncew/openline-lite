@@ -1,0 +1,347 @@
+{
+  "benchmark_model_calls_made": 0,
+  "benchmark_revision": "RESEALED_AFTER_SCOPE_REPAIR",
+  "disposition": "CLEARED_FOR_SEPARATE_RANDOMIZATION_STEP",
+  "execution_config": {
+    "pinned": {
+      "api": "OpenAI Responses API",
+      "external_memory": "disabled",
+      "max_output_tokens": 16384,
+      "max_tool_calls": 40,
+      "max_wall_seconds": 1200,
+      "model": "gpt-5.5-2026-04-23",
+      "network": "disabled",
+      "reasoning_effort": "medium",
+      "shell_timeout_seconds": 120
+    },
+    "status": "PASS",
+    "tools": [
+      "apply_patch",
+      "list_tree",
+      "read_file",
+      "run_shell",
+      "search_text"
+    ]
+  },
+  "experiment_id": "olp-core21-paired-mechanism-001",
+  "frozen_hashes": [
+    {
+      "actual": "fd0b9eb2e2f494031bac8448dba3f6344071a4d8f2ea9285d2c3fd8ecc159f7f",
+      "expected": "fd0b9eb2e2f494031bac8448dba3f6344071a4d8f2ea9285d2c3fd8ecc159f7f",
+      "file": "BENCHMARK_DESIGN_FROZEN.json",
+      "status": "PASS"
+    },
+    {
+      "actual": "5c622e0deaf500f7f39d9c5afece7550c1fa4859155d8b7191eb67bb0a725533",
+      "expected": "5c622e0deaf500f7f39d9c5afece7550c1fa4859155d8b7191eb67bb0a725533",
+      "file": "PAIR_SET_FROZEN.json",
+      "status": "PASS"
+    },
+    {
+      "actual": "88dbb498881e84e32b7599ec2ec1bf186a923bc17d7e0c67c4d09cf2b9cddb8d",
+      "expected": "88dbb498881e84e32b7599ec2ec1bf186a923bc17d7e0c67c4d09cf2b9cddb8d",
+      "file": "SIGNAL_SCHEMA_FROZEN_SCOPE_REPAIRED.json",
+      "status": "PASS"
+    },
+    {
+      "actual": "1a94515d691b86719b17885c3bf983fbe7d052affebc22406ec35b34fc9bc9e4",
+      "expected": "1a94515d691b86719b17885c3bf983fbe7d052affebc22406ec35b34fc9bc9e4",
+      "file": "PERTURBATION_SPEC_FROZEN_SCOPE_REPAIRED.json",
+      "status": "PASS"
+    },
+    {
+      "actual": "7383db129c7121a06350eb19ca83e40080d17811a64f362dd2c2c04b1d6aaa9b",
+      "expected": "7383db129c7121a06350eb19ca83e40080d17811a64f362dd2c2c04b1d6aaa9b",
+      "file": "PREFLIGHT_BLOCKED_SCOPE_MISMATCH.json",
+      "status": "PASS"
+    },
+    {
+      "actual": "34bdd220ff865421b3d1ba3c014274ae553e037288e1d2ec3619713187d78e68",
+      "expected": "34bdd220ff865421b3d1ba3c014274ae553e037288e1d2ec3619713187d78e68",
+      "file": "PREFLIGHT_BLOCKED_RUNNER_NETWORK.json",
+      "status": "PASS"
+    },
+    {
+      "actual": "050e8e643d04af4c0c18158d084110ea2b001a33ea57d8d5d22bd32e95501564",
+      "expected": "050e8e643d04af4c0c18158d084110ea2b001a33ea57d8d5d22bd32e95501564",
+      "file": "RESEALED_AFTER_SCOPE_REPAIR.json",
+      "status": "PASS"
+    }
+  ],
+  "git_parent_checkout_summary": "30/30 PASS",
+  "git_parent_checkouts": [
+    {
+      "checkpoint_ref": "f0c7e19d73218d0d4f44d9d1ddc10bfa4744db24^1",
+      "pair_id": "P01",
+      "repository": "terryncew/openline-lite",
+      "resolved_parent_sha": "1c37a6a29ad875d279df1ef5d594d489f1a6b19f",
+      "status": "PASS",
+      "task_commit_sha": "f0c7e19d73218d0d4f44d9d1ddc10bfa4744db24"
+    },
+    {
+      "checkpoint_ref": "1c37a6a29ad875d279df1ef5d594d489f1a6b19f^1",
+      "pair_id": "P02",
+      "repository": "terryncew/openline-lite",
+      "resolved_parent_sha": "7e3027fb6ec8770ea70afdd29a15c12d5b5291d8",
+      "status": "PASS",
+      "task_commit_sha": "1c37a6a29ad875d279df1ef5d594d489f1a6b19f"
+    },
+    {
+      "checkpoint_ref": "d12fa59ec34e2d6b1e7ba914b4421dc1d5ea61da^1",
+      "pair_id": "P03",
+      "repository": "terryncew/openline-swarm-improvement-gate",
+      "resolved_parent_sha": "780eb9fcb6823a673b1e902bbc0d2aa154c4895d",
+      "status": "PASS",
+      "task_commit_sha": "d12fa59ec34e2d6b1e7ba914b4421dc1d5ea61da"
+    },
+    {
+      "checkpoint_ref": "780eb9fcb6823a673b1e902bbc0d2aa154c4895d^1",
+      "pair_id": "P04",
+      "repository": "terryncew/openline-swarm-improvement-gate",
+      "resolved_parent_sha": "7f3494610e798de2a39a0a26905857116f6ec2fc",
+      "status": "PASS",
+      "task_commit_sha": "780eb9fcb6823a673b1e902bbc0d2aa154c4895d"
+    },
+    {
+      "checkpoint_ref": "8840417f58264d047060544947e9ace33a3bda9f^1",
+      "pair_id": "P05",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "97cfc43027f09c17ad81f38227d0b30d0856d8e9",
+      "status": "PASS",
+      "task_commit_sha": "8840417f58264d047060544947e9ace33a3bda9f"
+    },
+    {
+      "checkpoint_ref": "0be24a2c165d7ff5abadf449f33f1d66e001af8c^1",
+      "pair_id": "P06",
+      "repository": "terryncew/openline-eval-airlock",
+      "resolved_parent_sha": "25f894387ec7058d776054e473536f71cb3a9060",
+      "status": "PASS",
+      "task_commit_sha": "0be24a2c165d7ff5abadf449f33f1d66e001af8c"
+    },
+    {
+      "checkpoint_ref": "97cfc43027f09c17ad81f38227d0b30d0856d8e9^1",
+      "pair_id": "P07",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "870c51035f95a085e581e28661dd11b55b48c6aa",
+      "status": "PASS",
+      "task_commit_sha": "97cfc43027f09c17ad81f38227d0b30d0856d8e9"
+    },
+    {
+      "checkpoint_ref": "870c51035f95a085e581e28661dd11b55b48c6aa^1",
+      "pair_id": "P08",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "004595e5df019310fede37aa4ac9e236b740ae4b",
+      "status": "PASS",
+      "task_commit_sha": "870c51035f95a085e581e28661dd11b55b48c6aa"
+    },
+    {
+      "checkpoint_ref": "004595e5df019310fede37aa4ac9e236b740ae4b^1",
+      "pair_id": "P09",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "309318c7635c73c209c32c38fb475316a67db175",
+      "status": "PASS",
+      "task_commit_sha": "004595e5df019310fede37aa4ac9e236b740ae4b"
+    },
+    {
+      "checkpoint_ref": "309318c7635c73c209c32c38fb475316a67db175^1",
+      "pair_id": "P10",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "f9ae467965a5fe12f63387091af8cb694fa893ed",
+      "status": "PASS",
+      "task_commit_sha": "309318c7635c73c209c32c38fb475316a67db175"
+    },
+    {
+      "checkpoint_ref": "c4080db380e4c3d229dea04f7dd424392e65f32d^1",
+      "pair_id": "P11",
+      "repository": "terryncew/openline-langgraph",
+      "resolved_parent_sha": "6435048e63052109374e8de732d163f580551ad8",
+      "status": "PASS",
+      "task_commit_sha": "c4080db380e4c3d229dea04f7dd424392e65f32d"
+    },
+    {
+      "checkpoint_ref": "7ab1b46fcc19bdcfd43b344a55b43754351d309e^1",
+      "pair_id": "P12",
+      "repository": "terryncew/openline-half-life",
+      "resolved_parent_sha": "9eee60c2253a6a5ab5432f8ce4646e8f2fef7415",
+      "status": "PASS",
+      "task_commit_sha": "7ab1b46fcc19bdcfd43b344a55b43754351d309e"
+    },
+    {
+      "checkpoint_ref": "9eee60c2253a6a5ab5432f8ce4646e8f2fef7415^1",
+      "pair_id": "P13",
+      "repository": "terryncew/openline-half-life",
+      "resolved_parent_sha": "70121b53e86196d69b2c3457174b38ad32667b43",
+      "status": "PASS",
+      "task_commit_sha": "9eee60c2253a6a5ab5432f8ce4646e8f2fef7415"
+    },
+    {
+      "checkpoint_ref": "f9ae467965a5fe12f63387091af8cb694fa893ed^1",
+      "pair_id": "P14",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "ed49641b4f5db7267a5e190a693d8104c9a87028",
+      "status": "PASS",
+      "task_commit_sha": "f9ae467965a5fe12f63387091af8cb694fa893ed"
+    },
+    {
+      "checkpoint_ref": "ed49641b4f5db7267a5e190a693d8104c9a87028^1",
+      "pair_id": "P15",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "4eca0b21f823472e124bfa3b3b20e141702f34d4",
+      "status": "PASS",
+      "task_commit_sha": "ed49641b4f5db7267a5e190a693d8104c9a87028"
+    },
+    {
+      "checkpoint_ref": "4eca0b21f823472e124bfa3b3b20e141702f34d4^1",
+      "pair_id": "P16",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "10204008249270f47ef710f437f88ffd9f91ff8c",
+      "status": "PASS",
+      "task_commit_sha": "4eca0b21f823472e124bfa3b3b20e141702f34d4"
+    },
+    {
+      "checkpoint_ref": "70121b53e86196d69b2c3457174b38ad32667b43^1",
+      "pair_id": "P17",
+      "repository": "terryncew/openline-half-life",
+      "resolved_parent_sha": "9e9d17f424be38681dd65f9fe9ee40c3195a1e78",
+      "status": "PASS",
+      "task_commit_sha": "70121b53e86196d69b2c3457174b38ad32667b43"
+    },
+    {
+      "checkpoint_ref": "9e9d17f424be38681dd65f9fe9ee40c3195a1e78^1",
+      "pair_id": "P18",
+      "repository": "terryncew/openline-half-life",
+      "resolved_parent_sha": "d07dfd517e1b86034868a0edb62eacd810a95be5",
+      "status": "PASS",
+      "task_commit_sha": "9e9d17f424be38681dd65f9fe9ee40c3195a1e78"
+    },
+    {
+      "checkpoint_ref": "6c6f740f974bbe496146489293d85e4aceaef462^1",
+      "pair_id": "P19",
+      "repository": "terryncew/openline-endurance-gate",
+      "resolved_parent_sha": "cb48b0d276669576f0f6d419c703250185d34dfb",
+      "status": "PASS",
+      "task_commit_sha": "6c6f740f974bbe496146489293d85e4aceaef462"
+    },
+    {
+      "checkpoint_ref": "cb48b0d276669576f0f6d419c703250185d34dfb^1",
+      "pair_id": "P20",
+      "repository": "terryncew/openline-endurance-gate",
+      "resolved_parent_sha": "a04efb86fcc4d1791c8822dad4ec228cdccb59cd",
+      "status": "PASS",
+      "task_commit_sha": "cb48b0d276669576f0f6d419c703250185d34dfb"
+    },
+    {
+      "checkpoint_ref": "a04efb86fcc4d1791c8822dad4ec228cdccb59cd^1",
+      "pair_id": "P21",
+      "repository": "terryncew/openline-endurance-gate",
+      "resolved_parent_sha": "fd62993d45a4afcf00abdb0a4805650688dfa068",
+      "status": "PASS",
+      "task_commit_sha": "a04efb86fcc4d1791c8822dad4ec228cdccb59cd"
+    },
+    {
+      "checkpoint_ref": "7e3027fb6ec8770ea70afdd29a15c12d5b5291d8^1",
+      "pair_id": "P22",
+      "repository": "terryncew/openline-lite",
+      "resolved_parent_sha": "479640a02a8d499de6484119c56ebc73932f28c4",
+      "status": "PASS",
+      "task_commit_sha": "7e3027fb6ec8770ea70afdd29a15c12d5b5291d8"
+    },
+    {
+      "checkpoint_ref": "25f894387ec7058d776054e473536f71cb3a9060^1",
+      "pair_id": "P23",
+      "repository": "terryncew/openline-eval-airlock",
+      "resolved_parent_sha": "96c2db31f150fef17b7bf4fe9b0873978d1fefea",
+      "status": "PASS",
+      "task_commit_sha": "25f894387ec7058d776054e473536f71cb3a9060"
+    },
+    {
+      "checkpoint_ref": "10204008249270f47ef710f437f88ffd9f91ff8c^1",
+      "pair_id": "P24",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "42576862ac8139a4b8ec909391e8d5c9ff71c096",
+      "status": "PASS",
+      "task_commit_sha": "10204008249270f47ef710f437f88ffd9f91ff8c"
+    },
+    {
+      "checkpoint_ref": "42576862ac8139a4b8ec909391e8d5c9ff71c096^1",
+      "pair_id": "P25",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "ebe3dca6047cd66cbf1acf82300868e64443250c",
+      "status": "PASS",
+      "task_commit_sha": "42576862ac8139a4b8ec909391e8d5c9ff71c096"
+    },
+    {
+      "checkpoint_ref": "ebe3dca6047cd66cbf1acf82300868e64443250c^1",
+      "pair_id": "P26",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "2d8474f821df1ea4ffdd300f78f039b686811912",
+      "status": "PASS",
+      "task_commit_sha": "ebe3dca6047cd66cbf1acf82300868e64443250c"
+    },
+    {
+      "checkpoint_ref": "e1a36fe0f17fe2fad0e92daf63eb07f4f5c39e76^1",
+      "pair_id": "P27",
+      "repository": "terryncew/openline-proof-adapter",
+      "resolved_parent_sha": "b642ebe3e3abbff0b9d64905e4677e6fc10d2d35",
+      "status": "PASS",
+      "task_commit_sha": "e1a36fe0f17fe2fad0e92daf63eb07f4f5c39e76"
+    },
+    {
+      "checkpoint_ref": "e14c757a0678622d3e05f8ead96c26067b3cb595^1",
+      "pair_id": "P28",
+      "repository": "terryncew/openline-audit-debt-harness",
+      "resolved_parent_sha": "c8a88d0bc5ae4fbd6f38a18a7f554a561dc991ed",
+      "status": "PASS",
+      "task_commit_sha": "e14c757a0678622d3e05f8ead96c26067b3cb595"
+    },
+    {
+      "checkpoint_ref": "19bcef659e59704b71ed6f1ac910253a60f369ab^1",
+      "pair_id": "P29",
+      "repository": "terryncew/openline-otel",
+      "resolved_parent_sha": "3716e26106c2f02e183a66042fb9562b16b23b49",
+      "status": "PASS",
+      "task_commit_sha": "19bcef659e59704b71ed6f1ac910253a60f369ab"
+    },
+    {
+      "checkpoint_ref": "2d8474f821df1ea4ffdd300f78f039b686811912^1",
+      "pair_id": "P30",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "7d585807c80c8ec704f4b28cd6ff63ff32118752",
+      "status": "PASS",
+      "task_commit_sha": "2d8474f821df1ea4ffdd300f78f039b686811912"
+    }
+  ],
+  "harness_constraints": {
+    "local_tool_allowlist": [
+      "read_file",
+      "list_tree",
+      "search_text",
+      "apply_patch",
+      "run_shell"
+    ],
+    "max_tool_calls": 40,
+    "max_wall_seconds": 1200,
+    "shell_timeout_seconds": 120,
+    "status": "PASS",
+    "timeout_enforcement_probe": "PASS",
+    "tool_subprocess_network": "DENIED_BY_NETWORK_NAMESPACE_CAPABILITY"
+  },
+  "model_capability": {
+    "benchmark_model_calls_made": 0,
+    "benchmark_pair_content_sent": false,
+    "capability_probe_calls_made": 1,
+    "probe_response_id_sha256": "4b6fbf5ea86b656bd96f70fd3a9e3689312f282517d8b8a0036e5ee3a1fbebb4",
+    "probe_type": "NON_BENCHMARK_RESPONSES_API_CAPABILITY_CALL",
+    "reasoning_effort": "medium",
+    "requested_model": "gpt-5.5-2026-04-23",
+    "returned_model": "gpt-5.5-2026-04-23",
+    "status": "PASS"
+  },
+  "prior_environment_failure_receipt_sha256": "34bdd220ff865421b3d1ba3c014274ae553e037288e1d2ec3619713187d78e68",
+  "randomization_code_present": false,
+  "real_condition_assignment_created": false,
+  "runner_role": "NON_SCORING_PREFLIGHT_ONLY",
+  "schema": "openline.paired-mechanism-benchmark.preflight.v3",
+  "sealed_at_unix_seconds": 1785504020,
+  "status": "PREFLIGHT_PASS"
+}

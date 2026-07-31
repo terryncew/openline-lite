@@ -1,0 +1,19 @@
+{
+  "30_git_parents": "PENDING_PREFLIGHT",
+  "benchmark_design_sha256": "fd0b9eb2e2f494031bac8448dba3f6344071a4d8f2ea9285d2c3fd8ecc159f7f",
+  "benchmark_revision": "RESEALED_AFTER_SCOPE_REPAIR",
+  "experiment_id": "olp-core21-paired-mechanism-001",
+  "model_calls": 0,
+  "model_configuration": "PENDING_PREFLIGHT",
+  "next_action": "RUN_FULL_MECHANICAL_PREFLIGHT_FROM_ZERO",
+  "pair_set_sha256": "5c622e0deaf500f7f39d9c5afece7550c1fa4859155d8b7191eb67bb0a725533",
+  "perturbation_spec_sha256": "1a94515d691b86719b17885c3bf983fbe7d052affebc22406ec35b34fc9bc9e4",
+  "preserved_blocked_preflight_receipt_sha256": "7383db129c7121a06350eb19ca83e40080d17811a64f362dd2c2c04b1d6aaa9b",
+  "real_assignment": "NOT_CREATED",
+  "schema": "openline.paired-mechanism-benchmark.scope-reseal.v1",
+  "scientific_content_changed": false,
+  "signal_schema_scope": "PASS",
+  "signal_schema_sha256": "88dbb498881e84e32b7599ec2ec1bf186a923bc17d7e0c67c4d09cf2b9cddb8d",
+  "source_perturbation_spec_sha256": "7ea26f74b8cf0d9de2bccd120cb2591d42aee19b1c5586b2e0457b0354e6117c",
+  "source_signal_schema_sha256": "5f0577ef8fa439e31f912dabe6cb059e74f6c78c125f14dcb58f00bc66e095c8"
+}
