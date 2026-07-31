@@ -1,0 +1,170 @@
+{
+  "comparators": {
+    "always_safe": {
+      "prediction": 0,
+      "type": "fixed"
+    },
+    "keyword_heuristic": {
+      "case_insensitive_terms": [
+        "todo",
+        "fixme",
+        "uncertain",
+        "unknown",
+        "blocked",
+        "not verified",
+        "needs verification",
+        "pending"
+      ],
+      "source": "last assistant pre-handoff message",
+      "type": "fixed"
+    },
+    "session_length": {
+      "direction": "high",
+      "type": "calibrated_threshold"
+    },
+    "tool_call_count": {
+      "direction": "high",
+      "type": "calibrated_threshold"
+    }
+  },
+  "domain": "real AI coding handoffs",
+  "eligibility_ledger": {
+    "binding": "each row hash-binds protocol, freeze, session bytes, prior eligibility row, handoff time, and registration time",
+    "directory_alignment": "at evaluation, test session files must exactly equal the 20 eligibility-ledger session ids",
+    "external_receipt_recommendation": "preserve each eligibility tail and final outcome-unlock hash in a git commit or OpenLine receipt for stronger ordering/completeness evidence",
+    "ordering": "strictly increasing by (handoff_at_utc, session_id)",
+    "registration_deadline_seconds": 600,
+    "schema": "openline.calibration-trial.eligibility.v2",
+    "selection": "first 20 registered handoffs are the fixed prospective test set",
+    "silent_skip_policy": "forbidden; any registered handoff without the next sealed prediction is a protocol deviation"
+  },
+  "falsifiers": [
+    "a post-freeze trial handoff is absent from the append-only eligibility ledger or is registered after the 600-second registration window",
+    "the eligibility ledger is reordered, shortened, extended beyond the fixed 20-session prospective set, or does not exactly match the test-session directory",
+    "held-out scoring occurs after the 600-second prediction window",
+    "a held-out prediction is sealed after its continuation has begun",
+    "a prospective outcome label is written before the all-20-predictions outcome unlock",
+    "a session supplies producer-controlled metric weights or a measurement profile",
+    "a test handoff predates or equals the freeze timestamp",
+    "the protocol hash changes after freeze",
+    "the independent verifier cannot reproduce eligibility, receiver-owned metrics, thresholds, predictions, inference, or evaluation",
+    "delta_hol fails to strictly beat at least one preregistered comparator",
+    "delta_hol fails the preregistered one-sided exact paired randomization test against at least one comparator",
+    "the fixed 20-session prospective test set or preregistered class floors are not met",
+    "the trial is evaluated early or extended beyond the fixed prospective N after outcomes are observed"
+  ],
+  "measurement_contract": {
+    "algorithm_id": "cole-portable-core-2.1-draft",
+    "input_boundary": "pre-handoff raw transcript plus admitted graph/signal observations only; session-supplied metric profiles and weights are forbidden",
+    "primary_direction": "high",
+    "primary_metric": "delta_hol_micros",
+    "producer_profile_fields_forbidden": true,
+    "profile_authority": "receiver",
+    "receiver_profile": {
+      "alpha_e_micros": 300000,
+      "alpha_k_micros": 500000,
+      "amber_dhol_micros": 350000,
+      "amber_epsilon_micros": 400000,
+      "amber_kappa_micros": 750000,
+      "calibration_corpus_hash": null,
+      "calibration_sample_count": 0,
+      "calibration_status": "uncalibrated_reference",
+      "dhol_claim_weight_micros": 333334,
+      "dhol_evidence_weight_micros": 333333,
+      "dhol_relation_weight_micros": 333333,
+      "epsilon_window": 4,
+      "i_c_micros": 1000000,
+      "kappa_critical_micros": 850000,
+      "phi_min_micros": 200000,
+      "profile_id": "olp-calibration-trial-receiver-rubric-1",
+      "signal_schema_id": "handoff-observation-signal.v1",
+      "smoothing_window": 1,
+      "stability_delta_micros": 10000
+    },
+    "score_outputs_are_not_inputs": true,
+    "secondary_metrics": [
+      {
+        "direction": "high",
+        "name": "kappa_micros"
+      },
+      {
+        "direction": "low",
+        "name": "phi_star_micros"
+      },
+      {
+        "direction": "low",
+        "name": "vkd_micros"
+      }
+    ]
+  },
+  "outcome": {
+    "blackout": "prospective labels may not be written until an outcome-unlock receipt proves all 20 prospective predictions were sealed",
+    "blinding_boundary": "this is a software-enforced label-data blackout, not double-blinding; a participant in the handoff may still personally observe a correction before formal label review",
+    "excluded": [
+      "style-only preference",
+      "new requirement introduced after handoff",
+      "environment/tool failure not attributable to dropped handoff state",
+      "model self-correction before a human correction"
+    ],
+    "label_source": "human review of post-handoff transcript after the all-predictions outcome unlock",
+    "model_self_grading_forbidden": true,
+    "name": "human_correction_within_window",
+    "positive_definition": "A human explicitly corrects a decision, fact, requirement, constraint, file state, or policy that the continuation got wrong or dropped within the first 8 assistant messages after the handoff.",
+    "positive_kinds": [
+      "decision",
+      "fact",
+      "requirement",
+      "constraint",
+      "file_state",
+      "policy"
+    ],
+    "window_assistant_turns": 8
+  },
+  "primary_evaluation": {
+    "comparison": "delta_hol predictor versus every preregistered comparator on the prospective test set",
+    "metric": "balanced_accuracy",
+    "no_unregistered_threshold_tuning_on_test": true,
+    "pilot_no_universal_claim": true,
+    "positive_result_rule": "delta_hol balanced accuracy must be strictly greater than every comparator and the one-sided exact paired randomization p-value must be <= alpha against every comparator; ties or any nonsignificant comparison fail the primary gate"
+  },
+  "primary_inference": {
+    "alpha_micros": 50000,
+    "alternative": "primary_greater",
+    "confidence_interval": "exactly enumerated stratified nonparametric bootstrap percentile interval for paired balanced-accuracy difference",
+    "confidence_micros": 950000,
+    "multiplicity_rule": "intersection-union gate: the claim is better than all comparators, so every component comparison must independently reject at alpha; no post-hoc comparator selection",
+    "randomization_test": "exact paired randomization of classifier identity on discordant cases, using class weights implied by balanced accuracy",
+    "reporting": "report exact p numerator/denominator and a 95% paired balanced-accuracy-difference interval for every comparator",
+    "test_statistic": "paired difference in balanced accuracy"
+  },
+  "sample": {
+    "calibration_n": 20,
+    "calibration_selection_rule": "Use the 20 most recent eligible pre-freeze session files by (handoff_at_utc, session_id). Selection is made before reading calibration outcomes.",
+    "minimum_calibration_per_class": 5,
+    "minimum_test_per_class": 3,
+    "stopping_rule": "Seal predictions for exactly the first 20 ledgered prospective handoffs, create one outcome-unlock receipt, then label and evaluate once. Do not stop early, skip a registered handoff, replace a failed/late prediction, or extend this trial after outcomes are reviewed. If class floors fail, disposition is INSUFFICIENT_SAMPLE.",
+    "test_n": 20,
+    "test_selection_rule": "Register every in-trial post-freeze handoff in the append-only eligibility ledger before scoring. The first 20 registered handoffs, strictly ordered by (handoff_at_utc, session_id), are the fixed prospective test set. No registered handoff may be skipped, replaced, or silently dropped.",
+    "total_n": 40
+  },
+  "schema": "openline.calibration-trial.protocol.v2",
+  "split": {
+    "max_prediction_lag_seconds": 600,
+    "random_split_forbidden": true,
+    "rule": "Calibration sessions must precede freeze.generated_at_utc. Every in-trial test handoff must occur strictly after freeze.generated_at_utc, be registered in the eligibility ledger no later than max_prediction_lag_seconds after handoff, and receive its sealed prediction after registration, before continuation begins, and no later than max_prediction_lag_seconds after handoff.",
+    "type": "prospective_temporal"
+  },
+  "status": "PREREGISTERED_BEFORE_HELDOUT",
+  "threshold_fit": {
+    "candidate_rule": "observed metric values plus one boundary outside each observed range",
+    "missing_primary_metric": "exclude_as_inadmissible_before_fit_or_score",
+    "objective": "balanced_accuracy",
+    "tie_break": [
+      "specificity",
+      "sensitivity",
+      "conservative_threshold"
+    ]
+  },
+  "title": "Calibration Trial: prospective handoff correction prediction",
+  "trial_id": "olp-handoff-calibration-003"
+}

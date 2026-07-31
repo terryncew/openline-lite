@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+
+# Real research data stays local by default.
+data/
+continuations/
+labels/
+
+# Live held-out outputs should not drift into source control accidentally.
+build/eligibility.jsonl
+build/predictions.jsonl
+build/evaluation.json
+build/synthetic*/
+build/RELEASE_VERIFICATION.json

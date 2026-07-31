@@ -1,0 +1,88 @@
+{
+  "bundle_type": "root-ready integration drop-in for terryncew/openline-lite",
+  "files": [
+    {
+      "bytes": 2741,
+      "path": ".github/workflows/ci.yml",
+      "sha256": "760bb44218f517c7c46531cac5fd33195e06d79433b210a82281225a863c501c"
+    },
+    {
+      "bytes": 294,
+      "path": "experiments/calibration-trial/.gitignore",
+      "sha256": "207f95bbbe1efabc8b6a7de8b24a3885c6df8dc3266447c5dc41182160980952"
+    },
+    {
+      "bytes": 2499,
+      "path": "experiments/calibration-trial/CLAIM_BOUNDARY.md",
+      "sha256": "365d43e8585c4983a99c9fc73e0c86de10cd18f65255a1ed9f503a6d6a4486b5"
+    },
+    {
+      "bytes": 5019,
+      "path": "experiments/calibration-trial/DATA_FORMAT.md",
+      "sha256": "c4172fe05899e3caafa71097028cb5d6df921d81e6cfa808ab2cfa3f292d989a"
+    },
+    {
+      "bytes": 686,
+      "path": "experiments/calibration-trial/PREREGISTRATION.json",
+      "sha256": "104cf77fdf6ab8d4fc230e5b023d891af1583a99214ba3d236f92817a751ccc1"
+    },
+    {
+      "bytes": 7919,
+      "path": "experiments/calibration-trial/README.md",
+      "sha256": "7f9fe0bf01d5b31c5aa5dcbb1ed8b92ba5257edadb1326cfc7320f6c87c218e1"
+    },
+    {
+      "bytes": 82,
+      "path": "experiments/calibration-trial/calibration_trial/__init__.py",
+      "sha256": "679a9a61fbe2314410056d2806aa7e572cac58ed8acd6a0de1562c0372c0c7e7"
+    },
+    {
+      "bytes": 49,
+      "path": "experiments/calibration-trial/calibration_trial/__main__.py",
+      "sha256": "2cebca45fda50218d8117782ea942b2f8dc4541582af62bd7e3d9b3997cce3c2"
+    },
+    {
+      "bytes": 19432,
+      "path": "experiments/calibration-trial/calibration_trial/common.py",
+      "sha256": "e597d18f3e02d783c5d7af094c3eb00f2771aa40afc7fee192baa5c673cd0d84"
+    },
+    {
+      "bytes": 49646,
+      "path": "experiments/calibration-trial/calibration_trial/independent_verify.py",
+      "sha256": "825bd86722ebd855c4e7a68d99fc69cfd4d75ddad59accaf3c3a3e66e8e54234"
+    },
+    {
+      "bytes": 4693,
+      "path": "experiments/calibration-trial/calibration_trial/metrics.py",
+      "sha256": "ec50f641e275a78ee3932df7086b02fb0259e1313b58a2e599084e53a6aa8e80"
+    },
+    {
+      "bytes": 48489,
+      "path": "experiments/calibration-trial/calibration_trial/trial.py",
+      "sha256": "cc9004e6ee0057ac04501c247267b3728978b9d90f2a22867d13be66a6efff00"
+    },
+    {
+      "bytes": 9629,
+      "path": "experiments/calibration-trial/examples/synthetic_fixture.py",
+      "sha256": "a8c1e2de70d1c8e58a9fc4401109c3ac43584697c8d7ba87b4b7f0c6c631804e"
+    },
+    {
+      "bytes": 8846,
+      "path": "experiments/calibration-trial/protocol.yaml",
+      "sha256": "0ada007d43739e60ded38c193b5912314791442a77b0080df6b0c19ac25d45f0"
+    },
+    {
+      "bytes": 14542,
+      "path": "experiments/calibration-trial/scripts/release_check.py",
+      "sha256": "7209156d557df3d9896025a3ce28d6a15f0883565d541ed6a9d574e87b2887f2"
+    },
+    {
+      "bytes": 26318,
+      "path": "experiments/calibration-trial/tests/test_trial.py",
+      "sha256": "b2db4ef2d08859eda623fc7926931238325eeece20db0a5b2d3be333f6273d0c"
+    }
+  ],
+  "protocol_sha256": "0ada007d43739e60ded38c193b5912314791442a77b0080df6b0c19ac25d45f0",
+  "schema": "openline.calibration-trial.bundle-manifest.v1",
+  "trial_id": "olp-handoff-calibration-003"
+}

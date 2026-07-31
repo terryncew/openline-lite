@@ -1,0 +1,10 @@
+{
+  "claim": "Protocol bytes frozen before prospective held-out scoring.",
+  "generated_at_utc": "2026-07-31T00:38:53Z",
+  "protocol_sha256": "0ada007d43739e60ded38c193b5912314791442a77b0080df6b0c19ac25d45f0",
+  "reset_reason": "New trial identity binds the repaired enforcement implementation before empirical held-out collection; scientific metrics, thresholds, endpoint, inference rule, and sample plan are unchanged.",
+  "schema": "openline.calibration-trial.preregistration.v2",
+  "supersedes_protocol_sha256": "0fd0f36dd929443cf7bc08a99c4336c4b6efa8dafdf5cf310c56543cfdfa1b25",
+  "supersedes_trial_id": "olp-handoff-calibration-002",
+  "trial_id": "olp-handoff-calibration-003"
+}
