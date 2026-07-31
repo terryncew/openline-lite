@@ -1,0 +1,48 @@
+name: OLP 30-pair mechanical preflight
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/olp-30pair-preflight.yml"
+      - "experiments/paired-mechanism-preflight/**"
+
+permissions:
+  contents: read
+
+jobs:
+  preflight-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    steps:
+      - name: Checkout preflight branch
+        uses: actions/checkout@v4
+
+      - name: Confirm no randomization artifacts are present
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -e experiments/paired-mechanism-preflight/make_blind_assignment.py
+          test ! -e experiments/paired-mechanism-preflight/condition_map.enc
+          test ! -e experiments/paired-mechanism-preflight/condition_map_aes256.key
+          if find experiments/paired-mechanism-preflight -type f \
+            \( -iname '*condition*map*' -o -iname '*assignment*' -o -iname '*unblind*' \) | grep -q .; then
+            echo "Randomization/unblinding artifact name found in preflight bundle" >&2
+            exit 1
+          fi
+
+      - name: Run fail-closed mechanical preflight
+        run: python3 experiments/paired-mechanism-preflight/run_preflight.py
+
+      - name: Upload sealed preflight receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: olp-30pair-preflight-receipt
+          path: |
+            experiments/paired-mechanism-preflight/build/PREFLIGHT_*.json
+            experiments/paired-mechanism-preflight/build/PREFLIGHT_*.sha256
+          if-no-files-found: error
+          retention-days: 30

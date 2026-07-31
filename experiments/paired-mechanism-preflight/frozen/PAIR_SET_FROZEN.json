@@ -1,0 +1,378 @@
+{
+  "binds_benchmark_design_sha256": "fd0b9eb2e2f494031bac8448dba3f6344071a4d8f2ea9285d2c3fd8ecc159f7f",
+  "common_execution_config": {
+    "api": "OpenAI Responses API",
+    "external_memory": "disabled",
+    "max_output_tokens": 16384,
+    "max_tool_calls": 40,
+    "max_wall_seconds": 1200,
+    "model": "gpt-5.5-2026-04-23",
+    "network": "disabled",
+    "pair_identity_rule": "CLEAN and PERTURBED branches share the exact task prompt, repository checkpoint, common-prefix agent state, model/config, tool definitions, budgets, and workspace bytes at the fork. Only the frozen perturbation changes.",
+    "reasoning_effort": "medium",
+    "retry_after_budget": "forbidden",
+    "shell_timeout_seconds": 120,
+    "system_prompt": "You are a coding agent. Complete the task in the checked-out repository. Inspect before editing. Use only the available local tools. Do not access the network. Stop when you have made the best bounded change and report what you changed and what you verified.",
+    "termination": "first of final agent answer, 40 tool calls, or 1200 wall seconds",
+    "tools": {
+      "apply_patch": "modify repository files with an explicit patch",
+      "list_tree": "list repository paths without file contents",
+      "read_file": "read UTF-8 repository file text by relative path",
+      "run_shell": "run a local shell command rooted in the repository; network unavailable",
+      "search_text": "literal/regex text search within repository"
+    },
+    "workspace": "clean checkout of checkpoint_ref; no untracked carry-over"
+  },
+  "experiment_id": "olp-core21-paired-mechanism-001",
+  "pairs": [
+    {
+      "checkpoint_derivation": "first parent of task_commit_sha",
+      "checkpoint_ref": "f0c7e19d73218d0d4f44d9d1ddc10bfa4744db24^1",
+      "pair_id": "P01",
+      "repository": "terryncew/openline-lite",
+      "task_commit_sha": "f0c7e19d73218d0d4f44d9d1ddc10bfa4744db24",
+      "task_commit_timestamp_utc": "2026-07-31T01:26:29Z",
+      "task_id": "github:terryncew/openline-lite@f0c7e19d73218d0d4f44d9d1ddc10bfa4744db24",
+      "task_prompt": "This patch only handles the CI lint boundary."
+    },
+    {
+      "checkpoint_derivation": "first parent of task_commit_sha",
+      "checkpoint_ref": "1c37a6a29ad875d279df1ef5d594d489f1a6b19f^1",
+      "pair_id": "P02",
+      "repository": "terryncew/openline-lite",
+      "task_commit_sha": "1c37a6a29ad875d279df1ef5d594d489f1a6b19f",
+      "task_commit_timestamp_utc": "2026-07-31T01:07:37Z",
+      "task_id": "github:terryncew/openline-lite@1c37a6a29ad875d279df1ef5d594d489f1a6b19f",
+      "task_prompt": "Freeze repaired prospective Calibration Trial v0.2.2"
+    },
+    {
+      "checkpoint_derivation": "first parent of task_commit_sha",
+      "checkpoint_ref": "d12fa59ec34e2d6b1e7ba914b4421dc1d5ea61da^1",
+      "pair_id": "P03",
+      "repository": "terryncew/openline-swarm-improvement-gate",
+      "task_commit_sha": "d12fa59ec34e2d6b1e7ba914b4421dc1d5ea61da",
+      "task_commit_timestamp_utc": "2026-07-30T23:06:45Z",
+      "task_id": "github:terryncew/openline-swarm-improvement-gate@d12fa59ec34e2d6b1e7ba914b4421dc1d5ea61da",
+      "task_prompt": "Add GitHub Actions release gate"
+    },
+    {
+      "checkpoint_derivation": "first parent of task_commit_sha",
+      "checkpoint_ref": "780eb9fcb6823a673b1e902bbc0d2aa154c4895d^1",
+      "pair_id": "P04",
+      "repository": "terryncew/openline-swarm-improvement-gate",
+      "task_commit_sha": "780eb9fcb6823a673b1e902bbc0d2aa154c4895d",
+      "task_commit_timestamp_utc": "2026-07-30T22:50:10Z",
+      "task_id": "github:terryncew/openline-swarm-improvement-gate@780eb9fcb6823a673b1e902bbc0d2aa154c4895d",
+      "task_prompt": "Bind successor promotion to signed appraisals"
+    },
+    {
+      "checkpoint_derivation": "first parent of task_commit_sha",
+      "checkpoint_ref": "8840417f58264d047060544947e9ace33a3bda9f^1",
+      "pair_id": "P05",
+      "repository": "terryncew/openline-receipt-gate",
+      "task_commit_sha": "8840417f58264d047060544947e9ace33a3bda9f",
+      "task_commit_timestamp_utc": "2026-07-30T22:35:34Z",
+      "task_id": "github:terryncew/openline-receipt-gate@8840417f58264d047060544947e9ace33a3bda9f",
+      "task_prompt": "Fix mixed-action evidence binding in consequence gate"
+    },
+    {
+      "checkpoint_derivation": "first parent of task_commit_sha",
+      "checkpoint_ref": "0be24a2c165d7ff5abadf449f33f1d66e001af8c^1",
+      "pair_id": "P06",
+      "repository": "terryncew/openline-eval-airlock",
+      "task_commit_sha": "0be24a2c165d7ff5abadf449f33f1d66e001af8c",
+      "task_commit_timestamp_utc": "2026-07-30T12:13:01Z",
+      "task_id": "github:terryncew/openline-eval-airlock@0be24a2c165d7ff5abadf449f33f1d66e001af8c",
+      "task_prompt": "Close relation history in Coherence Permission"
+    },
+    {
+      "checkpoint_derivation": "first parent of task_commit_sha",
+      "checkpoint_ref": "97cfc43027f09c17ad81f38227d0b30d0856d8e9^1",
+      "pair_id": "P07",
+      "repository": "terryncew/openline-receipt-gate",
+      "task_commit_sha": "97cfc43027f09c17ad81f38227d0b30d0856d8e9",
+      "task_commit_timestamp_utc": "2026-07-29T02:45:26Z",
+      "task_id": "github:terryncew/openline-receipt-gate@97cfc43027f09c17ad81f38227d0b30d0856d8e9",
+      "task_prompt": "Fail closed on malformed Verified Continuation inputs"
+    },
+    {
+      "checkpoint_derivation": "first parent of task_commit_sha",
+      "checkpoint_ref": "870c51035f95a085e581e28661dd11b55b48c6aa^1",
+      "pair_id": "P08",
+      "repository": "terryncew/openline-receipt-gate",
+      "task_commit_sha": "870c51035f95a085e581e28661dd11b55b48c6aa",
+      "task_commit_timestamp_utc": "2026-07-29T00:53:22Z",
+      "task_id": "github:terryncew/openline-receipt-gate@870c51035f95a085e581e28661dd11b55b48c6aa",
+      "task_prompt": "Add the x402 Transaction Airlock for rc6"
+    },
+    {
+      "checkpoint_derivation": "first parent of task_commit_sha",
+      "checkpoint_ref": "004595e5df019310fede37aa4ac9e236b740ae4b^1",
+      "pair_id": "P09",
+      "repository": "terryncew/openline-receipt-gate",
+      "task_commit_sha": "004595e5df019310fede37aa4ac9e236b740ae4b",
+      "task_commit_timestamp_utc": "2026-07-27T06:26:33Z",
+      "task_id": "github:terryncew/openline-receipt-gate@004595e5df019310fede37aa4ac9e236b740ae4b",
+      "task_prompt": "Fix source closure for Receipt Gate v0.5.0rc5"
+    },
+    {
+      "checkpoint_derivation": "first parent of task_commit_sha",
+      "checkpoint_ref": "309318c7635c73c209c32c38fb475316a67db175^1",
+      "pair_id": "P10",
+      "repository": "terryncew/openline-receipt-gate",
+      "task_commit_sha": "309318c7635c73c209c32c38fb475316a67db175",
+      "task_commit_timestamp_utc": "2026-07-27T05:23:12Z",
+      "task_id": "github:terryncew/openline-receipt-gate@309318c7635c73c209c32c38fb475316a67db175",
+      "task_prompt": "Pin receiver custody anchor and harden Verified Commit concurrency"
+    },
+    {
+      "checkpoint_derivation": "first parent of task_commit_sha",
+      "checkpoint_ref": "c4080db380e4c3d229dea04f7dd424392e65f32d^1",
+      "pair_id": "P11",
+      "repository": "terryncew/openline-langgraph",
+      "task_commit_sha": "c4080db380e4c3d229dea04f7dd424392e65f32d",
+      "task_commit_timestamp_utc": "2026-07-21T04:51:55Z",
+      "task_id": "github:terryncew/openline-langgraph@c4080db380e4c3d229dea04f7dd424392e65f32d",
+      "task_prompt": "Add LangGraph producer adapter RC1"
+    },
+    {
+      "checkpoint_derivation": "first parent of task_commit_sha",
+      "checkpoint_ref": "7ab1b46fcc19bdcfd43b344a55b43754351d309e^1",
+      "pair_id": "P12",
+      "repository": "terryncew/openline-half-life",
+      "task_commit_sha": "7ab1b46fcc19bdcfd43b344a55b43754351d309e",
+      "task_commit_timestamp_utc": "2026-07-20T23:31:11Z",
+      "task_id": "github:terryncew/openline-half-life@7ab1b46fcc19bdcfd43b344a55b43754351d309e",
+      "task_prompt": "Fix setuptools floor compatibility for the save-file launch"
+    },
+    {
+      "checkpoint_derivation": "first parent of task_commit_sha",
+      "checkpoint_ref": "9eee60c2253a6a5ab5432f8ce4646e8f2fef7415^1",
+      "pair_id": "P13",
+      "repository": "terryncew/openline-half-life",
+      "task_commit_sha": "9eee60c2253a6a5ab5432f8ce4646e8f2fef7415",
+      "task_commit_timestamp_utc": "2026-07-20T18:19:26Z",
+      "task_id": "github:terryncew/openline-half-life@9eee60c2253a6a5ab5432f8ce4646e8f2fef7415",
+      "task_prompt": "Stabilize compaction economics with a canonical scenario"
+    },
+    {
+      "checkpoint_derivation": "first parent of task_commit_sha",
+      "checkpoint_ref": "f9ae467965a5fe12f63387091af8cb694fa893ed^1",
+      "pair_id": "P14",
+      "repository": "terryncew/openline-receipt-gate",
+      "task_commit_sha": "f9ae467965a5fe12f63387091af8cb694fa893ed",
+      "task_commit_timestamp_utc": "2026-07-19T07:36:25Z",
+      "task_id": "github:terryncew/openline-receipt-gate@f9ae467965a5fe12f63387091af8cb694fa893ed",
+      "task_prompt": "Fix clean-runner wheel build prerequisites"
+    },
+    {
+      "checkpoint_derivation": "first parent of task_commit_sha",
+      "checkpoint_ref": "ed49641b4f5db7267a5e190a693d8104c9a87028^1",
+      "pair_id": "P15",
+      "repository": "terryncew/openline-receipt-gate",
+      "task_commit_sha": "ed49641b4f5db7267a5e190a693d8104c9a87028",
+      "task_commit_timestamp_utc": "2026-07-19T07:13:15Z",
+      "task_id": "github:terryncew/openline-receipt-gate@ed49641b4f5db7267a5e190a693d8104c9a87028",
+      "task_prompt": "Add complete release CI for v0.5.0rc2"
+    },
+    {
+      "checkpoint_derivation": "first parent of task_commit_sha",
+      "checkpoint_ref": "4eca0b21f823472e124bfa3b3b20e141702f34d4^1",
+      "pair_id": "P16",
+      "repository": "terryncew/openline-receipt-gate",
+      "task_commit_sha": "4eca0b21f823472e124bfa3b3b20e141702f34d4",
+      "task_commit_timestamp_utc": "2026-07-19T06:44:20Z",
+      "task_id": "github:terryncew/openline-receipt-gate@4eca0b21f823472e124bfa3b3b20e141702f34d4",
+      "task_prompt": "Add receiver-enforced Verified Commit"
+    },
+    {
+      "checkpoint_derivation": "first parent of task_commit_sha",
+      "checkpoint_ref": "70121b53e86196d69b2c3457174b38ad32667b43^1",
+      "pair_id": "P17",
+      "repository": "terryncew/openline-half-life",
+      "task_commit_sha": "70121b53e86196d69b2c3457174b38ad32667b43",
+      "task_commit_timestamp_utc": "2026-07-18T21:00:26Z",
+      "task_id": "github:terryncew/openline-half-life@70121b53e86196d69b2c3457174b38ad32667b43",
+      "task_prompt": "Fix clean CI wheel build backend"
+    },
+    {
+      "checkpoint_derivation": "first parent of task_commit_sha",
+      "checkpoint_ref": "9e9d17f424be38681dd65f9fe9ee40c3195a1e78^1",
+      "pair_id": "P18",
+      "repository": "terryncew/openline-half-life",
+      "task_commit_sha": "9e9d17f424be38681dd65f9fe9ee40c3195a1e78",
+      "task_commit_timestamp_utc": "2026-07-18T20:49:40Z",
+      "task_id": "github:terryncew/openline-half-life@9e9d17f424be38681dd65f9fe9ee40c3195a1e78",
+      "task_prompt": "Require full cryptographic verification across 10,000 histories"
+    },
+    {
+      "checkpoint_derivation": "first parent of task_commit_sha",
+      "checkpoint_ref": "6c6f740f974bbe496146489293d85e4aceaef462^1",
+      "pair_id": "P19",
+      "repository": "terryncew/openline-endurance-gate",
+      "task_commit_sha": "6c6f740f974bbe496146489293d85e4aceaef462",
+      "task_commit_timestamp_utc": "2026-07-18T03:38:38Z",
+      "task_id": "github:terryncew/openline-endurance-gate@6c6f740f974bbe496146489293d85e4aceaef462",
+      "task_prompt": "Align release runtime with Python 3.12"
+    },
+    {
+      "checkpoint_derivation": "first parent of task_commit_sha",
+      "checkpoint_ref": "cb48b0d276669576f0f6d419c703250185d34dfb^1",
+      "pair_id": "P20",
+      "repository": "terryncew/openline-endurance-gate",
+      "task_commit_sha": "cb48b0d276669576f0f6d419c703250185d34dfb",
+      "task_commit_timestamp_utc": "2026-07-18T03:05:40Z",
+      "task_id": "github:terryncew/openline-endurance-gate@cb48b0d276669576f0f6d419c703250185d34dfb",
+      "task_prompt": "Fixed and resealed.  The failure was Python-version float drift: Python 3.11 differed from the saved Python 3.12+ summary in 37 floats, with a maximum delta of only 1.82e-12. No gates, conclusions, or scientific artifacts changed.  The test now uses the verifier’s existing recursive 1e-7 tolerance."
+    },
+    {
+      "checkpoint_derivation": "first parent of task_commit_sha",
+      "checkpoint_ref": "a04efb86fcc4d1791c8822dad4ec228cdccb59cd^1",
+      "pair_id": "P21",
+      "repository": "terryncew/openline-endurance-gate",
+      "task_commit_sha": "a04efb86fcc4d1791c8822dad4ec228cdccb59cd",
+      "task_commit_timestamp_utc": "2026-07-18T02:32:24Z",
+      "task_id": "github:terryncew/openline-endurance-gate@a04efb86fcc4d1791c8822dad4ec228cdccb59cd",
+      "task_prompt": "Add receiver-owned Succession Calibrator"
+    },
+    {
+      "checkpoint_derivation": "first parent of task_commit_sha",
+      "checkpoint_ref": "7e3027fb6ec8770ea70afdd29a15c12d5b5291d8^1",
+      "pair_id": "P22",
+      "repository": "terryncew/openline-lite",
+      "task_commit_sha": "7e3027fb6ec8770ea70afdd29a15c12d5b5291d8",
+      "task_commit_timestamp_utc": "2026-07-17T23:50:23Z",
+      "task_id": "github:terryncew/openline-lite@7e3027fb6ec8770ea70afdd29a15c12d5b5291d8",
+      "task_prompt": "OpenLine Lite v0.3.1 — Bounded Ingestion Security Fix"
+    },
+    {
+      "checkpoint_derivation": "first parent of task_commit_sha",
+      "checkpoint_ref": "25f894387ec7058d776054e473536f71cb3a9060^1",
+      "pair_id": "P23",
+      "repository": "terryncew/openline-eval-airlock",
+      "task_commit_sha": "25f894387ec7058d776054e473536f71cb3a9060",
+      "task_commit_timestamp_utc": "2026-07-17T06:49:09Z",
+      "task_id": "github:terryncew/openline-eval-airlock@25f894387ec7058d776054e473536f71cb3a9060",
+      "task_prompt": "Release v0.3.2 with provenance and reseal hardening"
+    },
+    {
+      "checkpoint_derivation": "first parent of task_commit_sha",
+      "checkpoint_ref": "10204008249270f47ef710f437f88ffd9f91ff8c^1",
+      "pair_id": "P24",
+      "repository": "terryncew/openline-receipt-gate",
+      "task_commit_sha": "10204008249270f47ef710f437f88ffd9f91ff8c",
+      "task_commit_timestamp_utc": "2026-07-16T20:11:51Z",
+      "task_id": "github:terryncew/openline-receipt-gate@10204008249270f47ef710f437f88ffd9f91ff8c",
+      "task_prompt": "Release v0.4.0: add frozen Assay interoperability track"
+    },
+    {
+      "checkpoint_derivation": "first parent of task_commit_sha",
+      "checkpoint_ref": "42576862ac8139a4b8ec909391e8d5c9ff71c096^1",
+      "pair_id": "P25",
+      "repository": "terryncew/openline-receipt-gate",
+      "task_commit_sha": "42576862ac8139a4b8ec909391e8d5c9ff71c096",
+      "task_commit_timestamp_utc": "2026-07-16T16:41:19Z",
+      "task_id": "github:terryncew/openline-receipt-gate@42576862ac8139a4b8ec909391e8d5c9ff71c096",
+      "task_prompt": "v0.3.1: fix public benchmark reproduction"
+    },
+    {
+      "checkpoint_derivation": "first parent of task_commit_sha",
+      "checkpoint_ref": "ebe3dca6047cd66cbf1acf82300868e64443250c^1",
+      "pair_id": "P26",
+      "repository": "terryncew/openline-receipt-gate",
+      "task_commit_sha": "ebe3dca6047cd66cbf1acf82300868e64443250c",
+      "task_commit_timestamp_utc": "2026-07-16T00:36:47Z",
+      "task_id": "github:terryncew/openline-receipt-gate@ebe3dca6047cd66cbf1acf82300868e64443250c",
+      "task_prompt": "release: ship Receipt Gate v0.3.0 with Pipelock interoperability"
+    },
+    {
+      "checkpoint_derivation": "first parent of task_commit_sha",
+      "checkpoint_ref": "e1a36fe0f17fe2fad0e92daf63eb07f4f5c39e76^1",
+      "pair_id": "P27",
+      "repository": "terryncew/openline-proof-adapter",
+      "task_commit_sha": "e1a36fe0f17fe2fad0e92daf63eb07f4f5c39e76",
+      "task_commit_timestamp_utc": "2026-07-15T20:17:45Z",
+      "task_id": "github:terryncew/openline-proof-adapter@e1a36fe0f17fe2fad0e92daf63eb07f4f5c39e76",
+      "task_prompt": "release: ship Proof Adapter v0.2.0 with review remediation and Wire Canon alignment"
+    },
+    {
+      "checkpoint_derivation": "first parent of task_commit_sha",
+      "checkpoint_ref": "e14c757a0678622d3e05f8ead96c26067b3cb595^1",
+      "pair_id": "P28",
+      "repository": "terryncew/openline-audit-debt-harness",
+      "task_commit_sha": "e14c757a0678622d3e05f8ead96c26067b3cb595",
+      "task_commit_timestamp_utc": "2026-07-13T02:00:53Z",
+      "task_id": "github:terryncew/openline-audit-debt-harness@e14c757a0678622d3e05f8ead96c26067b3cb595",
+      "task_prompt": "Add source-backed AI agent receipt landscape"
+    },
+    {
+      "checkpoint_derivation": "first parent of task_commit_sha",
+      "checkpoint_ref": "19bcef659e59704b71ed6f1ac910253a60f369ab^1",
+      "pair_id": "P29",
+      "repository": "terryncew/openline-otel",
+      "task_commit_sha": "19bcef659e59704b71ed6f1ac910253a60f369ab",
+      "task_commit_timestamp_utc": "2026-07-13T01:58:37Z",
+      "task_id": "github:terryncew/openline-otel@19bcef659e59704b71ed6f1ac910253a60f369ab",
+      "task_prompt": "Fix Python 3.12 release gate and update Actions runtimes"
+    },
+    {
+      "checkpoint_derivation": "first parent of task_commit_sha",
+      "checkpoint_ref": "2d8474f821df1ea4ffdd300f78f039b686811912^1",
+      "pair_id": "P30",
+      "repository": "terryncew/openline-receipt-gate",
+      "task_commit_sha": "2d8474f821df1ea4ffdd300f78f039b686811912",
+      "task_commit_timestamp_utc": "2026-07-13T01:40:54Z",
+      "task_id": "github:terryncew/openline-receipt-gate@2d8474f821df1ea4ffdd300f78f039b686811912",
+      "task_prompt": "v0.2.0: proof-to-policy gate with independently verified decision receipts"
+    }
+  ],
+  "schema": "openline.paired-mechanism-benchmark.pair-set.v1",
+  "selection": {
+    "checkpoint_rule": "Checkout the task commit's first parent exactly: git rev-parse <task_commit_sha>^1. The task commit itself and its diff are reference-only and must not be visible in the agent workspace.",
+    "claim_boundary": "These are real historical repository change descriptions reconstructed from commit subjects, not preserved original user prompts and not historical agent-run traces. The benchmark tests measurement response to a controlled execution perturbation, not task-success replication.",
+    "generic_subject_exclusions_casefold": [
+      "add files via upload",
+      "commit",
+      "delete",
+      "error",
+      "extract",
+      "initial commit"
+    ],
+    "merge_subject_prefix_exclusion": "merge ",
+    "minimum_subject_characters": 12,
+    "n": 30,
+    "ordering": "commit timestamp descending; ties by repository_full_name then commit SHA",
+    "repository_universe": [
+      "terryncew/openline-core",
+      "terryncew/openline-agents",
+      "terryncew/openline-otel-js",
+      "terryncew/openline-eval-airlock",
+      "terryncew/openline-proof-adapter",
+      "terryncew/openline-cognitive-immune-layer",
+      "terryncew/openline-hub",
+      "terryncew/openline-wallet",
+      "terryncew/openline-exchange",
+      "terryncew/openline-otel",
+      "terryncew/openline-ace",
+      "terryncew/openline-lite",
+      "terryncew/openline-jspace-commit-bridge",
+      "terryncew/openline-verified-memory",
+      "terryncew/openline-skills-receipt",
+      "terryncew/openline-receipt-gate",
+      "terryncew/openline-langgraph",
+      "terryncew/openline-half-life",
+      "terryncew/openline-endurance-gate",
+      "terryncew/openline-discovery-market",
+      "terryncew/openline-slippage-guard",
+      "terryncew/openline-context-governor",
+      "terryncew/openline-history-laundering-harness",
+      "terryncew/openline-audit-debt-harness",
+      "terryncew/openline-swarm-improvement-gate"
+    ],
+    "root_commits_ineligible": true,
+    "selection_basis": "Recency and generic mechanical eligibility only. No condition assignment existed and no kappa/delta_hol result was consulted during selection.",
+    "source": "public GitHub commit history from the frozen repository universe",
+    "task_prompt_rule": "Use only the exact first line/subject of the historical commit message as the agent task. Do not provide the commit body, diff, child tree, or later solution artifacts to the agent."
+  },
+  "status": "PAIR_SET_FROZEN_BEFORE_RANDOMIZATION"
+}

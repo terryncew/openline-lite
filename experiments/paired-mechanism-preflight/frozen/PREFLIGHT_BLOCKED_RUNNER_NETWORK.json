@@ -1,0 +1,80 @@
+{
+  "benchmark_revision": "RESEALED_AFTER_SCOPE_REPAIR",
+  "disposition": "STOP_RUNNER_ENVIRONMENT_REQUIRED",
+  "experiment_id": "olp-core21-paired-mechanism-001",
+  "model_calls_made": 0,
+  "preflight_restart": "FROM_ZERO",
+  "preserved_prior_blocked_preflight_sha256": "7383db129c7121a06350eb19ca83e40080d17811a64f362dd2c2c04b1d6aaa9b",
+  "real_condition_assignment_created": false,
+  "required_next_environment": "A non-scoring runner with outbound GitHub access sufficient for all 30 exact parent checkouts and credentials/capability to perform a non-benchmark availability check for the pinned gpt-5.5-2026-04-23 configuration. The frozen artifacts must be copied unchanged into that runner.",
+  "schema": "openline.paired-mechanism-benchmark.preflight.v2",
+  "scientific_content_changed": false,
+  "status": "BLOCKED_PRE_RANDOMIZATION",
+  "step_1_frozen_hashes": {
+    "results": {
+      "benchmark_design_sha256": {
+        "actual": "fd0b9eb2e2f494031bac8448dba3f6344071a4d8f2ea9285d2c3fd8ecc159f7f",
+        "expected": "fd0b9eb2e2f494031bac8448dba3f6344071a4d8f2ea9285d2c3fd8ecc159f7f",
+        "note": "Original frozen benchmark-design commitment; no design bytes were changed during scope repair.",
+        "status": "PASS_COMMITMENT"
+      },
+      "pair_set_sha256": {
+        "actual": "5c622e0deaf500f7f39d9c5afece7550c1fa4859155d8b7191eb67bb0a725533",
+        "expected": "5c622e0deaf500f7f39d9c5afece7550c1fa4859155d8b7191eb67bb0a725533",
+        "status": "PASS"
+      },
+      "perturbation_spec_sha256": {
+        "actual": "1a94515d691b86719b17885c3bf983fbe7d052affebc22406ec35b34fc9bc9e4",
+        "expected": "1a94515d691b86719b17885c3bf983fbe7d052affebc22406ec35b34fc9bc9e4",
+        "status": "PASS"
+      },
+      "preserved_blocked_preflight_sha256": {
+        "actual": "7383db129c7121a06350eb19ca83e40080d17811a64f362dd2c2c04b1d6aaa9b",
+        "expected": "7383db129c7121a06350eb19ca83e40080d17811a64f362dd2c2c04b1d6aaa9b",
+        "status": "PASS"
+      },
+      "scope_reseal_state_sha256": {
+        "actual": "050e8e643d04af4c0c18158d084110ea2b001a33ea57d8d5d22bd32e95501564",
+        "expected": "050e8e643d04af4c0c18158d084110ea2b001a33ea57d8d5d22bd32e95501564",
+        "status": "PASS"
+      },
+      "signal_schema_sha256": {
+        "actual": "88dbb498881e84e32b7599ec2ec1bf186a923bc17d7e0c67c4d09cf2b9cddb8d",
+        "expected": "88dbb498881e84e32b7599ec2ec1bf186a923bc17d7e0c67c4d09cf2b9cddb8d",
+        "status": "PASS"
+      }
+    },
+    "status": "PASS"
+  },
+  "step_2_git_parent_checkouts": {
+    "completed_exact_checkouts": 0,
+    "fail_closed_rule": "A connected GitHub metadata lookup is not substituted for an actual local checkout. Because P01 could not be checked out exactly in this runner, the 30/30 checkout gate failed and preflight stopped immediately.",
+    "first_attempt": {
+      "attempted_operation": "Initialize a fresh local repository, add the frozen GitHub remote, fetch the exact task commit with depth sufficient for ^1, resolve the first parent, and checkout that parent detached.",
+      "checkpoint_ref": "f0c7e19d73218d0d4f44d9d1ddc10bfa4744db24^1",
+      "error_class": "OUTBOUND_GIT_NETWORK_UNAVAILABLE",
+      "git_version": "git version 2.47.3",
+      "observed_error": "fatal: unable to access 'https://github.com/terryncew/openline-lite.git/': Could not resolve host: github.com",
+      "pair_id": "P01",
+      "repository": "terryncew/openline-lite",
+      "result": "FAILED_BEFORE_FETCH",
+      "task_commit_sha": "f0c7e19d73218d0d4f44d9d1ddc10bfa4744db24"
+    },
+    "required": "30/30 exact parent checkouts",
+    "status": "FAIL"
+  },
+  "step_3_model_configuration": {
+    "benchmark_model_calls_made": 0,
+    "model": "gpt-5.5-2026-04-23",
+    "status": "NOT_RUN_DUE_FAIL_FAST"
+  },
+  "step_4_local_tool_network_budget_constraints": {
+    "status": "NOT_RUN_DUE_FAIL_FAST"
+  },
+  "step_5_preflight_pass_receipt": {
+    "status": "NOT_ELIGIBLE"
+  },
+  "step_6_real_blinded_assignment": {
+    "status": "NOT_CREATED"
+  }
+}

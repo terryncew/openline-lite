@@ -1,0 +1,49 @@
+{
+  "blocking_check": {
+    "benchmark_experiment_id": "olp-core21-paired-mechanism-001",
+    "name": "frozen_signal_schema_scope_binding",
+    "reason": "The frozen signal artifact explicitly defines its purpose as the A/B contradiction-fracture test and limits its result boundary to that frozen hand-encoded graph fixture. That A/B experiment has already been run. Treating the artifact as the 30-pair benchmark's frozen signal schema would cross a frozen experiment boundary.",
+    "signal_schema_experiment_id": "core21-kappa-contradiction-fracture-001",
+    "signal_schema_status": "SIGNAL_SCHEMA_FROZEN_BEFORE_A_B",
+    "status": "FAIL"
+  },
+  "checks_not_completed_due_fail_fast": [
+    "all_30_git_parent_checkout_resolution",
+    "pinned_model_actual_instantiation_in_non_scoring_environment",
+    "tool-harness availability"
+  ],
+  "disposition": "STOP_NEW_FREEZE_REQUIRED",
+  "experiment_id": "olp-core21-paired-mechanism-001",
+  "hash_verification": {
+    "benchmark_design": {
+      "actual": "fd0b9eb2e2f494031bac8448dba3f6344071a4d8f2ea9285d2c3fd8ecc159f7f",
+      "expected": "fd0b9eb2e2f494031bac8448dba3f6344071a4d8f2ea9285d2c3fd8ecc159f7f",
+      "status": "PASS"
+    },
+    "pair_set": {
+      "actual": "5c622e0deaf500f7f39d9c5afece7550c1fa4859155d8b7191eb67bb0a725533",
+      "expected": "5c622e0deaf500f7f39d9c5afece7550c1fa4859155d8b7191eb67bb0a725533",
+      "status": "PASS"
+    },
+    "perturbation_spec": {
+      "actual": "7ea26f74b8cf0d9de2bccd120cb2591d42aee19b1c5586b2e0457b0354e6117c",
+      "expected": "7ea26f74b8cf0d9de2bccd120cb2591d42aee19b1c5586b2e0457b0354e6117c",
+      "status": "PASS"
+    },
+    "signal_schema": {
+      "actual": "5f0577ef8fa439e31f912dabe6cb059e74f6c78c125f14dcb58f00bc66e095c8",
+      "expected": "5f0577ef8fa439e31f912dabe6cb059e74f6c78c125f14dcb58f00bc66e095c8",
+      "status": "PASS_HASH_ONLY"
+    }
+  },
+  "model_calls_made": 0,
+  "partial_observation": {
+    "P01_parent_ref": "f0c7e19d73218d0d4f44d9d1ddc10bfa4744db24^1",
+    "P01_resolved_parent_sha": "1c37a6a29ad875d279df1ef5d594d489f1a6b19f",
+    "note": "Only this parent was resolved before fail-fast stop; no claim is made for the other 29."
+  },
+  "real_condition_assignment_created": false,
+  "required_repair": "Create a new benchmark-specific signal-schema artifact for olp-core21-paired-mechanism-001. If the formulas are intentionally identical, copy them byte-for-semantics into the new experiment identity and explicitly bind them to the benchmark design before any assignment. This necessarily changes the perturbation artifact that currently binds the old signal-schema hash, so the scientific freeze must be resealed under a new benchmark revision/identity rather than silently patched.",
+  "schema": "openline.paired-mechanism-benchmark.preflight.v1",
+  "status": "BLOCKED_PRE_RANDOMIZATION"
+}
