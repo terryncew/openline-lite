@@ -3,7 +3,7 @@ name: OLP low-cost capacity canary — exact tag only
 on:
   push:
     tags:
-      - "RUN_LOW_COST_CAPACITY_CANARY_ONLY"
+      - "RUN_LOW_COST_CAPACITY_CANARY_ONLY_RETRY1"
 
 permissions:
   contents: read
@@ -13,7 +13,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  CANARY_TAG: RUN_LOW_COST_CAPACITY_CANARY_ONLY
+  CANARY_TAG: RUN_LOW_COST_CAPACITY_CANARY_ONLY_RETRY1
 
 jobs:
   canary:

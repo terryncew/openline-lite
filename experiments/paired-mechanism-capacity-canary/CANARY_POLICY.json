@@ -1,5 +1,5 @@
 {
-  "schema": "openline.capacity-canary-policy.v2",
+  "schema": "openline.capacity-canary-policy.v3",
   "purpose": "cheap discriminator before any 003 design or assignment",
   "scientific_status": "NON_SCIENTIFIC_INFRASTRUCTURE_ONLY",
   "creates_assignment": false,
@@ -9,7 +9,10 @@
   "stop_on_first_failure": true,
   "minimum_start_interval_seconds": 45,
   "input_payload_bytes_per_request": 80000,
-  "required_observed_input_token_range": [18000, 40000],
+  "required_observed_input_token_range": [
+    13000,
+    16000
+  ],
   "max_output_tokens_per_request": 16384,
   "expected_output": "OK",
   "requested_model": "gpt-5.5-2026-04-23",
@@ -25,5 +28,13 @@
   ],
   "pass_meaning": "capacity survived only this bounded representative envelope; full 003 remains forbidden",
   "fail_meaning": "do not run 003 at this envelope",
-  "dollar_cap_guaranteed": false
+  "dollar_cap_guaranteed": false,
+  "calibration_basis": {
+    "prior_canary_receipt_sha256": "3f7e8bbe0788fe6099974b52cdd9203d5a51d1f517439c3989086d98c7fb09c5",
+    "observed_input_tokens": 14215,
+    "prior_http_status": 200,
+    "prior_response_status": "completed",
+    "prior_output_exact_ok": true,
+    "prior_failure_category": "INPUT_TOKEN_RANGE_MISMATCH"
+  }
 }

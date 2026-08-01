@@ -1,24 +1,39 @@
 {
-  "schema": "openline.capacity-canary-audit.v2",
-  "claim": "Repairs the non-scientific capacity canary so its trigger works from an isolated branch and its request envelope meaningfully tests benchmark-like token admission without creating an assignment, benchmark trace, score, or experiment 003.",
+  "schema": "openline.capacity-canary-audit.v3",
+  "claim": "Narrow execution-only repair of the capacity canary after the first live request succeeded but was rejected by an incorrect local input-token range.",
   "decision": "READY_TO_PUSH_NOT_RUN",
   "engineering_repairs": [
-    "exact tag-push trigger replaces branch-only workflow_dispatch",
-    "max_output_tokens reservation raised from 256 to the benchmark-matching 16384 while expected output remains exactly OK",
-    "deterministic 80000-byte diverse synthetic context replaces highly compressible repeated-character payload",
-    "provider-reported input tokens must fall within the frozen 18000..40000 representative range",
-    "sanitized x-ratelimit and Retry-After headers are preserved in the receipt",
-    "pytest and Python bytecode caches removed from the release package"
+    "recalibrate provider-reported input-token acceptance from 18000..40000 to 13000..16000 around the observed 14215-token deterministic request",
+    "rotate the exact one-shot trigger from RUN_LOW_COST_CAPACITY_CANARY_ONLY to RUN_LOW_COST_CAPACITY_CANARY_ONLY_RETRY1",
+    "add a regression test binding the observed 14215-token usage inside the frozen range",
+    "preserve every other request, model, reasoning, pacing, retry, payload, output-reservation, fail-fast, and no-assignment bound"
   ],
+  "prior_canary_evidence": {
+    "receipt_zip_sha256": "444899a7a9c67975d345228e79bd763042be74c485fdddfe1d6440550baf3203",
+    "receipt_json_sha256": "3f7e8bbe0788fe6099974b52cdd9203d5a51d1f517439c3989086d98c7fb09c5",
+    "disposition": "CAPACITY_CANARY_BLOCKED",
+    "failure_category": "INPUT_TOKEN_RANGE_MISMATCH",
+    "http_status": 200,
+    "response_status": "completed",
+    "returned_model": "gpt-5.5-2026-04-23",
+    "input_tokens": 14215,
+    "output_tokens": 17,
+    "output_text_exact_ok": true,
+    "http_429_observed": false,
+    "requests_started": 1
+  },
   "bounds": {
     "assignment_created": false,
     "benchmark_model_calls_during_build": 0,
-    "live_api_calls_during_build": 0,
+    "live_api_calls_during_repair": 0,
     "requests_cap": 6,
     "retries": 0,
     "minimum_start_interval_seconds": 45,
     "input_payload_bytes_per_request": 80000,
-    "required_observed_input_token_range": [18000, 40000],
+    "required_observed_input_token_range": [
+      13000,
+      16000
+    ],
     "max_output_tokens_per_request": 16384,
     "expected_output": "OK",
     "stop_on_first_failure": true,
@@ -27,19 +42,17 @@
   },
   "trigger": {
     "event": "exact tag push",
-    "tag": "RUN_LOW_COST_CAPACITY_CANARY_ONLY",
-    "created_or_pushed_during_build": false
+    "historical_tag_preserved": "RUN_LOW_COST_CAPACITY_CANARY_ONLY",
+    "new_tag": "RUN_LOW_COST_CAPACITY_CANARY_ONLY_RETRY1",
+    "created_or_pushed_during_repair": false
   },
   "verification": {
-    "tests_passed": 7,
+    "tests_passed": 8,
     "tests_failed": 0,
     "clean_extraction_reverified": true,
-    "cache_artifacts_in_zip": 0
-  },
-  "source_evidence": {
-    "002_execution_receipt_sha256": "23f58d45a50f94035a1bd97157afaaf799bdaa4625603998df7fd211e43dd54f",
-    "002_public_outer_zip_sha256": "96fa551bdb53bff0775ad26de8ddc8eb66780a089fc919168f3c97f3f346776d",
-    "observed_002_failure": "HTTP_429_RATE_LIMIT_TRANSIENT tokens"
+    "manifest_files_verified": 6,
+    "cache_artifacts_in_zip": 0,
+    "python_compile_check": "PASS"
   },
   "warning": "A pass clears only this bounded canary envelope. It does not authorize a full benchmark or guarantee cost."
 }

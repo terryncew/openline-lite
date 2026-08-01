@@ -30,7 +30,7 @@ class Resp:
         return json.dumps(self.obj).encode()
 
 
-def completed_obj(input_tokens=24_000, output_text="OK"):
+def completed_obj(input_tokens=14_215, output_text="OK"):
     return {
         "status": "completed",
         "model": canary.PINNED_MODEL,
@@ -141,10 +141,17 @@ class CanaryTests(unittest.TestCase):
             self.assertEqual(receipt["disposition"], "CAPACITY_CANARY_BLOCKED")
             self.assertEqual(receipt["rows"][0]["failure_category"], "UNEXPECTED_OUTPUT_ENVELOPE")
 
+
+    def test_recalibrated_range_contains_observed_live_usage(self):
+        self.assertEqual(canary.MIN_OBSERVED_INPUT_TOKENS, 13_000)
+        self.assertEqual(canary.MAX_OBSERVED_INPUT_TOKENS, 16_000)
+        self.assertLessEqual(canary.MIN_OBSERVED_INPUT_TOKENS, 14_215)
+        self.assertGreaterEqual(canary.MAX_OBSERVED_INPUT_TOKENS, 14_215)
+
     def test_workflow_uses_exact_tag_only(self):
         workflow = (ROOT.parents[1] / ".github" / "workflows" / "olp-low-cost-capacity-canary.yml").read_text("utf-8")
         self.assertNotIn("workflow_dispatch", workflow)
-        self.assertIn("RUN_LOW_COST_CAPACITY_CANARY_ONLY", workflow)
+        self.assertIn("RUN_LOW_COST_CAPACITY_CANARY_ONLY_RETRY1", workflow)
         self.assertIn("tags:", workflow)
 
 

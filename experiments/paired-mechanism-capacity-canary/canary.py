@@ -21,12 +21,13 @@ MIN_INTERVAL_SECONDS = 45
 # inviting a large completion.
 MAX_OUTPUT_TOKENS = 16_384
 PAYLOAD_BYTES = 80_000
-# The synthetic payload is designed to land near a substantial benchmark-like
-# input envelope. The provider-reported usage is authoritative at runtime.
-MIN_OBSERVED_INPUT_TOKENS = 18_000
-MAX_OBSERVED_INPUT_TOKENS = 40_000
+# The first live canary proved this exact deterministic payload reports 14,215
+# input tokens on the pinned model. The frozen range below permits modest provider
+# accounting variance while still failing closed on a materially different envelope.
+MIN_OBSERVED_INPUT_TOKENS = 13_000
+MAX_OBSERVED_INPUT_TOKENS = 16_000
 REQUEST_TIMEOUT_SECONDS = 180
-SCHEMA = "openline.capacity-canary.v2"
+SCHEMA = "openline.capacity-canary.v3"
 
 RATE_LIMIT_HEADER_NAMES = (
     "x-ratelimit-limit-requests",

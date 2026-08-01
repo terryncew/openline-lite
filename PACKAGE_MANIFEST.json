@@ -1,38 +1,38 @@
 {
+  "schema": "openline.package-manifest.v3",
+  "package": "openline-low-cost-capacity-canary-calibrated-retry1",
+  "manifest_excludes_self": true,
   "file_count_excluding_manifest": 6,
   "files": [
     {
-      "bytes": 1546,
       "path": ".github/workflows/olp-low-cost-capacity-canary.yml",
-      "sha256": "7f99fadc87c355cd7924b8fbd2fa47176a20fb0fc4e6bf825f11071d77993a9c"
+      "bytes": 1560,
+      "sha256": "5995029dda8095caffe08045aa71930db044bf0830a2ead45b7c093edec045ea"
     },
     {
-      "bytes": 2145,
       "path": "AUDIT_RECEIPT.json",
-      "sha256": "f40bab4d23de9ddffefd3ae23f12d932c83c20cbace11c2df7d0af5ede29c536"
+      "bytes": 2428,
+      "sha256": "747ae3ef0656c50780530cadc9e0290acd74abf7f4f24122ab8c8ae711f47e8f"
     },
     {
-      "bytes": 1648,
       "path": "README-CAPACITY-CANARY.md",
-      "sha256": "93f3a6a355e374a1411da7a49906b65ddbbb932850c4054b0e99d3762b63448f"
+      "bytes": 1856,
+      "sha256": "7b3debeff1bdec5bb94da84900b2e5fa7ba46bfd7215d9d5ff7ecbd5799cc2bf"
     },
     {
-      "bytes": 1069,
       "path": "experiments/paired-mechanism-capacity-canary/CANARY_POLICY.json",
-      "sha256": "f5d8655e645058d4d9558c36bfcf2b7304d79908e78e446b0b2f06542963b31d"
+      "bytes": 1416,
+      "sha256": "48326eba02d14b2d15f6ffc3c438d6000de1ceea357742f82314d12d6f6006a0"
     },
     {
-      "bytes": 10976,
       "path": "experiments/paired-mechanism-capacity-canary/canary.py",
-      "sha256": "b3e2db63cbc1457831f7294df3ec3619df87d5bab2b128cf84b1533f0763041f"
+      "bytes": 11070,
+      "sha256": "168dec8efe76eccf8400e7361dc5e7cdd6e0495234bd0da91b0884cd93fd6fcb"
     },
     {
-      "bytes": 6158,
       "path": "experiments/paired-mechanism-capacity-canary/tests/test_canary.py",
-      "sha256": "7cf59a0ea4f3f1288420c3161bc0a2b31161b033973ea70bbbc24be13d198e94"
+      "bytes": 6514,
+      "sha256": "c900059104d6f51d690deaaf7ae22d0cc542ba12cc15daa482675106ed583f8f"
     }
-  ],
-  "manifest_excludes_self": true,
-  "package": "openline-low-cost-capacity-canary-hardened",
-  "schema": "openline.package-manifest.v2"
+  ]
 }
