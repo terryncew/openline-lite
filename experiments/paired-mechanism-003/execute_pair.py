@@ -12,6 +12,7 @@ import zipfile
 from pathlib import Path
 
 from assignment import decrypt_map_in_memory
+from key_derivation import pop_secret_hex_from_env
 from common import (
     BENCHMARK_REVISION,
     CHECKPOINT_CHECKOUT_TIMEOUT_SECONDS,
@@ -331,7 +332,7 @@ def execute_branch(*, client: ResponsesClient, pair: dict, workspace: Path, hist
     return steps, termination
 
 
-def run_pair(*, pair_id: str, manifest_path: Path, sealed_zip: Path, key_path: Path, out_dir: Path):
+def run_pair(*, pair_id: str, manifest_path: Path, sealed_zip: Path, key_derivation_secret_hex: str, key_context: str, out_dir: Path):
     pair_set = load_json(FROZEN / "PAIR_SET_FROZEN.json")
     cfg = pair_set["common_execution_config"]
     pair = next((p for p in pair_set["pairs"] if p["pair_id"] == pair_id), None)
@@ -350,14 +351,14 @@ def run_pair(*, pair_id: str, manifest_path: Path, sealed_zip: Path, key_path: P
     try:
         with zipfile.ZipFile(sealed_zip) as z:
             z.extractall(private / "sealed")
-        secret_map = decrypt_map_in_memory(private / "sealed", key_path)
+        secret_map = decrypt_map_in_memory(
+            private / "sealed",
+            key_derivation_secret_hex,
+            key_context,
+        )
         mapping = {r["opaque_execution_id"]: r["condition"] for r in secret_map["conditions"] if r["pair_id"] == pair_id}
         if set(mapping) != set(opaque_ids) or sorted(mapping.values()) != ["CLEAN", "PERTURBED"]:
             raise PairInfrastructureFailure("ASSIGNMENT_INTEGRITY_FAILURE")
-        try:
-            key_path.unlink()
-        except FileNotFoundError:
-            pass
         try:
             sealed_zip.unlink()
         except FileNotFoundError:
@@ -535,7 +536,8 @@ def main():
     ap.add_argument("--pair-id", required=True)
     ap.add_argument("--manifest", required=True)
     ap.add_argument("--sealed-condition-zip", required=True)
-    ap.add_argument("--secret-key", required=True)
+    ap.add_argument("--key-derivation-secret-env", default="OLP_003_KEY_DERIVATION_SECRET")
+    ap.add_argument("--key-context", required=True)
     ap.add_argument("--out-dir", required=True)
     args = ap.parse_args()
     try:
@@ -543,7 +545,8 @@ def main():
             pair_id=args.pair_id,
             manifest_path=Path(args.manifest),
             sealed_zip=Path(args.sealed_condition_zip),
-            key_path=Path(args.secret_key),
+            key_derivation_secret_hex=pop_secret_hex_from_env(args.key_derivation_secret_env),
+            key_context=args.key_context,
             out_dir=Path(args.out_dir),
         )
         print(json.dumps({"pair_id": args.pair_id, "status": receipt["pair_disposition"]}, indent=2))

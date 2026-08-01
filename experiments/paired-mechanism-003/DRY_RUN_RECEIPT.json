@@ -36,13 +36,18 @@
       "status": "PASS"
     },
     {
+      "check": "hash:KEY_BOUNDARY_REPAIR_003.json",
+      "sha256": "3105caff74a789a2fdb858c54a9bb8bec2dbaf861c91d6a818b1c767f8462b41",
+      "status": "PASS"
+    },
+    {
       "check": "hash:PUBLICATION_COMMITMENT_003.json",
       "sha256": "e90ea4e48eb76e350a3ddc2888e2d164f8b29634b7473a65a3a798c1fda02283",
       "status": "PASS"
     },
     {
       "check": "hash:SCORER_FREEZE_003.json",
-      "sha256": "9f3843685a016f891d59f63abe3c7f8954dfa2bc0ce5c4bd5bb84b8d959870e9",
+      "sha256": "47839b052d496461e5a613cf268f9d4e85c41ea948ed9c7d95b528a9939e2e6e",
       "status": "PASS"
     },
     {
@@ -67,19 +72,30 @@
     },
     {
       "check": "runner_manifest",
-      "runner_files": 30,
-      "sha256": "bf9759aec5ceb387b069da1f6bf42e37bfc896ab7ffa6787552c6b5cca10490a",
+      "runner_files": 32,
+      "sha256": "ac2652abec44a69c984394b862712124cf6683c0c69895be79bd21fc0b1f84fd",
       "status": "PASS",
       "workflow_files": 2
     },
     {
+      "blind_jobs_receive_secret": false,
+      "check": "protected_key_derivation_boundary",
+      "failed_validation_leaves_assignment_job_skipped": true,
+      "plaintext_key_artifact_created": false,
+      "scheme": "HKDF-SHA256-32-V1",
+      "secret_artifact_uploaded": false,
+      "secret_format_validated_before_assignment_job": true,
+      "status": "PASS",
+      "workflow_rerun_cannot_start_assignment_or_pair_execution": true
+    },
+    {
       "check": "python_ast_parse",
-      "file_count": 18,
+      "file_count": 19,
       "status": "PASS"
     },
     {
       "check": "unit_tests",
-      "passed": 38,
+      "passed": 42,
       "status": "PASS"
     },
     {
@@ -99,16 +115,19 @@
   "condition_linked_predecessor_effect_known": false,
   "experiment_id": "olp-core21-paired-mechanism-003",
   "live_capacity_calls_during_release_check": 0,
+  "plaintext_key_artifact_created": false,
+  "protected_key_derivation_boundary": true,
   "publication_commitment_sha256": "e90ea4e48eb76e350a3ddc2888e2d164f8b29634b7473a65a3a798c1fda02283",
   "publish_regardless_capstone_frozen": true,
   "schema": "openline.paired-mechanism-benchmark.003-dry-run.v2",
   "scientific_content_changed": false,
   "scientific_payload_byte_identical_to_001": true,
-  "scorer_freeze_sha256": "9f3843685a016f891d59f63abe3c7f8954dfa2bc0ce5c4bd5bb84b8d959870e9",
+  "scorer_freeze_sha256": "47839b052d496461e5a613cf268f9d4e85c41ea948ed9c7d95b528a9939e2e6e",
   "statements": [
     "REAL_ASSIGNMENT_NOT_CREATED",
     "BENCHMARK_MODEL_CALLS_0",
-    "UNBLINDED_FALSE"
+    "UNBLINDED_FALSE",
+    "PLAINTEXT_KEY_ARTIFACT_CREATED_FALSE"
   ],
   "status": "DRY_RUN_PASS",
   "unblinded": false

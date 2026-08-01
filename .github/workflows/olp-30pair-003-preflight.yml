@@ -32,6 +32,7 @@ jobs:
           set -euo pipefail
           test ! -d experiments/paired-mechanism-003/build/assignment
           ! find experiments/paired-mechanism-003 -type f \( -name 'secret_key.bin' -o -name 'condition_map.enc' -o -name 'blinded_run_manifest.json' -o -name 'ASSIGNMENT_LOCK.json' \) | grep -q .
+          ! grep -qE 'secret-key-material|--secret-key|secret_key\.bin|actions/cache|private/key|capstone/key' .github/workflows/olp-30pair-003-execution.yml
       - name: Run 003 paced-execution preflight without model calls
         run: python experiments/paired-mechanism-003/preflight_003.py --out experiments/paired-mechanism-003/build/PREFLIGHT_003_PASS.json
       - name: Upload sealed 003 preflight receipt

@@ -29,6 +29,9 @@ from common import (
 from independent_verify_scores import verify as independent_verify
 from unblind_publish import interpretation, unblind_and_publish
 
+TEST_KEY_DERIVATION_SECRET = "0123456789abcdef" * 4
+TEST_KEY_CONTEXT = "terryncew/openline-lite@" + ("a" * 40) + "#123456789"
+
 
 def trace_for(oid: str) -> dict:
     pid = oid[:3]
@@ -252,12 +255,13 @@ class CapstoneTests(unittest.TestCase):
             self.assertTrue(result["publication_required"])
 
     def _make_complete_chain(self, d: Path):
-        pub, sealed, secret = d / "assignment-public", d / "sealed", d / "secret"
+        pub, sealed = d / "assignment-public", d / "sealed"
         lock = generate_assignment(
             pair_set_path=ROOT / "frozen_scientific/PAIR_SET_FROZEN.json",
             public_dir=pub,
             sealed_dir=sealed,
-            secret_dir=secret,
+            key_derivation_secret_hex=TEST_KEY_DERIVATION_SECRET,
+            key_context=TEST_KEY_CONTEXT,
             design_sha256=SCIENTIFIC_HASHES["BENCHMARK_DESIGN_FROZEN.json"],
             pair_set_sha256=SCIENTIFIC_HASHES["PAIR_SET_FROZEN.json"],
             signal_schema_sha256=SCIENTIFIC_HASHES["SIGNAL_SCHEMA_FROZEN_SCOPE_REPAIRED.json"],
@@ -278,12 +282,12 @@ class CapstoneTests(unittest.TestCase):
             blind_dir=blind,
             out=verify_dir / "INDEPENDENT_BLIND_SCORE_VERIFICATION.json",
         )
-        return pub, sealed, secret, lock, public_run, blind, verify_dir, gate
+        return pub, sealed, lock, public_run, blind, verify_dir, gate
 
     def test_complete_end_to_end_capstone_seals_result_after_independent_verification(self):
         with tempfile.TemporaryDirectory() as td:
             d = Path(td)
-            pub, sealed, secret, lock, public_run, blind, verify_dir, gate = self._make_complete_chain(d)
+            pub, sealed, lock, public_run, blind, verify_dir, gate = self._make_complete_chain(d)
             self.assertEqual(lock["publication_commitment_sha256"], PUBLICATION_COMMITMENT_SHA256)
             self.assertTrue(gate["ready_for_unblind"])
             final = d / "final"
@@ -291,7 +295,8 @@ class CapstoneTests(unittest.TestCase):
                 blind_dir=blind,
                 verification_dir=verify_dir,
                 sealed_zip=sealed / "SEALED_CONDITION_BUNDLE.zip",
-                key_path=secret / "secret_key.bin",
+                key_derivation_secret_hex=TEST_KEY_DERIVATION_SECRET,
+                key_context=TEST_KEY_CONTEXT,
                 assignment_lock_path=pub / "ASSIGNMENT_LOCK.json",
                 out_dir=final,
             )
@@ -311,12 +316,12 @@ class CapstoneTests(unittest.TestCase):
             self.assertEqual(total, 30)
             self.assertTrue((final / "FINAL_CAPSTONE_PUBLICATION_BUNDLE.zip").exists())
             self.assertTrue((final / "FINAL_CAPSTONE_PUBLICATION_BUNDLE.zip.sha256").exists())
-            self.assertFalse((secret / "secret_key.bin").exists())
+            self.assertFalse(any(p.name == "secret_key.bin" for p in d.rglob("*")))
 
     def test_unblind_rejects_tampered_independent_receipt(self):
         with tempfile.TemporaryDirectory() as td:
             d = Path(td)
-            pub, sealed, secret, lock, public_run, blind, verify_dir, gate = self._make_complete_chain(d)
+            pub, sealed, lock, public_run, blind, verify_dir, gate = self._make_complete_chain(d)
             p = verify_dir / "INDEPENDENT_BLIND_SCORE_VERIFICATION.json"
             obj = json.loads(p.read_text("utf-8")); obj["records_recomputed"] = 59
             p.write_bytes(pretty_json_bytes(obj))
@@ -328,16 +333,17 @@ class CapstoneTests(unittest.TestCase):
                     blind_dir=blind,
                     verification_dir=verify_dir,
                     sealed_zip=sealed / "SEALED_CONDITION_BUNDLE.zip",
-                    key_path=secret / "secret_key.bin",
+                    key_derivation_secret_hex=TEST_KEY_DERIVATION_SECRET,
+                key_context=TEST_KEY_CONTEXT,
                     assignment_lock_path=pub / "ASSIGNMENT_LOCK.json",
                     out_dir=d / "final",
                 )
-            self.assertFalse((secret / "secret_key.bin").exists())
+            self.assertFalse(any(p.name == "secret_key.bin" for p in d.rglob("*")))
 
     def test_unblind_rejects_plaintext_commitment_mismatch(self):
         with tempfile.TemporaryDirectory() as td:
             d = Path(td)
-            pub, sealed, secret, lock, public_run, blind, verify_dir, gate = self._make_complete_chain(d)
+            pub, sealed, lock, public_run, blind, verify_dir, gate = self._make_complete_chain(d)
             lock_path = pub / "ASSIGNMENT_LOCK.json"
             obj = json.loads(lock_path.read_text("utf-8")); obj["condition_map_plaintext_sha256"] = "0" * 64
             lock_path.write_bytes(canonical_json_bytes(obj))
@@ -346,20 +352,49 @@ class CapstoneTests(unittest.TestCase):
                     blind_dir=blind,
                     verification_dir=verify_dir,
                     sealed_zip=sealed / "SEALED_CONDITION_BUNDLE.zip",
-                    key_path=secret / "secret_key.bin",
+                    key_derivation_secret_hex=TEST_KEY_DERIVATION_SECRET,
+                key_context=TEST_KEY_CONTEXT,
                     assignment_lock_path=lock_path,
                     out_dir=d / "final",
                 )
-            self.assertFalse((secret / "secret_key.bin").exists())
+            self.assertFalse(any(p.name == "secret_key.bin" for p in d.rglob("*")))
+
+    def test_unblind_rejects_wrong_derivation_secret_without_persisted_key(self):
+        with tempfile.TemporaryDirectory() as td:
+            d = Path(td)
+            pub, sealed, lock, public_run, blind, verify_dir, gate = self._make_complete_chain(d)
+            with self.assertRaises(Exception):
+                unblind_and_publish(
+                    blind_dir=blind,
+                    verification_dir=verify_dir,
+                    sealed_zip=sealed / "SEALED_CONDITION_BUNDLE.zip",
+                    key_derivation_secret_hex="f" * 64,
+                    key_context=TEST_KEY_CONTEXT,
+                    assignment_lock_path=pub / "ASSIGNMENT_LOCK.json",
+                    out_dir=d / "final",
+                )
+            self.assertFalse(any(p.name == "secret_key.bin" for p in d.rglob("*")))
 
     def test_workflow_blind_jobs_cannot_download_key(self):
         text = (REPO_ROOT / ".github/workflows/olp-30pair-003-execution.yml").read_text("utf-8")
+        validate = text.split("  validate-protected-secret:", 1)[1].split("  assign-once:", 1)[0]
+        assign = text.split("  assign-once:", 1)[1].split("  execute-pairs:", 1)[0]
         blind = text.split("  blind-score-and-capstone-gate:", 1)[1].split("  independently-verify-blind-scores:", 1)[0]
         verify = text.split("  independently-verify-blind-scores:", 1)[1].split("  unblind-once-and-publish:", 1)[0]
         unblind = text.split("  unblind-once-and-publish:", 1)[1].split("  publish-blind-infrastructure-capstone:", 1)[0]
-        self.assertNotIn("secret-key-material", blind)
-        self.assertNotIn("secret-key-material", verify)
-        self.assertIn("secret-key-material-DO-NOT-SCORE", unblind)
+        self.assertIn("OLP_003_KEY_DERIVATION_SECRET", validate)
+        self.assertNotIn("assignment.py", validate)
+        self.assertNotIn("upload-artifact", validate)
+        self.assertIn("needs: [pre_run_003, validate-protected-secret]", assign)
+        self.assertIn("if: github.run_attempt == 1", assign)
+        execute = text.split("  execute-pairs:", 1)[1].split("  collect-public:", 1)[0]
+        self.assertIn("if: github.run_attempt == 1 && needs.assign-once.result == 'success'", execute)
+        self.assertNotIn("OLP_003_KEY_DERIVATION_SECRET", blind)
+        self.assertNotIn("OLP_003_KEY_DERIVATION_SECRET", verify)
+        self.assertIn("OLP_003_KEY_DERIVATION_SECRET", unblind)
+        self.assertNotIn("secret-key-material", text)
+        self.assertNotIn("secret_key.bin", text)
+        self.assertNotIn("--secret-key", text)
         self.assertLess(text.index("blind-score-and-capstone-gate"), text.index("unblind-once-and-publish"))
 
 

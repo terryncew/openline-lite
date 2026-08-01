@@ -25,6 +25,20 @@
     "if_evaluable_denominator_below_30": "report descriptive counts only; do not apply 15-of-30 interpretation",
     "pair_is_invalid_only_when_both opaque records were mechanically sealed PAIR_INSTRUMENTATION_INVALID before unblinding": true
   },
+  "key_boundary": {
+    "assignment_and_pair_execution_first_workflow_attempt_only": true,
+    "blind_scorer_receives_key_derivation_secret": false,
+    "condition_material_first_enters_scoring_publication_path_after_independent_verification": true,
+    "derived_key_persisted": false,
+    "failed_validation_leaves_assignment_job_skipped": true,
+    "independent_verifier_receives_key_derivation_secret": false,
+    "key_derivation_secret_exported": false,
+    "plaintext_key_artifact_created": false,
+    "protected_secret_format_validated_before_assignment_job": true,
+    "scheme": "HKDF-SHA256-32-V1",
+    "validation_job_derives_key": false,
+    "validation_job_has_condition_material": false
+  },
   "primary_implementation": {
     "input_validation": "Exact experiment/revision/model/blinding/trace envelope plus canonical integer observations; booleans are not accepted as integers.",
     "kappa": "Exact integer formula using isqrt from SIGNAL_SCHEMA_FROZEN_SCOPE_REPAIRED.json.",
@@ -35,7 +49,7 @@
     "threshold_claim_allowed": false
   },
   "primary_metric": "kappa_micros",
-  "schema": "openline.paired-mechanism-benchmark.scorer-freeze.v1",
+  "schema": "openline.paired-mechanism-benchmark.scorer-freeze.v2",
   "scientific_payload_changed": false,
   "secondary_metric": {
     "cannot_rescue_primary": true,
@@ -46,7 +60,7 @@
   "source_files": {
     "blind_score.py": "44f3b76e400f6e34dd79a4f87d75b4ac8a721493581a52dbc915d58cd900e06e",
     "independent_verify_scores.py": "5072756df07b9551c60aadbeb914ea5c909ea2e472ee089739e3c7f8175f8699",
-    "unblind_publish.py": "d7e8d44c7597fc04ebc0386f31da8958dd94e9af26193d6dfbb6b15133deb39b"
+    "unblind_publish.py": "f89e4454dba7ca8d6c27ebfa036691ecb379ce95ddab4a0cd0e29d730717259d"
   },
   "status": "SCORING_AND_PUBLICATION_PATH_FROZEN_BEFORE_ASSIGNMENT",
   "unblinded_at_freeze": false

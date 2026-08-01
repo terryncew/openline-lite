@@ -17,7 +17,7 @@ env:
   EXEC_ROOT: experiments/paired-mechanism-003
   REAL_RUN_TAG: RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_003
   PUBLICATION_COMMITMENT_SHA256: e90ea4e48eb76e350a3ddc2888e2d164f8b29634b7473a65a3a798c1fda02283
-  SCORER_FREEZE_SHA256: 9f3843685a016f891d59f63abe3c7f8954dfa2bc0ce5c4bd5bb84b8d959870e9
+  SCORER_FREEZE_SHA256: 47839b052d496461e5a613cf268f9d4e85c41ea948ed9c7d95b528a9939e2e6e
 
 jobs:
   pre_run_003:
@@ -64,8 +64,32 @@ jobs:
           if-no-files-found: error
           retention-days: 90
 
-  assign-once:
+  validate-protected-secret:
     needs: pre_run_003
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Validate dedicated 003 protected secret before any assignment attempt
+        shell: bash
+        env:
+          OLP_003_KEY_DERIVATION_SECRET: ${{ secrets.OLP_003_KEY_DERIVATION_SECRET }}
+        run: |
+          set -euo pipefail
+          python - <<'PYSECRET'
+          import os
+          import re
+          name = "OLP_003_KEY_DERIVATION_SECRET"
+          value = os.environ.pop(name, None)
+          if value is None or re.fullmatch(r"[0-9A-Fa-f]{64}", value) is None:
+              raise SystemExit("protected 003 key derivation secret is missing or malformed")
+          if value == "0" * 64:
+              raise SystemExit("protected 003 key derivation secret cannot be all zero")
+          print("PROTECTED_003_KEY_DERIVATION_SECRET_FORMAT_PASS")
+          PYSECRET
+
+  assign-once:
+    needs: [pre_run_003, validate-protected-secret]
+    if: github.run_attempt == 1 && needs.pre_run_003.result == 'success' && needs.validate-protected-secret.result == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -76,16 +100,19 @@ jobs:
       - run: python -m pip install --disable-pip-version-check cryptography==46.0.4
       - name: Generate fresh 003 blinded assignment exactly once
         shell: bash
+        env:
+          OLP_003_KEY_DERIVATION_SECRET: ${{ secrets.OLP_003_KEY_DERIVATION_SECRET }}
         run: |
           set -euo pipefail
           test "${GITHUB_RUN_ATTEMPT}" = "1"
-          mkdir -p "$EXEC_ROOT/build/assignment/public" "$EXEC_ROOT/build/assignment/sealed" "$EXEC_ROOT/build/assignment/secret"
+          mkdir -p "$EXEC_ROOT/build/assignment/public" "$EXEC_ROOT/build/assignment/sealed"
           RM_SHA=$(sha256sum "$EXEC_ROOT/RUNNER_MANIFEST.json" | awk '{print $1}')
           python "$EXEC_ROOT/assignment.py" \
             --pair-set "$EXEC_ROOT/frozen_scientific/PAIR_SET_FROZEN.json" \
             --public-dir "$EXEC_ROOT/build/assignment/public" \
             --sealed-dir "$EXEC_ROOT/build/assignment/sealed" \
-            --secret-dir "$EXEC_ROOT/build/assignment/secret" \
+            --key-derivation-secret-env OLP_003_KEY_DERIVATION_SECRET \
+            --key-context "${GITHUB_REPOSITORY}@${GITHUB_SHA}#${GITHUB_RUN_ID}" \
             --design-sha256 fd0b9eb2e2f494031bac8448dba3f6344071a4d8f2ea9285d2c3fd8ecc159f7f \
             --pair-set-sha256 5c622e0deaf500f7f39d9c5afece7550c1fa4859155d8b7191eb67bb0a725533 \
             --signal-schema-sha256 88dbb498881e84e32b7599ec2ec1bf186a923bc17d7e0c67c4d09cf2b9cddb8d \
@@ -110,16 +137,9 @@ jobs:
           path: ${{ env.EXEC_ROOT }}/build/assignment/sealed/SEALED_CONDITION_BUNDLE.zip
           if-no-files-found: error
           retention-days: 90
-      - name: Persist 003 secret key separately — DO NOT SCORE
-        uses: actions/upload-artifact@v4
-        with:
-          name: olp-30pair-003-secret-key-material-DO-NOT-SCORE
-          path: ${{ env.EXEC_ROOT }}/build/assignment/secret/secret_key.bin
-          if-no-files-found: error
-          retention-days: 90
-
   execute-pairs:
     needs: assign-once
+    if: github.run_attempt == 1 && needs.assign-once.result == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 300
     strategy:
@@ -143,12 +163,10 @@ jobs:
         with:
           name: olp-30pair-003-sealed-condition-material
           path: private/sealed
-      - uses: actions/download-artifact@v4
-        with:
-          name: olp-30pair-003-secret-key-material-DO-NOT-SCORE
-          path: private/key
       - name: Execute opaque 003 pair once; every API attempt is globally paced at least 45 seconds
         shell: bash
+        env:
+          OLP_003_KEY_DERIVATION_SECRET: ${{ secrets.OLP_003_KEY_DERIVATION_SECRET }}
         run: |
           set -euo pipefail
           test "${GITHUB_RUN_ATTEMPT}" = "1"
@@ -157,7 +175,8 @@ jobs:
             --pair-id "${{ matrix.pair_id }}" \
             --manifest private/public-assignment/blinded_run_manifest.json \
             --sealed-condition-zip private/sealed/SEALED_CONDITION_BUNDLE.zip \
-            --secret-key private/key/secret_key.bin \
+            --key-derivation-secret-env OLP_003_KEY_DERIVATION_SECRET \
+            --key-context "${GITHUB_REPOSITORY}@${GITHUB_SHA}#${GITHUB_RUN_ID}" \
             --out-dir "pair-output/${{ matrix.pair_id }}"
       - name: Upload public 003 pair output or infrastructure receipt
         if: always()
@@ -311,17 +330,18 @@ jobs:
         with:
           name: olp-30pair-003-sealed-condition-material
           path: capstone/sealed
-      - uses: actions/download-artifact@v4
-        with:
-          name: olp-30pair-003-secret-key-material-DO-NOT-SCORE
-          path: capstone/key
       - name: Open condition map once and seal publish-regardless result
+        env:
+          OLP_003_KEY_DERIVATION_SECRET: ${{ secrets.OLP_003_KEY_DERIVATION_SECRET }}
         run: |
+          set -euo pipefail
+          test "${GITHUB_RUN_ATTEMPT}" = "1"
           python "$EXEC_ROOT/unblind_publish.py" \
             --blind-dir capstone/blind \
             --verification-dir capstone/verification \
             --sealed-condition-zip capstone/sealed/SEALED_CONDITION_BUNDLE.zip \
-            --secret-key capstone/key/secret_key.bin \
+            --key-derivation-secret-env OLP_003_KEY_DERIVATION_SECRET \
+            --key-context "${GITHUB_REPOSITORY}@${GITHUB_SHA}#${GITHUB_RUN_ID}" \
             --assignment-lock capstone/assignment/ASSIGNMENT_LOCK.json \
             --out-dir capstone/final
       - name: Upload final capstone publication result

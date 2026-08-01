@@ -9,6 +9,7 @@ import zipfile
 from pathlib import Path
 
 from assignment import decrypt_map_in_memory, deterministic_zip
+from key_derivation import pop_secret_hex_from_env, validate_descriptor
 from common import (
     BENCHMARK_REVISION,
     EXPERIMENT_ID,
@@ -114,7 +115,7 @@ The condition material was introduced to the scoring/publication path once, only
 
 def _validate_lock(lock: dict, sealed_zip: Path) -> None:
     exact = {
-        "schema": "openline.paired-mechanism-benchmark.assignment-lock.v1",
+        "schema": "openline.paired-mechanism-benchmark.assignment-lock.v2",
         "experiment_id": EXPERIMENT_ID,
         "benchmark_revision": BENCHMARK_REVISION,
         "dry_run": False,
@@ -127,6 +128,11 @@ def _validate_lock(lock: dict, sealed_zip: Path) -> None:
         "commitment_nonce_bits": 256,
         "secret_key_present_in_public": False,
         "secret_key_present_in_sealed_condition": False,
+        "key_derivation_secret_present_in_artifacts": False,
+        "derived_key_persisted": False,
+        "plaintext_key_artifact_created": False,
+        "key_derivation_secret_exported": False,
+        "key_derivation_scheme": "HKDF-SHA256-32-V1",
     }
     for key, expected in exact.items():
         if lock.get(key) != expected:
@@ -136,6 +142,7 @@ def _validate_lock(lock: dict, sealed_zip: Path) -> None:
         "condition_map_ciphertext_sha256",
         "condition_map_plaintext_sha256",
         "sealed_condition_bundle_sha256",
+        "key_derivation_run_context_sha256",
     ):
         value = lock.get(key)
         if not isinstance(value, str) or len(value) != 64:
@@ -144,7 +151,7 @@ def _validate_lock(lock: dict, sealed_zip: Path) -> None:
         raise ValueError("sealed condition bundle hash mismatch")
 
 
-def _validate_sealed_material(sealed_root: Path, lock: dict) -> dict:
+def _validate_sealed_material(sealed_root: Path, lock: dict, expected_key_context: str) -> dict:
     expected_names = {
         "blind_commitment.json",
         "condition_map.enc",
@@ -154,11 +161,16 @@ def _validate_sealed_material(sealed_root: Path, lock: dict) -> dict:
     if actual_names != expected_names:
         raise ValueError("sealed condition bundle file set mismatch")
     manifest = load(sealed_root / "SEALED_CONDITION_MANIFEST.json")
-    if manifest.get("schema") != "openline.paired-mechanism-benchmark.sealed-condition-manifest.v1":
+    if manifest.get("schema") != "openline.paired-mechanism-benchmark.sealed-condition-manifest.v2":
         raise ValueError("sealed condition manifest schema mismatch")
     if manifest.get("experiment_id") != EXPERIMENT_ID:
         raise ValueError("sealed condition manifest experiment mismatch")
-    if manifest.get("secret_key_present") is not False or manifest.get("plaintext_condition_map_present") is not False:
+    if (
+        manifest.get("secret_key_present") is not False
+        or manifest.get("key_derivation_secret_present") is not False
+        or manifest.get("derived_key_present") is not False
+        or manifest.get("plaintext_condition_map_present") is not False
+    ):
         raise ValueError("sealed condition privacy declaration mismatch")
     files = manifest.get("files")
     expected_files = {
@@ -170,7 +182,7 @@ def _validate_sealed_material(sealed_root: Path, lock: dict) -> dict:
 
     commitment = load(sealed_root / "blind_commitment.json")
     exact = {
-        "schema": "openline.paired-mechanism-benchmark.blind-commitment.v2",
+        "schema": "openline.paired-mechanism-benchmark.blind-commitment.v3",
         "experiment_id": EXPERIMENT_ID,
         "benchmark_revision": BENCHMARK_REVISION,
         "benchmark_design_sha256": SCIENTIFIC_HASHES["BENCHMARK_DESIGN_FROZEN.json"],
@@ -188,6 +200,12 @@ def _validate_sealed_material(sealed_root: Path, lock: dict) -> dict:
     for key, expected in exact.items():
         if commitment.get(key) != expected:
             raise ValueError(f"blind commitment mismatch: {key}")
+    descriptor = commitment.get("key_derivation")
+    validate_descriptor(descriptor, expected_run_context=expected_key_context)
+    if manifest.get("key_derivation") != descriptor:
+        raise ValueError("sealed manifest key derivation descriptor mismatch")
+    if lock.get("key_derivation_run_context_sha256") != descriptor.get("run_context_sha256"):
+        raise ValueError("assignment lock key derivation context mismatch")
     cipher = (sealed_root / "condition_map.enc").read_bytes()
     if sha256_bytes(cipher) != lock["condition_map_ciphertext_sha256"]:
         raise ValueError("condition ciphertext hash mismatch")
@@ -211,6 +229,7 @@ def _validate_sealed_material(sealed_root: Path, lock: dict) -> dict:
         "scorer_freeze_sha256": commitment["scorer_freeze_sha256"],
         "condition_map_plaintext_sha256": commitment["condition_map_plaintext_sha256"],
         "condition_map_commitment_scheme": commitment["condition_map_commitment_scheme"],
+        "key_derivation": commitment["key_derivation"],
     }
     if aad != canonical_json_bytes(aad_obj):
         raise ValueError("blind commitment AAD mismatch")
@@ -252,7 +271,7 @@ def _validate_secret_map(secret_map: dict, lock: dict) -> dict[str, str]:
     return mapping
 
 
-def _unblind_and_publish_impl(*, blind_dir: Path, verification_dir: Path, sealed_zip: Path, key_path: Path, assignment_lock_path: Path, out_dir: Path) -> dict:
+def _unblind_and_publish_impl(*, blind_dir: Path, verification_dir: Path, sealed_zip: Path, key_derivation_secret_hex: str, key_context: str, assignment_lock_path: Path, out_dir: Path) -> dict:
     if sha256_file(ROOT / "PUBLICATION_COMMITMENT_003.json") != PUBLICATION_COMMITMENT_SHA256:
         raise ValueError("publication commitment hash mismatch")
     if sha256_file(ROOT / "SCORER_FREEZE_003.json") != SCORER_FREEZE_SHA256:
@@ -294,79 +313,73 @@ def _unblind_and_publish_impl(*, blind_dir: Path, verification_dir: Path, sealed
 
     lock = load(assignment_lock_path)
     _validate_lock(lock, sealed_zip)
-    if not key_path.exists() or len(key_path.read_bytes()) != 32:
-        raise ValueError("secret key missing or wrong length")
-
     mapping: dict[str, str]
     scores: dict[str, dict] = {}
     aggregate: dict
-    try:
-        with tempfile.TemporaryDirectory(prefix="olp003-unblind-") as td:
-            td_path = Path(td)
-            scores_root, sealed_root = td_path / "scores", td_path / "sealed"
-            scores_root.mkdir(); sealed_root.mkdir()
-            safe_extract(score_zip, scores_root)
-            safe_extract(sealed_zip, sealed_root)
-            _validate_sealed_material(sealed_root, lock)
+    with tempfile.TemporaryDirectory(prefix="olp003-unblind-") as td:
+        td_path = Path(td)
+        scores_root, sealed_root = td_path / "scores", td_path / "sealed"
+        scores_root.mkdir(); sealed_root.mkdir()
+        safe_extract(score_zip, scores_root)
+        safe_extract(sealed_zip, sealed_root)
+        _validate_sealed_material(sealed_root, lock, key_context)
 
-            bundled_aggregate_path = scores_root / "BLINDED_SCORE_AGGREGATE.json"
-            verify_sidecar(bundled_aggregate_path)
-            if bundled_aggregate_path.read_bytes() != aggregate_path.read_bytes():
-                raise ValueError("bundled and standalone blinded aggregates differ")
-            aggregate = load(bundled_aggregate_path)
-            exact_aggregate = {
-                "schema": "openline.paired-mechanism-benchmark.blinded-score-aggregate.v1",
-                "experiment_id": EXPERIMENT_ID,
-                "status": "BLINDED_SCORE_AGGREGATE_SEALED",
-                "scientific_payload_hashes": SCIENTIFIC_HASHES,
-                "publication_commitment_sha256": PUBLICATION_COMMITMENT_SHA256,
-                "scorer_freeze_sha256": SCORER_FREEZE_SHA256,
-                "score_record_count": 60,
-                "condition_metadata_seen": False,
-                "condition_map_opened_by_scoring_path": False,
-                "unblinded": False,
-            }
-            for key, expected in exact_aggregate.items():
-                if aggregate.get(key) != expected:
-                    raise ValueError(f"blinded aggregate mismatch: {key}")
-            if set(aggregate.get("score_record_sha256", {})) != set(EXPECTED_IDS):
-                raise ValueError("blinded aggregate score-record set mismatch")
+        bundled_aggregate_path = scores_root / "BLINDED_SCORE_AGGREGATE.json"
+        verify_sidecar(bundled_aggregate_path)
+        if bundled_aggregate_path.read_bytes() != aggregate_path.read_bytes():
+            raise ValueError("bundled and standalone blinded aggregates differ")
+        aggregate = load(bundled_aggregate_path)
+        exact_aggregate = {
+            "schema": "openline.paired-mechanism-benchmark.blinded-score-aggregate.v1",
+            "experiment_id": EXPERIMENT_ID,
+            "status": "BLINDED_SCORE_AGGREGATE_SEALED",
+            "scientific_payload_hashes": SCIENTIFIC_HASHES,
+            "publication_commitment_sha256": PUBLICATION_COMMITMENT_SHA256,
+            "scorer_freeze_sha256": SCORER_FREEZE_SHA256,
+            "score_record_count": 60,
+            "condition_metadata_seen": False,
+            "condition_map_opened_by_scoring_path": False,
+            "unblinded": False,
+        }
+        for key, expected in exact_aggregate.items():
+            if aggregate.get(key) != expected:
+                raise ValueError(f"blinded aggregate mismatch: {key}")
+        if set(aggregate.get("score_record_sha256", {})) != set(EXPECTED_IDS):
+            raise ValueError("blinded aggregate score-record set mismatch")
 
-            valid_pairs = aggregate.get("valid_pair_ids")
-            invalid_pairs_list = aggregate.get("instrumentation_invalid_pair_ids")
-            if not isinstance(valid_pairs, list) or not isinstance(invalid_pairs_list, list):
-                raise ValueError("blinded aggregate pair lists missing")
-            if sorted(valid_pairs + invalid_pairs_list) != EXPECTED_PAIRS or set(valid_pairs) & set(invalid_pairs_list):
-                raise ValueError("blinded aggregate pair partition mismatch")
-            if aggregate.get("valid_pair_count") != len(valid_pairs) or aggregate.get("instrumentation_invalid_pair_count") != len(invalid_pairs_list):
-                raise ValueError("blinded aggregate pair count mismatch")
+        valid_pairs = aggregate.get("valid_pair_ids")
+        invalid_pairs_list = aggregate.get("instrumentation_invalid_pair_ids")
+        if not isinstance(valid_pairs, list) or not isinstance(invalid_pairs_list, list):
+            raise ValueError("blinded aggregate pair lists missing")
+        if sorted(valid_pairs + invalid_pairs_list) != EXPECTED_PAIRS or set(valid_pairs) & set(invalid_pairs_list):
+            raise ValueError("blinded aggregate pair partition mismatch")
+        if aggregate.get("valid_pair_count") != len(valid_pairs) or aggregate.get("instrumentation_invalid_pair_count") != len(invalid_pairs_list):
+            raise ValueError("blinded aggregate pair count mismatch")
 
-            for oid in EXPECTED_IDS:
-                p = scores_root / "scores" / f"{oid}.score.json"
-                verify_sidecar(p)
-                if sha256_file(p) != aggregate["score_record_sha256"].get(oid):
-                    raise ValueError(f"missing or changed score record: {oid}")
-                score = load(p)
-                if (
-                    score.get("schema") != "openline.paired-mechanism-benchmark.blind-score-record.v1"
-                    or score.get("experiment_id") != EXPERIMENT_ID
-                    or score.get("opaque_execution_id") != oid
-                    or score.get("pair_id") != oid[:3]
-                    or score.get("condition_metadata_seen") is not False
-                    or score.get("unblinded") is not False
-                ):
-                    raise ValueError(f"score record envelope mismatch: {oid}")
-                scores[oid] = score
+        for oid in EXPECTED_IDS:
+            p = scores_root / "scores" / f"{oid}.score.json"
+            verify_sidecar(p)
+            if sha256_file(p) != aggregate["score_record_sha256"].get(oid):
+                raise ValueError(f"missing or changed score record: {oid}")
+            score = load(p)
+            if (
+                score.get("schema") != "openline.paired-mechanism-benchmark.blind-score-record.v1"
+                or score.get("experiment_id") != EXPERIMENT_ID
+                or score.get("opaque_execution_id") != oid
+                or score.get("pair_id") != oid[:3]
+                or score.get("condition_metadata_seen") is not False
+                or score.get("unblinded") is not False
+            ):
+                raise ValueError(f"score record envelope mismatch: {oid}")
+            scores[oid] = score
 
-            # This is the only point at which condition material enters the scoring/publication path.
-            secret_map = decrypt_map_in_memory(sealed_root, key_path)
-            mapping = _validate_secret_map(secret_map, lock)
-    finally:
-        try:
-            key_path.unlink()
-        except OSError:
-            pass
-
+        # This is the only point at which condition material enters the scoring/publication path.
+        secret_map = decrypt_map_in_memory(
+            sealed_root,
+            key_derivation_secret_hex,
+            key_context,
+        )
+        mapping = _validate_secret_map(secret_map, lock)
     pair_results: list[dict] = []
     wins = losses = ties = 0
     effects: list[int] = []
@@ -434,6 +447,10 @@ def _unblind_and_publish_impl(*, blind_dir: Path, verification_dir: Path, sealed
         "sealed_condition_bundle_sha256": sha256_file(sealed_zip),
         "condition_map_plaintext_commitment_sha256": lock["condition_map_plaintext_sha256"],
         "condition_map_commitment_verified": True,
+        "key_derivation_scheme": lock["key_derivation_scheme"],
+        "derived_key_persisted": False,
+        "plaintext_key_artifact_created": False,
+        "key_derivation_secret_exported": False,
         "scoring_publication_path_condition_map_open_count": 1,
         "condition_material_accessed_by_blind_scorer": False,
         "condition_material_accessed_by_independent_verifier": False,
@@ -505,21 +522,16 @@ def _unblind_and_publish_impl(*, blind_dir: Path, verification_dir: Path, sealed
 
 
 
-def unblind_and_publish(*, blind_dir: Path, verification_dir: Path, sealed_zip: Path, key_path: Path, assignment_lock_path: Path, out_dir: Path) -> dict:
-    try:
-        return _unblind_and_publish_impl(
-            blind_dir=blind_dir,
-            verification_dir=verification_dir,
-            sealed_zip=sealed_zip,
-            key_path=key_path,
-            assignment_lock_path=assignment_lock_path,
-            out_dir=out_dir,
-        )
-    finally:
-        try:
-            key_path.unlink()
-        except OSError:
-            pass
+def unblind_and_publish(*, blind_dir: Path, verification_dir: Path, sealed_zip: Path, key_derivation_secret_hex: str, key_context: str, assignment_lock_path: Path, out_dir: Path) -> dict:
+    return _unblind_and_publish_impl(
+        blind_dir=blind_dir,
+        verification_dir=verification_dir,
+        sealed_zip=sealed_zip,
+        key_derivation_secret_hex=key_derivation_secret_hex,
+        key_context=key_context,
+        assignment_lock_path=assignment_lock_path,
+        out_dir=out_dir,
+    )
 
 
 def main() -> None:
@@ -527,7 +539,8 @@ def main() -> None:
     ap.add_argument("--blind-dir", required=True)
     ap.add_argument("--verification-dir", required=True)
     ap.add_argument("--sealed-condition-zip", required=True)
-    ap.add_argument("--secret-key", required=True)
+    ap.add_argument("--key-derivation-secret-env", default="OLP_003_KEY_DERIVATION_SECRET")
+    ap.add_argument("--key-context", required=True)
     ap.add_argument("--assignment-lock", required=True)
     ap.add_argument("--out-dir", required=True)
     args = ap.parse_args()
@@ -535,7 +548,8 @@ def main() -> None:
         blind_dir=Path(args.blind_dir),
         verification_dir=Path(args.verification_dir),
         sealed_zip=Path(args.sealed_condition_zip),
-        key_path=Path(args.secret_key),
+        key_derivation_secret_hex=pop_secret_hex_from_env(args.key_derivation_secret_env),
+        key_context=args.key_context,
         assignment_lock_path=Path(args.assignment_lock),
         out_dir=Path(args.out_dir),
     )

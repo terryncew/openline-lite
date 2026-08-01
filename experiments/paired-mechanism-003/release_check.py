@@ -9,8 +9,12 @@ import sys
 import tempfile
 from pathlib import Path
 
+# Prevent this verifier's own local imports from creating cache artifacts before
+# the package-cleanliness check runs. Existing caches still fail closed below.
+sys.dont_write_bytecode = True
+
 from canary_binding import verify_bound_canary
-from common import (LINEAGE_SHA256, PARENT_MAP_SHA256, PUBLICATION_COMMITMENT_SHA256, SCORER_FREEZE_SHA256, SCIENTIFIC_HASHES, pretty_json_bytes, sha256_file)
+from common import (KEY_BOUNDARY_REPAIR_SHA256, LINEAGE_SHA256, PARENT_MAP_SHA256, PUBLICATION_COMMITMENT_SHA256, SCORER_FREEZE_SHA256, SCIENTIFIC_HASHES, pretty_json_bytes, sha256_file)
 
 ROOT = Path(__file__).resolve().parent
 REPO_ROOT = ROOT.parents[1]
@@ -28,6 +32,7 @@ def main():
     for name, expected in [
         ("PARENT_MAP_FROZEN_003.json", PARENT_MAP_SHA256),
         ("LINEAGE_001_002_ABORTS_AND_CANARY.json", LINEAGE_SHA256),
+        ("KEY_BOUNDARY_REPAIR_003.json", KEY_BOUNDARY_REPAIR_SHA256),
     ]:
         actual = sha256_file(ROOT / name)
         if actual != expected:
@@ -65,6 +70,44 @@ def main():
         "runner_files": len(manifest.get("runner_files", {})),
         "workflow_files": len(manifest.get("workflow_files", {})),
         "sha256": sha256_file(ROOT / "RUNNER_MANIFEST.json"),
+    })
+
+    workflow_text = (REPO_ROOT / ".github/workflows/olp-30pair-003-execution.yml").read_text("utf-8")
+    forbidden_key_paths = ("secret_key.bin", "secret-key-material", "--secret-key", "actions/cache", "private/key", "capstone/key")
+    leaked = [x for x in forbidden_key_paths if x in workflow_text]
+    if leaked:
+        raise SystemExit(f"plaintext key boundary violation: {leaked}")
+    if workflow_text.count("${{ secrets.OLP_003_KEY_DERIVATION_SECRET }}") != 4:
+        raise SystemExit("protected key derivation secret job count mismatch")
+    if workflow_text.count('--key-context "${GITHUB_REPOSITORY}@${GITHUB_SHA}#${GITHUB_RUN_ID}"') != 3:
+        raise SystemExit("run-bound key derivation context count mismatch")
+    validate_section = workflow_text.split("  validate-protected-secret:", 1)[1].split("  assign-once:", 1)[0]
+    assign_section = workflow_text.split("  assign-once:", 1)[1].split("  execute-pairs:", 1)[0]
+    if "OLP_003_KEY_DERIVATION_SECRET" not in validate_section:
+        raise SystemExit("pre-assignment protected-secret validation job missing")
+    if "assignment.py" in validate_section or "--key-context" in validate_section or "upload-artifact" in validate_section:
+        raise SystemExit("protected-secret validation job exceeds format-check scope")
+    if "needs: [pre_run_003, validate-protected-secret]" not in assign_section:
+        raise SystemExit("assignment job is not gated on protected-secret validation")
+    if "if: github.run_attempt == 1" not in assign_section or "needs.validate-protected-secret.result == 'success'" not in assign_section:
+        raise SystemExit("assignment job lacks first-attempt validation-success gate")
+    execute_section = workflow_text.split("  execute-pairs:", 1)[1].split("  collect-public:", 1)[0]
+    if "if: github.run_attempt == 1 && needs.assign-once.result == 'success'" not in execute_section:
+        raise SystemExit("execution matrix lacks first-attempt assignment-success gate")
+    blind_section = workflow_text.split("  blind-score-and-capstone-gate:", 1)[1].split("  independently-verify-blind-scores:", 1)[0]
+    verify_section = workflow_text.split("  independently-verify-blind-scores:", 1)[1].split("  unblind-once-and-publish:", 1)[0]
+    if "OLP_003_KEY_DERIVATION_SECRET" in blind_section or "OLP_003_KEY_DERIVATION_SECRET" in verify_section:
+        raise SystemExit("blind scorer or independent verifier receives derivation secret")
+    checks.append({
+        "check": "protected_key_derivation_boundary",
+        "status": "PASS",
+        "scheme": "HKDF-SHA256-32-V1",
+        "plaintext_key_artifact_created": False,
+        "secret_artifact_uploaded": False,
+        "secret_format_validated_before_assignment_job": True,
+        "failed_validation_leaves_assignment_job_skipped": True,
+        "workflow_rerun_cannot_start_assignment_or_pair_execution": True,
+        "blind_jobs_receive_secret": False,
     })
 
     # Syntax check without creating .pyc files.
@@ -137,9 +180,11 @@ def main():
         "live_capacity_calls_during_release_check": 0,
         "unblinded": False,
         "publish_regardless_capstone_frozen": True,
+        "protected_key_derivation_boundary": True,
+        "plaintext_key_artifact_created": False,
         "publication_commitment_sha256": PUBLICATION_COMMITMENT_SHA256,
         "scorer_freeze_sha256": SCORER_FREEZE_SHA256,
-        "statements": ["REAL_ASSIGNMENT_NOT_CREATED", "BENCHMARK_MODEL_CALLS_0", "UNBLINDED_FALSE"],
+        "statements": ["REAL_ASSIGNMENT_NOT_CREATED", "BENCHMARK_MODEL_CALLS_0", "UNBLINDED_FALSE", "PLAINTEXT_KEY_ARTIFACT_CREATED_FALSE"],
     }
     path = ROOT / "DRY_RUN_RECEIPT.json"
     path.write_bytes(pretty_json_bytes(report))

@@ -44,6 +44,27 @@ It records six of six successful calls using `gpt-5.5-2026-04-23`, medium reason
 - Public receipts include sanitized API failure classes, status/code, Retry-After and rate-limit headers, request-start timestamps, attempts, completed responses, retries, and token usage. They exclude keys, response bodies, condition labels, and private assignment material.
 
 
+## Protected key boundary repair
+
+The earlier 003 preflight receipt was authentic, but it did not authorize execution. The earlier workflow would have uploaded `secret_key.bin` as an Actions artifact in this public repository. The real tag was never pushed, so no assignment, key, spend, or unblinding occurred. `KEY_BOUNDARY_REPAIR_003.json` records that finding and the clean state.
+
+The repaired workflow uses `HKDF-SHA256-32-V1`. Assignment, each pair execution, and final unblinding derive the same 256-bit AES key in memory from:
+
+- a protected GitHub Actions secret named `OLP_003_KEY_DERIVATION_SECRET`;
+- a fresh 256-bit public salt stored with the ciphertext; and
+- the exact repository, tag commit SHA, and GitHub run ID.
+
+The protected secret is absent from collection, blind scoring, and independent verification. Ciphertext, commitments, public salt, and the public context binding may be artifacts. The secret and derived key may not be artifacts.
+
+Before the real execution tag, create the repository Actions secret:
+
+1. Generate 32 random bytes as 64 hexadecimal characters. One safe command is `python -c "import secrets; print(secrets.token_hex(32))"`.
+2. In GitHub, open **Settings → Secrets and variables → Actions → New repository secret**.
+3. Name it exactly `OLP_003_KEY_DERIVATION_SECRET`.
+4. Paste the generated 64-character value once. Do not commit it, paste it into chat, place it in a file, or reuse the OpenAI API key.
+
+The branch preflight verifies the code boundary but does not receive the secret. In the exact-tag workflow, a separate `validate-protected-secret` job checks only that the repository secret exists, is exactly 64 hexadecimal characters, and is nonzero. `assign-once` cannot start unless that validation job passes. A missing or malformed secret therefore leaves the assignment job skipped rather than recording an attempted assignment. Assignment and pair execution also have job-level `github.run_attempt == 1` gates, so rerunning the workflow cannot create a second assignment or replay pair execution.
+
 ## Final publish-regardless capstone lock
 
 Experiment 003 is now frozen as the final attempt at this exact 30-pair design. `PUBLICATION_COMMITMENT_003.json` requires publication whether the primary result is directional, chance-level, adverse, tied, not evaluable because of mechanically invalid pairs, or infrastructure-aborted before a complete scoreable bundle exists.
@@ -54,17 +75,17 @@ The result path is sealed before assignment:
 2. A keyless blind scorer requires the complete execution receipt. Incomplete execution creates a final blind infrastructure disposition; partial traces are not scored or stitched.
 3. On a complete execution, it seals 60 blind score records and one aggregate.
 4. A separate keyless verifier independently recomputes all 60 records.
-5. Only after those artifacts exist does the one-time unblinding job download the key, verify the original condition-map commitment, compute the frozen paired κ result, and create `FINAL_CAPSTONE_PUBLICATION_BUNDLE.zip`.
+5. Only after those artifacts exist does the one-time unblinding job derive the AES key in memory from a protected GitHub secret plus the run-bound public context, verify the original condition-map commitment, compute the frozen paired κ result, and create `FINAL_CAPSTONE_PUBLICATION_BUNDLE.zip`.
 
-The blind scorer and independent verifier cannot download the condition key. The unblinding job cannot run unless both earlier gates pass. No favorable result is guaranteed. What is mechanically required is an honest final disposition and publication artifact.
+No plaintext condition key is ever written, uploaded, cached, placed in a matrix, or emitted as a job output. The blind scorer and independent verifier do not receive the protected derivation secret. The unblinding job cannot run unless both earlier gates pass. No favorable result is guaranteed. What is mechanically required is an honest final disposition and publication artifact.
 
 The inherited design names `delta_hol` as secondary but provides no exact operational transform for this frozen trace schema. `SCORER_FREEZE_003.json` therefore declares it unavailable before assignment rather than inventing a post hoc formula. It cannot rescue κ.
 
-Scorer freeze SHA-256: `9f3843685a016f891d59f63abe3c7f8954dfa2bc0ce5c4bd5bb84b8d959870e9`.
+Scorer freeze SHA-256: `47839b052d496461e5a613cf268f9d4e85c41ea948ed9c7d95b528a9939e2e6e`.
 
 ## Capstone pipeline verification
 
-The shipped pipeline is not a placeholder. It has a complete synthetic end-to-end test that creates a disposable fresh assignment, builds a 60-trace condition-blind public bundle, seals 60 score records, independently recomputes every signal component and κ point, verifies the plaintext condition-map commitment, joins all 30 pairs, and seals the final publication bundle. The release suite passes **38/38 tests**. A separate 10,000-case randomized differential check found **0 mismatches** between the primary scorer and the independently written verifier. No live API call or real assignment was created during verification.
+The shipped pipeline is not a placeholder. It has a complete synthetic end-to-end test that creates a disposable fresh assignment, builds a 60-trace condition-blind public bundle, seals 60 score records, independently recomputes every signal component and κ point, verifies the plaintext condition-map commitment, joins all 30 pairs, and seals the final publication bundle. The release suite passes **42/42 tests**. A separate 10,000-case randomized differential check found **0 mismatches** between the primary scorer and the independently written verifier. No live API call or real assignment was created during verification.
 
 ## Install the preflight without running 003
 
@@ -76,17 +97,17 @@ Extract this ZIP into the repository root with no wrapper folder.
 
 Commit message:
 
-`Freeze publish-regardless capstone path for experiment 003`
+`Repair protected key boundary for experiment 003`
 
 Push the branch. The push-only workflow `.github/workflows/olp-30pair-003-preflight.yml` verifies the frozen bytes, bound canary receipt, runner manifest, all 30 exact Git parents, network isolation, and runtime bound. It creates no assignment and makes no model calls.
 
-After the preflight passes, stop and inspect its receipt. Do not create the real tag yet.
+Configure the protected secret before the real tag. After the new preflight passes, stop and inspect its receipt. Do not create the real tag until the receipt and secret configuration are both verified.
 
 The future exact execution tag is:
 
 `RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_003`
 
-That tag creates a fresh one-time assignment and begins paid benchmark execution. It must not be pushed during preflight.
+That tag creates a fresh one-time assignment and begins paid benchmark execution. It must not be pushed during preflight. Do not use GitHub’s rerun controls on the real workflow; assignment and pair execution are intentionally first-attempt-only.
 
 ## Credit planning
 
@@ -101,3 +122,7 @@ Build state:
 `UNBLINDED_FALSE`
 
 `PUBLISH_REGARDLESS_CAPSTONE_FROZEN`
+
+`PLAINTEXT_KEY_ARTIFACT_CREATED_FALSE`
+
+`PROTECTED_KEY_DERIVATION_BOUNDARY_FROZEN`

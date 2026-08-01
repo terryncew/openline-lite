@@ -2,16 +2,15 @@ from __future__ import annotations
 
 import argparse
 import base64
-import hashlib
 import json
 import os
 import secrets
-import shutil
-import sys
 import zipfile
 from pathlib import Path
 
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+
+from key_derivation import derive_key, new_descriptor, pop_secret_hex_from_env
 
 from common import (
     BENCHMARK_REVISION,
@@ -55,7 +54,8 @@ def generate_assignment(
     pair_set_path: Path,
     public_dir: Path,
     sealed_dir: Path,
-    secret_dir: Path,
+    key_derivation_secret_hex: str,
+    key_context: str,
     design_sha256: str,
     pair_set_sha256: str,
     signal_schema_sha256: str,
@@ -66,7 +66,7 @@ def generate_assignment(
     scorer_freeze_sha256: str,
     dry_run: bool = False,
 ) -> dict:
-    for d in (public_dir, sealed_dir, secret_dir):
+    for d in (public_dir, sealed_dir):
         if d.exists() and any(d.iterdir()):
             raise ValueError(f"output directory must be empty: {d}")
         d.mkdir(parents=True, exist_ok=True)
@@ -132,7 +132,8 @@ def generate_assignment(
     secret_bytes = canonical_json_bytes(secret_map)
     plaintext_sha = sha256_bytes(secret_bytes)
 
-    key = AESGCM.generate_key(bit_length=256)
+    key_derivation = new_descriptor(key_context)
+    key = derive_key(key_derivation_secret_hex, key_derivation, expected_run_context=key_context)
     nonce = os.urandom(12)
     aad_obj = {
         "experiment_id": EXPERIMENT_ID,
@@ -147,12 +148,13 @@ def generate_assignment(
         "scorer_freeze_sha256": scorer_freeze_sha256,
         "condition_map_plaintext_sha256": plaintext_sha,
         "condition_map_commitment_scheme": "SHA256_CANONICAL_JSON_WITH_SECRET_256BIT_NONCE",
+        "key_derivation": key_derivation,
     }
     aad = canonical_json_bytes(aad_obj)
     cipher = AESGCM(key).encrypt(nonce, secret_bytes, aad)
 
     commitment = {
-        "schema": "openline.paired-mechanism-benchmark.blind-commitment.v2",
+        "schema": "openline.paired-mechanism-benchmark.blind-commitment.v3",
         **aad_obj,
         "blinded_manifest_sha256": sha256_bytes(manifest_bytes),
         "cipher": "AES-256-GCM",
@@ -165,21 +167,19 @@ def generate_assignment(
     (public_dir / "blinded_run_manifest.json").write_bytes(manifest_bytes)
     (sealed_dir / "blind_commitment.json").write_bytes(commitment_bytes)
     (sealed_dir / "condition_map.enc").write_bytes(cipher)
-    (secret_dir / "secret_key.bin").write_bytes(key)
-    try:
-        os.chmod(secret_dir / "secret_key.bin", 0o600)
-    except OSError:
-        pass
 
     sealed_manifest = {
-        "schema": "openline.paired-mechanism-benchmark.sealed-condition-manifest.v1",
+        "schema": "openline.paired-mechanism-benchmark.sealed-condition-manifest.v2",
         "experiment_id": EXPERIMENT_ID,
         "files": {
             "blind_commitment.json": sha256_file(sealed_dir / "blind_commitment.json"),
             "condition_map.enc": sha256_file(sealed_dir / "condition_map.enc"),
         },
         "secret_key_present": False,
+        "key_derivation_secret_present": False,
+        "derived_key_present": False,
         "plaintext_condition_map_present": False,
+        "key_derivation": key_derivation,
     }
     sealed_manifest_bytes = canonical_json_bytes(sealed_manifest)
     (sealed_dir / "SEALED_CONDITION_MANIFEST.json").write_bytes(sealed_manifest_bytes)
@@ -194,7 +194,7 @@ def generate_assignment(
     )
 
     lock = {
-        "schema": "openline.paired-mechanism-benchmark.assignment-lock.v1",
+        "schema": "openline.paired-mechanism-benchmark.assignment-lock.v2",
         "experiment_id": EXPERIMENT_ID,
         "benchmark_revision": BENCHMARK_REVISION,
         "dry_run": bool(dry_run),
@@ -211,14 +211,24 @@ def generate_assignment(
         "sealed_condition_bundle_sha256": sealed_zip_sha,
         "secret_key_present_in_public": False,
         "secret_key_present_in_sealed_condition": False,
+        "key_derivation_secret_present_in_artifacts": False,
+        "derived_key_persisted": False,
+        "plaintext_key_artifact_created": False,
+        "key_derivation_secret_exported": False,
+        "key_derivation_scheme": key_derivation["scheme"],
+        "key_derivation_run_context_sha256": key_derivation["run_context_sha256"],
     }
     (public_dir / "ASSIGNMENT_LOCK.json").write_bytes(canonical_json_bytes(lock))
     return lock
 
 
-def decrypt_map_in_memory(sealed_dir: Path, key_path: Path) -> dict:
+def decrypt_map_in_memory(sealed_dir: Path, key_derivation_secret_hex: str, expected_key_context: str) -> dict:
     commitment = load_json(sealed_dir / "blind_commitment.json")
-    key = key_path.read_bytes()
+    key = derive_key(
+        key_derivation_secret_hex,
+        commitment.get("key_derivation"),
+        expected_run_context=expected_key_context,
+    )
     cipher = (sealed_dir / "condition_map.enc").read_bytes()
     if sha256_bytes(cipher) != commitment["condition_map_ciphertext_sha256"]:
         raise ValueError("condition ciphertext hash mismatch")
@@ -235,7 +245,8 @@ def main():
     ap.add_argument("--pair-set", required=True)
     ap.add_argument("--public-dir", required=True)
     ap.add_argument("--sealed-dir", required=True)
-    ap.add_argument("--secret-dir", required=True)
+    ap.add_argument("--key-derivation-secret-env", default="OLP_003_KEY_DERIVATION_SECRET")
+    ap.add_argument("--key-context", required=True)
     ap.add_argument("--design-sha256", required=True)
     ap.add_argument("--pair-set-sha256", required=True)
     ap.add_argument("--signal-schema-sha256", required=True)
@@ -250,7 +261,8 @@ def main():
         pair_set_path=Path(args.pair_set),
         public_dir=Path(args.public_dir),
         sealed_dir=Path(args.sealed_dir),
-        secret_dir=Path(args.secret_dir),
+        key_derivation_secret_hex=pop_secret_hex_from_env(args.key_derivation_secret_env),
+        key_context=args.key_context,
         design_sha256=args.design_sha256,
         pair_set_sha256=args.pair_set_sha256,
         signal_schema_sha256=args.signal_schema_sha256,

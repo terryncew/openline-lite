@@ -1,31 +1,31 @@
 {
   "canonical_final_result_file": "FINAL_BENCHMARK_RESULT.json",
   "experiment_id": "olp-core21-paired-mechanism-003",
-  "file_count_excluding_manifest": 39,
+  "file_count_excluding_manifest": 41,
   "files": {
     ".github/workflows/olp-30pair-003-execution.yml": {
-      "bytes": 14458,
-      "sha256": "1608d825f275345d27564a0e2cd33a69335bcaa62406c62092678b000411e28d"
+      "bytes": 15592,
+      "sha256": "30f6171c9cf53cce3c4b0231c96057b0a39303c1c73d1aed35155de887a0ab6b"
     },
     ".github/workflows/olp-30pair-003-preflight.yml": {
-      "bytes": 1746,
-      "sha256": "abdf1e6d53bce997d4495f0dea42b15adc43ecd672bf5df8e8b43f0def364688"
+      "bytes": 1904,
+      "sha256": "619abe703adcc95afb3d93a2a19bf255c3a32588630962171599c3ed9718c7b8"
     },
     "AUDIT_RECEIPT.json": {
-      "bytes": 4189,
-      "sha256": "05a911e8c8562e65e666b1216b86333f6aa05b037a90a2e3fff6933ff105e78a"
+      "bytes": 6263,
+      "sha256": "b74e0d125c2e1dbcc04f6fb1c36fe8f0ddc351537a79a564709c728156944ef1"
     },
     "CAPSTONE_VERIFICATION_003.json": {
-      "bytes": 2679,
-      "sha256": "35f4a2f5d9182049293e054d28663f8bb7c695efd7ce16d7a02a6657ff65e599"
+      "bytes": 4246,
+      "sha256": "0586d8ffcfa6d4c404567a0ac1967113639b35015feb34335490a14da689ea47"
     },
     "COST-PLAN-003.json": {
       "bytes": 1111,
       "sha256": "1d6273dce1efe4519cbf3ca1cb43ff49b977d36b27fd8e197e3dec97efefb812"
     },
     "README-003-PREFLIGHT.md": {
-      "bytes": 7073,
-      "sha256": "567f46ff78592e6a94977a8b3fbcc86aa134f59d2deb5aabdf1002fae0eca1bc"
+      "bytes": 9649,
+      "sha256": "763bb9404d92355480e9731ca3191291bf20cb2c8e649a1361284deab45055dd"
     },
     "experiments/paired-mechanism-003/CAPACITY_CANARY_PASS_BOUND.json": {
       "bytes": 5258,
@@ -36,12 +36,16 @@
       "sha256": "61fc4cb81bf7bb23175b10729189d8056c9d69b2ed3ddb61267947efd8b06dcd"
     },
     "experiments/paired-mechanism-003/DRY_RUN_RECEIPT.json": {
-      "bytes": 3627,
-      "sha256": "51fc682911d944cfeb2ab3f408a93e79ba65dcabf8cd8c6b94ba6343f60b8891"
+      "bytes": 4382,
+      "sha256": "62cb850316b406658a1a89d833ffdc51880e775654b2c7929a319ac28031c111"
     },
     "experiments/paired-mechanism-003/DRY_RUN_RECEIPT.json.sha256": {
       "bytes": 87,
-      "sha256": "b8a8913b065c427f6d6ed007a33e73c16cb3e2af8697f8c1ed7d0094da98264a"
+      "sha256": "6b466117608d9561ee94d4297a3547a67968567dc05be197f0d18994675729c6"
+    },
+    "experiments/paired-mechanism-003/KEY_BOUNDARY_REPAIR_003.json": {
+      "bytes": 2885,
+      "sha256": "3105caff74a789a2fdb858c54a9bb8bec2dbaf861c91d6a818b1c767f8462b41"
     },
     "experiments/paired-mechanism-003/LINEAGE_001_002_ABORTS_AND_CANARY.json": {
       "bytes": 3073,
@@ -52,28 +56,28 @@
       "sha256": "a9e5d3f81b08ad395688848027688cdd389de8990cb28a6a45ee85793d8542c1"
     },
     "experiments/paired-mechanism-003/PREASSIGNMENT_FREEZE_003.json": {
-      "bytes": 4494,
-      "sha256": "fffb008448d78df7f591e9a4249b82a7c9bdf81fc6de471ac9714682e8cf8571"
+      "bytes": 5194,
+      "sha256": "5e25ab3ad460a84f68bb6fb8d17b6f3581bfcc4d2090714ae81fad76b27ca0f8"
     },
     "experiments/paired-mechanism-003/PUBLICATION_COMMITMENT_003.json": {
       "bytes": 1686,
       "sha256": "e90ea4e48eb76e350a3ddc2888e2d164f8b29634b7473a65a3a798c1fda02283"
     },
     "experiments/paired-mechanism-003/RUNNER_MANIFEST.json": {
-      "bytes": 4683,
-      "sha256": "bf9759aec5ceb387b069da1f6bf42e37bfc896ab7ffa6787552c6b5cca10490a"
+      "bytes": 5647,
+      "sha256": "ac2652abec44a69c984394b862712124cf6683c0c69895be79bd21fc0b1f84fd"
     },
     "experiments/paired-mechanism-003/SCORER_FREEZE_003.json": {
-      "bytes": 2870,
-      "sha256": "9f3843685a016f891d59f63abe3c7f8954dfa2bc0ce5c4bd5bb84b8d959870e9"
+      "bytes": 3574,
+      "sha256": "47839b052d496461e5a613cf268f9d4e85c41ea948ed9c7d95b528a9939e2e6e"
     },
     "experiments/paired-mechanism-003/api_retry.py": {
       "bytes": 13074,
       "sha256": "b93e9c52a6aa86c620dac8b95d6c0bbd3d18a7e5dfe44f90999dea71e421d567"
     },
     "experiments/paired-mechanism-003/assignment.py": {
-      "bytes": 11305,
-      "sha256": "7e0b0337bd2ddf096ce46d94420e03fffbd05e5993b005644a876a3c1e2e89bc"
+      "bytes": 12178,
+      "sha256": "1a8d422c864c4671e07601e89017333df87c5bb0c8ae53350605d2d1f23a7f70"
     },
     "experiments/paired-mechanism-003/blind_score.py": {
       "bytes": 23779,
@@ -88,12 +92,12 @@
       "sha256": "08e67e3f3c0ed2ff6a6ba80c411aa0bc55758b9e2a3a1829426340eac212be2c"
     },
     "experiments/paired-mechanism-003/common.py": {
-      "bytes": 4085,
-      "sha256": "0b7c3188456d524560ebbaf96cabcec076fa08f2d65a63c24918d074c6e64ba4"
+      "bytes": 4181,
+      "sha256": "d7ca2b817a6d2d97e62044609faffa9ef2817e0faba3c4901ffc8ee22561082f"
     },
     "experiments/paired-mechanism-003/execute_pair.py": {
-      "bytes": 26191,
-      "sha256": "c59b070bb75977a9de62f31f98ceef0c0767a778ffaa36066236a18a29d43459"
+      "bytes": 26445,
+      "sha256": "646888327c13c2a1c98d7e4118d2d4db01e1dfd684a8b502f2c4f15e56ddd4f4"
     },
     "experiments/paired-mechanism-003/frozen_scientific/BENCHMARK_DESIGN_FROZEN.json": {
       "bytes": 5756,
@@ -119,17 +123,21 @@
       "bytes": 17543,
       "sha256": "5072756df07b9551c60aadbeb914ea5c909ea2e472ee089739e3c7f8175f8699"
     },
+    "experiments/paired-mechanism-003/key_derivation.py": {
+      "bytes": 3939,
+      "sha256": "833349e10fe1c2ade4f748fcb76281263134609d8acea485cb85c576707d21aa"
+    },
     "experiments/paired-mechanism-003/perturbation.py": {
       "bytes": 629,
       "sha256": "61ec6c57707e1bf5b621f4f6802e73171bdf5c43d4f310fc24d2b4e40486dfb1"
     },
     "experiments/paired-mechanism-003/preflight_003.py": {
-      "bytes": 12558,
-      "sha256": "ed0d5439044b8cf8c776cc805a9c6cd3cf91c8455f0f929304b47d9519d64e1b"
+      "bytes": 17608,
+      "sha256": "119ca45371f37e6059809466a27cede7ce7dcd4f0ad94c1f9ea09b7de8b67f0f"
     },
     "experiments/paired-mechanism-003/release_check.py": {
-      "bytes": 6901,
-      "sha256": "00a660732c2ec49ccd62ec08260f926c46d3592de95b731fdc7b7d3145807b18"
+      "bytes": 10262,
+      "sha256": "b5ec318061c78d1c2031eed6421ccd2686b7c87652655071d42418021a528580"
     },
     "experiments/paired-mechanism-003/requirements-execution.txt": {
       "bytes": 21,
@@ -140,12 +148,12 @@
       "sha256": "7532c89c17d69585b06c545c6af85a4f6583a5997c308df09cc8e55cac764eb6"
     },
     "experiments/paired-mechanism-003/tests/test_003.py": {
-      "bytes": 19934,
-      "sha256": "de4511420272e9e1c1bfc7639b6ea49ccd9867035e612776a052df16664adf26"
+      "bytes": 23457,
+      "sha256": "fed3cd8b06d7bee3ceb383376de3d23a7fa6f33ceb645c0de08d336ffb98709f"
     },
     "experiments/paired-mechanism-003/tests/test_capstone.py": {
-      "bytes": 17434,
-      "sha256": "80fc83d8a6d268558e7f00150d899e8208453b0891c67872486a807baaf5000e"
+      "bytes": 19497,
+      "sha256": "b21040bb9fa880781fe00eb97487e3907604575110d78899b50b8f9526a9f681"
     },
     "experiments/paired-mechanism-003/tool_runtime.py": {
       "bytes": 10069,
@@ -156,15 +164,28 @@
       "sha256": "353b0b51036f25755ec34984f715538711fb49c9b7755157244704e4ab5e427f"
     },
     "experiments/paired-mechanism-003/unblind_publish.py": {
-      "bytes": 26763,
-      "sha256": "d7e8d44c7597fc04ebc0386f31da8958dd94e9af26193d6dfbb6b15133deb39b"
+      "bytes": 27811,
+      "sha256": "f89e4454dba7ca8d6c27ebfa036691ecb379ce95ddab4a0cd0e29d730717259d"
     }
   },
+  "key_boundary": {
+    "assignment_job_requires_validation_pass": true,
+    "blind_jobs_receive_secret": false,
+    "derived_key_persisted": false,
+    "plaintext_key_artifact_created": false,
+    "preassignment_validation_job": "validate-protected-secret",
+    "protected_secret_name": "OLP_003_KEY_DERIVATION_SECRET",
+    "scheme": "HKDF-SHA256-32-V1",
+    "secret_uploaded_as_artifact": false,
+    "workflow_rerun_can_start_assignment_or_pair_execution": false
+  },
   "manifest_excludes_self": true,
-  "package": "openline-core21-paired-mechanism-003-publish-regardless-capstone",
+  "package": "openline-core21-paired-mechanism-003-publish-regardless-capstone-protected-key-repair-retry1",
+  "release_check_self_cache_safe": true,
   "root_ready": true,
-  "schema": "openline.paired-mechanism-benchmark.003-package-manifest.v2",
+  "schema": "openline.paired-mechanism-benchmark.003-package-manifest.v5",
   "state": {
+    "003_spend_usd": 0,
     "benchmark_model_calls_during_build": 0,
     "execution_tag_created_or_pushed": false,
     "real_assignment_created": false,

@@ -1,0 +1,62 @@
+{
+  "experiment_id": "olp-core21-paired-mechanism-003",
+  "finding": {
+    "exposure_occurred": false,
+    "issue": "The earlier execution workflow uploaded secret_key.bin as a GitHub Actions artifact in a public repository before blind scoring completed.",
+    "reason_no_exposure_occurred": "The real 003 execution tag was never created or pushed, so no assignment or key artifact was generated.",
+    "scientific_boundary_at_risk": "Condition-map secrecy before blind scoring and independent verification.",
+    "severity": "P0"
+  },
+  "next_use": "Configure the dedicated protected secret, push the resealed preflight commit, inspect the new receipt, and only then consider the exact execution tag.",
+  "prior_package_sha256": "bd754936b48b464b795acbc9f26050106d3f0f85a8e39e805af4c4a019392b13",
+  "prior_preflight_authentic": true,
+  "prior_preflight_authorizes_execution": false,
+  "prior_preflight_commit_sha": "9106975de2196cf542e91d63883afd6951a2f605",
+  "prior_preflight_receipt_sha256": "48957c57815154ebe87efa4825b1fb1a762c59272ce8957b4af623fcb17f6b5b",
+  "repair": {
+    "assignment_job_blocked_until_validation_passes": true,
+    "authorized_jobs": [
+      "validate-protected-secret",
+      "assign-once",
+      "execute-pairs",
+      "unblind-once-and-publish"
+    ],
+    "derived_key_persisted": false,
+    "failed_validation_leaves_assignment_job_skipped": true,
+    "first_attempt_job_level_gate": true,
+    "forbidden_jobs": [
+      "collect-public",
+      "blind-score-and-capstone-gate",
+      "independently-verify-blind-scores"
+    ],
+    "key_derivation_secret_cached": false,
+    "key_derivation_secret_job_output": false,
+    "key_derivation_secret_logged": false,
+    "key_derivation_secret_uploaded": false,
+    "plaintext_key_artifact_created": false,
+    "protected_secret_name": "OLP_003_KEY_DERIVATION_SECRET",
+    "public_context_binding": [
+      "experiment_id",
+      "benchmark_revision",
+      "GITHUB_REPOSITORY",
+      "GITHUB_SHA",
+      "GITHUB_RUN_ID",
+      "fresh 256-bit public HKDF salt"
+    ],
+    "scheme": "HKDF-SHA256-32-V1",
+    "sealed_artifact_contains": "ciphertext, commitments, public salt, and public run-context binding only",
+    "secret_format": "exactly 64 hexadecimal characters encoding a nonzero 256-bit value",
+    "validation_job_scope": "Format and nonzero check only; no condition material, key derivation, assignment generation, artifact upload, cache, or job output.",
+    "workflow_rerun_can_start_assignment": false,
+    "workflow_rerun_can_start_pair_execution": false
+  },
+  "schema": "openline.paired-mechanism-benchmark.003-key-boundary-repair.v1",
+  "state": {
+    "003_spend_usd": 0,
+    "benchmark_model_calls": 0,
+    "execution_tag_created_or_pushed": false,
+    "real_assignment_created": false,
+    "unblinded": false
+  },
+  "status": "P0_PLAINTEXT_KEY_ARTIFACT_BOUNDARY_REPAIRED_BEFORE_ASSIGNMENT"
+}

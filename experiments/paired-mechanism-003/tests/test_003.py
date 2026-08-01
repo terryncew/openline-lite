@@ -22,8 +22,9 @@ from api_retry import (
     RetryingJSONTransport,
     backoff_seconds,
 )
-from assignment import generate_assignment
+from assignment import decrypt_map_in_memory, generate_assignment
 from canary_binding import verify_bound_canary
+from key_derivation import derive_key, new_descriptor, pop_secret_hex_from_env
 from collect_execution import collect
 from common import (
     API_RETRY_MAX_ATTEMPTS,
@@ -46,6 +47,11 @@ from execute_pair import PairInfrastructureFailure, write_infrastructure_receipt
 from perturbation import OneShotEligibleReadDelivery, final_quarter_truncate
 from responses_agent import ResponsesClient, function_calls
 from trace_format import assert_export_safe
+
+
+
+TEST_KEY_DERIVATION_SECRET = "0123456789abcdef" * 4
+TEST_KEY_CONTEXT = "terryncew/openline-lite@" + ("a" * 40) + "#123456789"
 
 
 class FakeClock:
@@ -219,9 +225,9 @@ class Test003(unittest.TestCase):
 
     def test_disposable_assignment_is_fresh_balanced_and_003_only(self):
         with tempfile.TemporaryDirectory() as td:
-            d=Path(td); pub=d/'pub'; sealed=d/'sealed'; secret=d/'secret'
+            d=Path(td); pub=d/'pub'; sealed=d/'sealed'
             lock=generate_assignment(
-                pair_set_path=ROOT/'frozen_scientific/PAIR_SET_FROZEN.json',public_dir=pub,sealed_dir=sealed,secret_dir=secret,
+                pair_set_path=ROOT/'frozen_scientific/PAIR_SET_FROZEN.json',public_dir=pub,sealed_dir=sealed,key_derivation_secret_hex=TEST_KEY_DERIVATION_SECRET,key_context=TEST_KEY_CONTEXT,
                 design_sha256=SCIENTIFIC_HASHES['BENCHMARK_DESIGN_FROZEN.json'],pair_set_sha256=SCIENTIFIC_HASHES['PAIR_SET_FROZEN.json'],
                 signal_schema_sha256=SCIENTIFIC_HASHES['SIGNAL_SCHEMA_FROZEN_SCOPE_REPAIRED.json'],perturbation_sha256=SCIENTIFIC_HASHES['PERTURBATION_SPEC_FROZEN_SCOPE_REPAIRED.json'],
                 preflight_pass_sha256='a'*64,runner_manifest_sha256='b'*64,publication_commitment_sha256=PUBLICATION_COMMITMENT_SHA256,scorer_freeze_sha256=SCORER_FREEZE_SHA256,dry_run=True)
@@ -229,6 +235,34 @@ class Test003(unittest.TestCase):
             man=load_json(pub/'blinded_run_manifest.json')
             self.assertEqual(man['experiment_id'],EXPERIMENT_ID)
             self.assertEqual(len({r['opaque_execution_id'] for r in man['executions']}),60)
+            self.assertFalse(lock['plaintext_key_artifact_created'])
+            self.assertFalse(lock['derived_key_persisted'])
+            self.assertFalse(lock['key_derivation_secret_exported'])
+            self.assertFalse(any(p.name == 'secret_key.bin' for p in d.rglob('*')))
+            with tempfile.TemporaryDirectory() as sx:
+                import zipfile as _zf
+                with _zf.ZipFile(sealed/'SEALED_CONDITION_BUNDLE.zip') as z:
+                    z.extractall(sx)
+                secret_map = decrypt_map_in_memory(Path(sx), TEST_KEY_DERIVATION_SECRET, TEST_KEY_CONTEXT)
+                self.assertEqual(len(secret_map['conditions']), 60)
+
+    def test_key_derivation_is_deterministic_context_bound_and_never_exported(self):
+        descriptor = new_descriptor(TEST_KEY_CONTEXT)
+        a = derive_key(TEST_KEY_DERIVATION_SECRET, descriptor, expected_run_context=TEST_KEY_CONTEXT)
+        b = derive_key(TEST_KEY_DERIVATION_SECRET, descriptor, expected_run_context=TEST_KEY_CONTEXT)
+        self.assertEqual(a, b)
+        self.assertEqual(len(a), 32)
+        self.assertFalse(descriptor["derived_key_persisted"])
+        self.assertFalse(descriptor["plaintext_key_artifact_created"])
+        with self.assertRaises(ValueError):
+            derive_key(TEST_KEY_DERIVATION_SECRET, descriptor, expected_run_context=TEST_KEY_CONTEXT + "x")
+
+    def test_secret_env_is_consumed_and_removed(self):
+        with mock.patch.dict("os.environ", {"OLP_003_KEY_DERIVATION_SECRET": TEST_KEY_DERIVATION_SECRET}, clear=False):
+            value = pop_secret_hex_from_env()
+            self.assertEqual(value, TEST_KEY_DERIVATION_SECRET)
+            import os
+            self.assertNotIn("OLP_003_KEY_DERIVATION_SECRET", os.environ)
 
     def test_infrastructure_receipt_preserves_sanitized_detail_and_token_counts(self):
         with tempfile.TemporaryDirectory() as td:
@@ -244,9 +278,9 @@ class Test003(unittest.TestCase):
 
     def test_collector_includes_infrastructure_and_usage_totals(self):
         with tempfile.TemporaryDirectory() as td:
-            d=Path(td); pub=d/'pub'; sealed=d/'sealed'; secret=d/'secret'
+            d=Path(td); pub=d/'pub'; sealed=d/'sealed'
             generate_assignment(
-                pair_set_path=ROOT/'frozen_scientific/PAIR_SET_FROZEN.json',public_dir=pub,sealed_dir=sealed,secret_dir=secret,
+                pair_set_path=ROOT/'frozen_scientific/PAIR_SET_FROZEN.json',public_dir=pub,sealed_dir=sealed,key_derivation_secret_hex=TEST_KEY_DERIVATION_SECRET,key_context=TEST_KEY_CONTEXT,
                 design_sha256=SCIENTIFIC_HASHES['BENCHMARK_DESIGN_FROZEN.json'],pair_set_sha256=SCIENTIFIC_HASHES['PAIR_SET_FROZEN.json'],
                 signal_schema_sha256=SCIENTIFIC_HASHES['SIGNAL_SCHEMA_FROZEN_SCOPE_REPAIRED.json'],perturbation_sha256=SCIENTIFIC_HASHES['PERTURBATION_SPEC_FROZEN_SCOPE_REPAIRED.json'],
                 preflight_pass_sha256='a'*64,runner_manifest_sha256='b'*64,publication_commitment_sha256=PUBLICATION_COMMITMENT_SHA256,scorer_freeze_sha256=SCORER_FREEZE_SHA256,dry_run=True)
@@ -333,19 +367,44 @@ class Test003(unittest.TestCase):
         verify=workflow.split('  independently-verify-blind-scores:',1)[1].split('  unblind-once-and-publish:',1)[0]
         unblind=workflow.split('  unblind-once-and-publish:',1)[1].split('  publish-blind-infrastructure-capstone:',1)[0]
         self.assertIn('blind_score.py',blind)
-        self.assertNotIn('secret-key-material',blind)
+        self.assertNotIn('OLP_003_KEY_DERIVATION_SECRET',blind)
         self.assertIn('independent_verify_scores.py',verify)
-        self.assertNotIn('secret-key-material',verify)
-        self.assertIn('secret-key-material-DO-NOT-SCORE',unblind)
+        self.assertNotIn('OLP_003_KEY_DERIVATION_SECRET',verify)
+        self.assertIn('OLP_003_KEY_DERIVATION_SECRET',unblind)
         self.assertIn('unblind_publish.py',unblind)
+        self.assertNotIn('secret-key-material',workflow)
+        self.assertNotIn('secret_key.bin',workflow)
+        self.assertNotIn('--secret-key',workflow)
+        self.assertEqual(workflow.count('${{ secrets.OLP_003_KEY_DERIVATION_SECRET }}'), 4)
+
+    def test_protected_secret_is_validated_before_assign_job_can_start(self):
+        workflow=(REPO_ROOT/'.github/workflows/olp-30pair-003-execution.yml').read_text()
+        validate=workflow.split('  validate-protected-secret:',1)[1].split('  assign-once:',1)[0]
+        assign=workflow.split('  assign-once:',1)[1].split('  execute-pairs:',1)[0]
+        self.assertIn('OLP_003_KEY_DERIVATION_SECRET',validate)
+        self.assertIn('[0-9A-Fa-f]{64}',validate)
+        self.assertNotIn('assignment.py',validate)
+        self.assertNotIn('--key-context',validate)
+        self.assertNotIn('upload-artifact',validate)
+        self.assertIn('needs: [pre_run_003, validate-protected-secret]',assign)
+        self.assertIn("if: github.run_attempt == 1 && needs.pre_run_003.result == 'success' && needs.validate-protected-secret.result == 'success'",assign)
+        execute=workflow.split('  execute-pairs:',1)[1].split('  collect-public:',1)[0]
+        self.assertIn("if: github.run_attempt == 1 && needs.assign-once.result == 'success'",execute)
 
     def test_client_is_constructed_after_workspace_preparation(self):
         text=(ROOT/'execute_pair.py').read_text()
         self.assertLess(text.index('common = prepare_workspace(pair, temp_root)'), text.index('client = ResponsesClient(os.environ.get("OPENAI_API_KEY", ""))'))
 
-    def test_no_cache_artifacts(self):
-        bad=[p for p in REPO_ROOT.rglob('*') if p.is_file() and (p.suffix=='.pyc' or '__pycache__' in p.parts or '.pytest_cache' in p.parts)]
-        self.assertEqual(bad,[])
+    def test_package_manifest_contains_no_cache_artifacts(self):
+        manifest = load_json(REPO_ROOT / "PACKAGE_MANIFEST.json")
+        bad = [
+            rel
+            for rel in manifest["files"]
+            if rel.endswith(".pyc")
+            or "__pycache__/" in rel
+            or ".pytest_cache/" in rel
+        ]
+        self.assertEqual(bad, [])
 
     def test_no_real_assignment_after_tests(self):
         self.assertFalse((ROOT/'build/assignment').exists())

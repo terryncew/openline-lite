@@ -16,6 +16,7 @@ from common import (
     EXPERIMENT_ID,
     GLOBAL_MIN_REQUEST_START_INTERVAL_SECONDS,
     LINEAGE_SHA256,
+    KEY_BOUNDARY_REPAIR_SHA256,
     MAX_OUTPUT_TOKENS,
     MAX_TOOL_CALLS,
     MAX_WALL_SECONDS,
@@ -82,6 +83,7 @@ def verify_hashes(receipt: dict, out: Path):
         ("CAPACITY_CANARY_PASS_BOUND.json", CAPACITY_CANARY_RECEIPT_SHA256),
         ("PUBLICATION_COMMITMENT_003.json", PUBLICATION_COMMITMENT_SHA256),
         ("SCORER_FREEZE_003.json", SCORER_FREEZE_SHA256),
+        ("KEY_BOUNDARY_REPAIR_003.json", KEY_BOUNDARY_REPAIR_SHA256),
     ]
     for name, expected in fixed:
         if sha256_file(ROOT / name) != expected:
@@ -201,6 +203,79 @@ def verify_checkouts(receipt: dict, out: Path):
     receipt["git_parent_checkout_summary"] = "30/30 PASS"
 
 
+
+def verify_key_boundary(receipt: dict, out: Path):
+    workflow_path = REPO_ROOT / ".github/workflows/olp-30pair-003-execution.yml"
+    text = workflow_path.read_text("utf-8")
+    forbidden = (
+        "secret_key.bin",
+        "secret-key-material",
+        "--secret-key",
+        "build/assignment/secret",
+        "private/key",
+        "capstone/key",
+        "actions/cache",
+    )
+    present = [value for value in forbidden if value in text]
+    if present:
+        blocked(receipt, "key_boundary", "plaintext or cached key path remains in execution workflow", out, present)
+    secret_expr = "${{ secrets.OLP_003_KEY_DERIVATION_SECRET }}"
+    if text.count(secret_expr) != 4:
+        blocked(receipt, "key_boundary", "protected derivation secret must enter exactly validation, assignment, execution, and final-unblind steps", out)
+    sections = {
+        "validate": text.split("  validate-protected-secret:", 1)[1].split("  assign-once:", 1)[0],
+        "assign": text.split("  assign-once:", 1)[1].split("  execute-pairs:", 1)[0],
+        "execute": text.split("  execute-pairs:", 1)[1].split("  collect-public:", 1)[0],
+        "collect": text.split("  collect-public:", 1)[1].split("  blind-score-and-capstone-gate:", 1)[0],
+        "blind": text.split("  blind-score-and-capstone-gate:", 1)[1].split("  independently-verify-blind-scores:", 1)[0],
+        "verify": text.split("  independently-verify-blind-scores:", 1)[1].split("  unblind-once-and-publish:", 1)[0],
+        "unblind": text.split("  unblind-once-and-publish:", 1)[1].split("  publish-blind-infrastructure-capstone:", 1)[0],
+    }
+    for name in ("validate", "assign", "execute", "unblind"):
+        if "OLP_003_KEY_DERIVATION_SECRET" not in sections[name]:
+            blocked(receipt, "key_boundary", f"authorized job lacks protected derivation secret: {name}", out)
+    if "assignment.py" in sections["validate"] or "--key-context" in sections["validate"] or "upload-artifact" in sections["validate"]:
+        blocked(receipt, "key_boundary", "pre-assignment secret validation job may validate format only", out)
+    if "needs: [pre_run_003, validate-protected-secret]" not in sections["assign"]:
+        blocked(receipt, "key_boundary", "assignment job is not gated on protected-secret validation", out)
+    if "if: github.run_attempt == 1" not in sections["assign"] or "needs.validate-protected-secret.result == 'success'" not in sections["assign"]:
+        blocked(receipt, "key_boundary", "assignment job lacks first-attempt and validation-success job-level gate", out)
+    if "if: github.run_attempt == 1 && needs.assign-once.result == 'success'" not in sections["execute"]:
+        blocked(receipt, "key_boundary", "execution matrix lacks first-attempt assignment-success job-level gate", out)
+    for name in ("collect", "blind", "verify"):
+        if "OLP_003_KEY_DERIVATION_SECRET" in sections[name]:
+            blocked(receipt, "key_boundary", f"blind/public job receives derivation secret: {name}", out)
+    expected_context_arg = '--key-context "${GITHUB_REPOSITORY}@${GITHUB_SHA}#${GITHUB_RUN_ID}"'
+    if text.count(expected_context_arg) != 3:
+        blocked(receipt, "key_boundary", "run-bound deterministic key context missing or count mismatch", out)
+    for line in text.splitlines():
+        if "OLP_003_KEY_DERIVATION_SECRET" in line and ("echo " in line or "GITHUB_OUTPUT" in line or "matrix:" in line or "path:" in line):
+            blocked(receipt, "key_boundary", "derivation secret may enter logs, outputs, matrix, or artifact path", out, line.strip())
+    key_source = ROOT / "key_derivation.py"
+    if not key_source.exists():
+        blocked(receipt, "key_boundary", "key derivation source missing", out)
+    artifact_names = {p.name for p in REPO_ROOT.rglob("*") if p.is_file()}
+    if "secret_key.bin" in artifact_names:
+        blocked(receipt, "key_boundary", "plaintext key artifact present in package", out)
+    receipt["key_boundary"] = {
+        "status": "PASS",
+        "scheme": "HKDF-SHA256-32-V1",
+        "protected_secret_name": "OLP_003_KEY_DERIVATION_SECRET",
+        "secret_validation_job": "validate-protected-secret",
+        "secret_available_to_jobs": ["validate-protected-secret", "assign-once", "execute-pairs", "unblind-once-and-publish"],
+        "secret_absent_from_jobs": ["collect-public", "blind-score-and-capstone-gate", "independently-verify-blind-scores"],
+        "plaintext_key_artifact_created": False,
+        "derived_key_persisted": False,
+        "secret_uploaded_as_artifact": False,
+        "secret_written_to_job_output": False,
+        "secret_cached": False,
+        "run_context_bound": True,
+        "secret_format_validated_before_assignment_job_can_start": True,
+        "failed_validation_leaves_assign_once_skipped": True,
+        "workflow_rerun_cannot_start_assignment_or_pair_execution": True,
+    }
+
+
 def run_preflight(*, out: Path, perform_checkouts: bool = True, perform_network_sandbox: bool = True):
     receipt = {
         "schema": "openline.paired-mechanism-benchmark.003-preflight.v1",
@@ -218,6 +293,7 @@ def run_preflight(*, out: Path, perform_checkouts: bool = True, perform_network_
     verify_hashes(receipt, out)
     verify_pair_config(receipt, out)
     verify_runner_manifest(receipt, out)
+    verify_key_boundary(receipt, out)
     verify_runtime_bound(receipt, out)
     try:
         receipt["bound_capacity_canary"] = verify_bound_canary(ROOT)
@@ -233,7 +309,7 @@ def run_preflight(*, out: Path, perform_checkouts: bool = True, perform_network_
         receipt["git_parent_checkout_summary"] = "DRY_RUN_NOT_EXECUTED"
     if perform_checkouts and perform_network_sandbox:
         receipt["status"] = "PREFLIGHT_003_PASS"
-        receipt["disposition"] = "CLEARED_FOR_SEPARATE_FRESH_003_ASSIGNMENT_STEP"
+        receipt["disposition"] = "CLEARED_FOR_SEPARATE_FRESH_003_ASSIGNMENT_STEP_AFTER_PROTECTED_SECRET_IS_CONFIGURED"
     else:
         receipt["status"] = "PREFLIGHT_003_DRY_RUN_PASS"
         receipt["disposition"] = "NOT_CLEARED_NO_EXTERNAL_CHECKOUT_OR_SANDBOX"

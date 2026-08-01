@@ -67,7 +67,7 @@
     "successor_rescue_experiment_authorized": false
   },
   "real_assignment_created": false,
-  "schema": "openline.paired-mechanism-benchmark.003-execution-freeze.v3",
+  "schema": "openline.paired-mechanism-benchmark.003-execution-freeze.v4",
   "scientific_content_changed": false,
   "scientific_payload_hashes": {
     "BENCHMARK_DESIGN_FROZEN.json": "fd0b9eb2e2f494031bac8448dba3f6344071a4d8f2ea9285d2c3fd8ecc159f7f",
@@ -77,14 +77,26 @@
   },
   "scoring_and_unblinding": {
     "all_60_blind_score_records_required_before_unblind": true,
+    "assignment_and_pair_execution_first_workflow_attempt_only": true,
+    "assignment_job_requires_secret_validation_pass": true,
     "blind_scorer_has_condition_key": false,
+    "blind_scorer_has_key_derivation_secret": false,
     "blinded_aggregate_required_before_unblind": true,
     "complete_execution": "seal blind scores, independently verify, then unblind once and seal final result",
     "delta_hol_cannot_rescue_primary": true,
     "delta_hol_secondary_status": "UNAVAILABLE_NO_FROZEN_OPERATIONAL_TRANSFORM",
+    "derived_key_persisted": false,
+    "failed_secret_validation_creates_assignment": false,
+    "failed_secret_validation_leaves_assign_once_skipped": true,
     "incomplete_execution": "publish blind infrastructure disposition; no partial score; no unblind",
     "independent_recomputation_required_before_unblind": true,
-    "scorer_freeze_sha256": "9f3843685a016f891d59f63abe3c7f8954dfa2bc0ce5c4bd5bb84b8d959870e9"
+    "independent_verifier_has_key_derivation_secret": false,
+    "key_derivation_scheme": "HKDF-SHA256-32-V1",
+    "key_derivation_secret_exported": false,
+    "plaintext_key_artifact_created": false,
+    "preassignment_secret_validation_job": "validate-protected-secret",
+    "protected_secret_required_before_assignment": "OLP_003_KEY_DERIVATION_SECRET",
+    "scorer_freeze_sha256": "47839b052d496461e5a613cf268f9d4e85c41ea948ed9c7d95b528a9939e2e6e"
   },
   "source_scientific_experiment_id": "olp-core21-paired-mechanism-001",
   "status": "EXECUTION_SCORING_PUBLICATION_PATH_FROZEN_BEFORE_003_ASSIGNMENT",

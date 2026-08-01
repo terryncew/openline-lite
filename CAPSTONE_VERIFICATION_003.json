@@ -1,37 +1,63 @@
 {
   "experiment_id": "olp-core21-paired-mechanism-003",
-  "next_use": "SAFE_TO_PUSH_PREFLIGHT_BRANCH; DO_NOT PUSH THE REAL EXECUTION TAG UNTIL THE PREFLIGHT RECEIPT PASSES.",
+  "key_boundary": {
+    "assignment_job_requires_validation_pass": true,
+    "authorized_jobs": [
+      "validate-protected-secret",
+      "assign-once",
+      "execute-pairs",
+      "unblind-once-and-publish"
+    ],
+    "blind_jobs_receive_secret": false,
+    "derived_key_persisted": false,
+    "failed_validation_leaves_assignment_job_skipped": true,
+    "plaintext_key_artifact_created": false,
+    "protected_secret_name": "OLP_003_KEY_DERIVATION_SECRET",
+    "repair_receipt_sha256": "3105caff74a789a2fdb858c54a9bb8bec2dbaf861c91d6a818b1c767f8462b41",
+    "run_context_bound": true,
+    "scheme": "HKDF-SHA256-32-V1",
+    "secret_logged_or_job_output": false,
+    "secret_uploaded_as_artifact": false,
+    "validation_job_scope": "format_and_nonzero_check_only",
+    "workflow_rerun_can_start_assignment_or_pair_execution": false
+  },
+  "next_use": "SAFE_TO_PUSH_RESEALED_PREFLIGHT_BRANCH; DO NOT PUSH THE REAL EXECUTION TAG UNTIL THE NEW PREFLIGHT RECEIPT PASSES AND OLP_003_KEY_DERIVATION_SECRET IS CONFIGURED.",
   "pipeline": [
     "execute exactly 60 opaque traces under the frozen complete-run gate",
-    "deterministically score kappa while condition material is absent",
+    "deterministically score kappa while condition material and the protected derivation secret are absent",
     "seal 60 score records and one blinded aggregate",
-    "independently recompute signal components, signal series, all kappa points, and kappa maxima for all 60 records",
+    "independently recompute signal components, signal series, all kappa points, and kappa maxima for all 60 records without condition material or derivation secret",
     "require exact 60-record and 30-pair validity partition before unblind",
-    "introduce sealed condition material to the scoring/publication path only after independent verification",
-    "verify AES-GCM ciphertext, sealed manifest, AAD, 256-bit salted plaintext commitment, and within-pair balance",
+    "derive the AES key only in authorized jobs from a protected secret, fresh public salt, and exact run context; never persist or upload plaintext key bytes",
+    "verify AES-GCM ciphertext, sealed manifest, AAD, HKDF descriptor, 256-bit salted plaintext commitment, and within-pair balance",
     "compute the frozen 30-pair win/loss/tie result and seal FINAL_BENCHMARK_RESULT.json plus a public evidence bundle"
   ],
-  "schema": "openline.paired-mechanism-benchmark.003-capstone-build-verification.v1",
+  "schema": "openline.paired-mechanism-benchmark.003-capstone-build-verification.v2",
   "state": {
+    "003_spend_usd": 0,
     "benchmark_model_calls": 0,
     "execution_tag_created_or_pushed": false,
     "real_assignment_created": false,
     "unblinded": false
   },
-  "status": "CAPSTONE_PIPELINE_BUILD_VERIFIED",
+  "status": "CAPSTONE_PIPELINE_AND_PROTECTED_KEY_BOUNDARY_BUILD_VERIFIED",
   "verification": {
     "cache_artifacts": 0,
     "canonical_final_result_file": "FINAL_BENCHMARK_RESULT.json",
     "clean_extraction_reverified": true,
     "clean_release_check": "DRY_RUN_PASS",
-    "dry_run_receipt_sha256": "51fc682911d944cfeb2ab3f408a93e79ba65dcabf8cd8c6b94ba6343f60b8891",
+    "deterministic_zip_rebuild": "PASS_BYTE_IDENTICAL",
+    "dry_run_receipt_sha256": "62cb850316b406658a1a89d833ffdc51880e775654b2c7929a319ac28031c111",
     "live_model_calls_during_build": 0,
+    "preassignment_freeze_sha256": "5e25ab3ad460a84f68bb6fb8d17b6f3581bfcc4d2090714ae81fad76b27ca0f8",
     "publication_commitment_sha256": "e90ea4e48eb76e350a3ddc2888e2d164f8b29634b7473a65a3a798c1fda02283",
     "python_ast_parse": "PASS",
     "randomized_candidate_vs_independent_scorer_cases": 10000,
     "randomized_scorer_mismatches": 0,
     "real_assignment_artifacts": 0,
-    "runner_manifest_sha256": "bf9759aec5ceb387b069da1f6bf42e37bfc896ab7ffa6787552c6b5cca10490a",
+    "release_check_normal_invocation_without_env_workaround": "DRY_RUN_PASS",
+    "release_check_self_cache_safe": true,
+    "runner_manifest_sha256": "ac2652abec44a69c984394b862712124cf6683c0c69895be79bd21fc0b1f84fd",
     "scientific_payload_byte_identical_to_001": true,
     "scientific_payload_hashes": {
       "BENCHMARK_DESIGN_FROZEN.json": "fd0b9eb2e2f494031bac8448dba3f6344071a4d8f2ea9285d2c3fd8ecc159f7f",
@@ -39,9 +65,13 @@
       "PERTURBATION_SPEC_FROZEN_SCOPE_REPAIRED.json": "1a94515d691b86719b17885c3bf983fbe7d052affebc22406ec35b34fc9bc9e4",
       "SIGNAL_SCHEMA_FROZEN_SCOPE_REPAIRED.json": "88dbb498881e84e32b7599ec2ec1bf186a923bc17d7e0c67c4d09cf2b9cddb8d"
     },
-    "scorer_freeze_sha256": "9f3843685a016f891d59f63abe3c7f8954dfa2bc0ce5c4bd5bb84b8d959870e9",
+    "scorer_freeze_sha256": "47839b052d496461e5a613cf268f9d4e85c41ea948ed9c7d95b528a9939e2e6e",
     "unit_tests_failed": 0,
-    "unit_tests_passed": 38,
-    "workflow_static_blind_wall": "PASS"
+    "unit_tests_passed": 42,
+    "workflow_static_blind_wall": "PASS",
+    "workflow_static_first_attempt_gate": "PASS",
+    "workflow_static_key_wall": "PASS",
+    "workflow_static_preassignment_secret_gate": "PASS",
+    "workflow_yaml_parse": "PASS"
   }
 }

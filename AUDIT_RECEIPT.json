@@ -17,16 +17,18 @@
     "final_result_file": "FINAL_BENCHMARK_RESULT.json",
     "incomplete_execution_policy": "Publish blind infrastructure-aborted disposition; no partial score and no unblind.",
     "independent_recomputation_required": true,
+    "key_derivation_secret_available_to_blind_scorer": false,
+    "key_derivation_secret_available_to_independent_verifier": false,
     "plaintext_commitment_verified_before_pair_join": true
   },
-  "claim": "Builds the full publish-regardless 003 path: paced blind execution, deterministic frozen kappa scoring, 60 sealed blind score records, independent recomputation, one-time scoring-path unblinding, paired result computation, and final publication sealing without creating a real assignment or making a benchmark call.",
+  "claim": "Builds the full publish-regardless 003 path with a repaired protected key boundary and self-clean release verifier: paced blind execution, deterministic frozen kappa scoring, 60 sealed blind score records, independent recomputation, one-time run-bound in-memory key derivation, paired result computation, and final publication sealing without creating a real assignment or making a benchmark call.",
   "cost_planning": {
     "comfortable_ceiling_usd": 450,
     "exact_cost_guaranteed": false,
     "minimum_credit_i_would_risk_usd": 250,
     "recommended_available_credit_usd": 350
   },
-  "decision": "READY_TO_PUSH_PREFLIGHT_NOT_AUTHORIZED_FOR_ASSIGNMENT_UNTIL_GREEN_PREFLIGHT",
+  "decision": "READY_TO_PUSH_RESEALED_PREFLIGHT_NOT_AUTHORIZED_FOR_ASSIGNMENT_UNTIL_NEW_GREEN_PREFLIGHT_AND_DEDICATED_SECRET_CONFIGURATION",
   "execution_infrastructure": {
     "backoff_seconds": [
       2,
@@ -45,14 +47,15 @@
   },
   "experiment_id": "olp-core21-paired-mechanism-003",
   "hashes": {
-    "capstone_verification_sha256": "35f4a2f5d9182049293e054d28663f8bb7c695efd7ce16d7a02a6657ff65e599",
-    "dry_run_receipt_sha256": "51fc682911d944cfeb2ab3f408a93e79ba65dcabf8cd8c6b94ba6343f60b8891",
+    "capstone_verification_sha256": "7d3ca14f0c1bb8f4f7ce178fed1ffdc43b74d807f79a532c9652b091ce86ae59",
+    "dry_run_receipt_sha256": "62cb850316b406658a1a89d833ffdc51880e775654b2c7929a319ac28031c111",
+    "key_boundary_repair_sha256": "3105caff74a789a2fdb858c54a9bb8bec2dbaf861c91d6a818b1c767f8462b41",
     "lineage_sha256": "4757fbfb2e002c55945697a8db99b66b012d3d18034b1d5176e933c060de1cd4",
     "parent_map_sha256": "a9e5d3f81b08ad395688848027688cdd389de8990cb28a6a45ee85793d8542c1",
-    "preassignment_freeze_sha256": "fffb008448d78df7f591e9a4249b82a7c9bdf81fc6de471ac9714682e8cf8571",
+    "preassignment_freeze_sha256": "5e25ab3ad460a84f68bb6fb8d17b6f3581bfcc4d2090714ae81fad76b27ca0f8",
     "publication_commitment_sha256": "e90ea4e48eb76e350a3ddc2888e2d164f8b29634b7473a65a3a798c1fda02283",
-    "runner_manifest_sha256": "bf9759aec5ceb387b069da1f6bf42e37bfc896ab7ffa6787552c6b5cca10490a",
-    "scorer_freeze_sha256": "9f3843685a016f891d59f63abe3c7f8954dfa2bc0ce5c4bd5bb84b8d959870e9"
+    "runner_manifest_sha256": "ac2652abec44a69c984394b862712124cf6683c0c69895be79bd21fc0b1f84fd",
+    "scorer_freeze_sha256": "47839b052d496461e5a613cf268f9d4e85c41ea948ed9c7d95b528a9939e2e6e"
   },
   "lineage_disclosure": {
     "001_unblinded": false,
@@ -60,29 +63,64 @@
     "002_unblinded": false,
     "condition_linked_predecessor_effect_known": false
   },
-  "schema": "openline.paired-mechanism-benchmark.003-build-audit.v2",
+  "p0_key_boundary_repair": {
+    "assignment_job_requires_validation_pass": true,
+    "blind_scorer_has_secret": false,
+    "derived_key_persisted": false,
+    "exposure_occurred": false,
+    "failed_validation_leaves_assignment_job_skipped": true,
+    "independent_verifier_has_secret": false,
+    "plaintext_key_artifact_created": false,
+    "preassignment_validation_job": "validate-protected-secret",
+    "prior_preflight_authorized_execution": false,
+    "prior_preflight_receipt_valid": true,
+    "protected_secret_name": "OLP_003_KEY_DERIVATION_SECRET",
+    "repair_receipt_sha256": "3105caff74a789a2fdb858c54a9bb8bec2dbaf861c91d6a818b1c767f8462b41",
+    "scheme": "HKDF-SHA256-32-V1",
+    "secret_uploaded_as_artifact": false,
+    "workflow_rerun_can_start_assignment_or_pair_execution": false
+  },
+  "release_check_self_cache_repair": {
+    "issue": "The verifier imported local modules before its cache-artifact scan, which could create __pycache__ files and fail its own clean-package check on a normal invocation.",
+    "normal_invocation_clean_extract_pass": true,
+    "repair": "Set sys.dont_write_bytecode before local verifier imports; existing cache artifacts still fail closed.",
+    "scientific_content_changed": false
+  },
+  "schema": "openline.paired-mechanism-benchmark.003-build-audit.v3",
   "scientific_payload_hashes": {
     "BENCHMARK_DESIGN_FROZEN.json": "fd0b9eb2e2f494031bac8448dba3f6344071a4d8f2ea9285d2c3fd8ecc159f7f",
     "PAIR_SET_FROZEN.json": "5c622e0deaf500f7f39d9c5afece7550c1fa4859155d8b7191eb67bb0a725533",
     "PERTURBATION_SPEC_FROZEN_SCOPE_REPAIRED.json": "1a94515d691b86719b17885c3bf983fbe7d052affebc22406ec35b34fc9bc9e4",
     "SIGNAL_SCHEMA_FROZEN_SCOPE_REPAIRED.json": "88dbb498881e84e32b7599ec2ec1bf186a923bc17d7e0c67c4d09cf2b9cddb8d"
   },
+  "state": {
+    "003_spend_usd": 0,
+    "benchmark_model_calls": 0,
+    "execution_tag_created_or_pushed": false,
+    "real_assignment_created": false,
+    "unblinded": false
+  },
   "statements": [
     "REAL_ASSIGNMENT_NOT_CREATED",
     "BENCHMARK_MODEL_CALLS_0",
-    "UNBLINDED_FALSE"
+    "UNBLINDED_FALSE",
+    "PLAINTEXT_KEY_ARTIFACT_CREATED_FALSE"
   ],
   "verification": {
     "cache_artifacts": 0,
     "clean_extraction_reverified": true,
+    "deterministic_zip_rebuild": "PASS_BYTE_IDENTICAL",
     "live_model_calls_during_build": 0,
     "python_ast_parse": "PASS",
     "randomized_candidate_vs_independent_scorer_cases": 10000,
     "randomized_scorer_mismatches": 0,
     "real_assignment_artifacts": 0,
     "release_check": "DRY_RUN_PASS",
+    "release_check_normal_invocation_without_env_workaround": "DRY_RUN_PASS",
     "unit_tests_failed": 0,
-    "unit_tests_passed": 38,
+    "unit_tests_passed": 42,
+    "workflow_static_first_attempt_gate": "PASS",
+    "workflow_static_preassignment_secret_gate": "PASS",
     "workflow_yaml_parse": "PASS"
   }
 }
