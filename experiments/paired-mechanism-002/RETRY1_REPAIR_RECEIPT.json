@@ -1,0 +1,90 @@
+{
+  "build_state": {
+    "benchmark_model_calls": 0,
+    "real_assignment_created": false,
+    "unblinded": false
+  },
+  "changed_or_added_files_before_audit_manifest": [
+    ".github/workflows/olp-30pair-002-execution.yml",
+    "README-002-PREFLIGHT.md",
+    "experiments/paired-mechanism-002/DRY_RUN_RECEIPT.json",
+    "experiments/paired-mechanism-002/RETRY1_PRIOR_PREASSIGNMENT_FAILURE.json",
+    "experiments/paired-mechanism-002/RETRY1_PRIOR_PREASSIGNMENT_FAILURE.json.sha256",
+    "experiments/paired-mechanism-002/RUNNER_MANIFEST.json",
+    "experiments/paired-mechanism-002/capacity_probe.py",
+    "experiments/paired-mechanism-002/preflight_002.py",
+    "experiments/paired-mechanism-002/tests/test_002.py"
+  ],
+  "decision": "READY_FOR_RETRY1_PREFLIGHT_NOT_READY_FOR_ASSIGNMENT",
+  "experiment_id": "olp-core21-paired-mechanism-002",
+  "preassignment_freeze_002_sha256": "bc5798bf8d413ee04de58b9432bfd8783c0194c4fdc78cb4b8a83bebbf0bd407",
+  "prior_real_trigger": {
+    "benchmark_model_calls": 0,
+    "exact_incomplete_reason_known": false,
+    "failed_stage": "capacity_probe",
+    "failure_reason": "CAPACITY_RESPONSE_NOT_COMPLETED",
+    "real_assignment_created": false,
+    "sealed_failure_receipt_sha256": "3fdbe1621dda0b3aa7dc8f3f46db3cf0bc08449bfb9aace1fd69aa8fe42e641b",
+    "status": "CONSUMED_PREASSIGNMENT_MUST_NOT_REUSE",
+    "tag": "RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_002",
+    "unblinded": false
+  },
+  "repair": {
+    "benchmark_execution_max_output_tokens_changed": false,
+    "capacity_probe_new_max_output_tokens": 16384,
+    "capacity_probe_old_max_output_tokens": 16,
+    "diagnostics_added": [
+      "response_status",
+      "incomplete_reason",
+      "returned_model",
+      "response_id_sha256",
+      "numeric_usage_only",
+      "requested_max_output_tokens",
+      "attempt_and_retry_counts"
+    ],
+    "diagnostics_explicitly_excluded": [
+      "raw_model_output",
+      "response_messages",
+      "api_keys",
+      "benchmark_pair_content",
+      "condition_labels",
+      "private_assignment_material"
+    ],
+    "new_value_source": "existing frozen benchmark MAX_OUTPUT_TOKENS; benchmark execution budget itself is unchanged",
+    "pair_parallelism_changed": false,
+    "retry_policy_changed": false,
+    "scientific_wall_budget_changed": false
+  },
+  "repair_scope": "EXECUTION_INFRASTRUCTURE_ONLY",
+  "retry1_trigger": {
+    "created_or_pushed_during_build": false,
+    "tag": "RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_002_RETRY1",
+    "workflow": ".github/workflows/olp-30pair-002-execution.yml"
+  },
+  "runner_manifest_sha256": "3133f7a19e4300341c69fb3c44bc3b9a3445f80515cd5720815d07dee586c762",
+  "runner_revision": "RETRY1_AFTER_PREASSIGNMENT_CAPACITY_RESPONSE_NOT_COMPLETED",
+  "schema": "openline.paired-mechanism-benchmark.002-retry1-repair.v1",
+  "scientific_payload": {
+    "byte_identical_to_original_002_package": true,
+    "changed": false,
+    "hashes": {
+      "BENCHMARK_DESIGN_FROZEN.json": "fd0b9eb2e2f494031bac8448dba3f6344071a4d8f2ea9285d2c3fd8ecc159f7f",
+      "PAIR_SET_FROZEN.json": "5c622e0deaf500f7f39d9c5afece7550c1fa4859155d8b7191eb67bb0a725533",
+      "PERTURBATION_SPEC_FROZEN_SCOPE_REPAIRED.json": "1a94515d691b86719b17885c3bf983fbe7d052affebc22406ec35b34fc9bc9e4",
+      "SIGNAL_SCHEMA_FROZEN_SCOPE_REPAIRED.json": "88dbb498881e84e32b7599ec2ec1bf186a923bc17d7e0c67c4d09cf2b9cddb8d"
+    }
+  },
+  "statements": [
+    "REAL_ASSIGNMENT_NOT_CREATED",
+    "BENCHMARK_MODEL_CALLS_0",
+    "UNBLINDED_FALSE"
+  ],
+  "verification": {
+    "compileall": "PASS",
+    "dry_run_receipt_sha256": "02d4acb401a05086d514e8285d18d4ff55ece28de6f83a9283a2d3bd380d13fb",
+    "prior_failure_receipt_hash_verified": true,
+    "real_assignment_artifacts_absent": true,
+    "release_check": "DRY_RUN_PASS",
+    "unit_tests_passed": 26
+  }
+}

@@ -11,7 +11,7 @@ import time
 from pathlib import Path
 
 from api_retry import ResponsesAPIError
-from capacity_probe import run_capacity_probe
+from capacity_probe import CapacityProbeResponseError, run_capacity_probe
 from common import (
     ALLOWED_TOOLS,
     BENCHMARK_REVISION,
@@ -182,6 +182,8 @@ def run_preflight(*, out: Path, perform_checkouts: bool=True, perform_network_sa
         key=os.environ.get("OPENAI_API_KEY","")
         if not key: blocked(receipt,"capacity_probe","OPENAI_API_KEY missing",out)
         try: cap=run_capacity_probe(api_key=key)
+        except CapacityProbeResponseError as exc:
+            blocked(receipt,"capacity_probe",exc.category,out,{"response_failure":exc.public_detail})
         except ResponsesAPIError as exc:
             blocked(receipt,"capacity_probe",exc.detail.category,out,{"api_failure":exc.public_dict(),"prior_retry_events":exc.prior_events})
         except Exception as exc:

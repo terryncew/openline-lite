@@ -15,11 +15,12 @@ sys.path.insert(0, str(ROOT))
 
 from api_retry import JSONTransportResult, ResponsesAPIError, RetryingJSONTransport
 from assignment import generate_assignment
-from capacity_probe import run_capacity_probe
+from capacity_probe import CapacityProbeResponseError, run_capacity_probe
 from collect_execution import collect
 from common import (
     API_RETRY_MAX_ATTEMPTS,
     EXPERIMENT_ID,
+    MAX_OUTPUT_TOKENS,
     PAIR_CONTROLLED_WORST_CASE_SECONDS,
     PAIR_JOB_TIMEOUT_SECONDS,
     PAIR_MATRIX_MAX_PARALLEL,
@@ -145,6 +146,72 @@ class Test002(unittest.TestCase):
         self.assertNotIn("task_commit",text)
         self.assertNotIn('"tools"',text)
         self.assertEqual(rec["benchmark_model_calls"],0)
+        self.assertEqual(rec["requested_max_output_tokens"],MAX_OUTPUT_TOKENS)
+        self.assertTrue(all(req["max_output_tokens"] == MAX_OUTPUT_TOKENS for req in requests))
+
+    def test_capacity_probe_incomplete_response_is_safely_diagnostic(self):
+        raw_output_marker="DO_NOT_PERSIST_RAW_MODEL_OUTPUT"
+        result=JSONTransportResult(
+            obj={
+                "status":"incomplete",
+                "model":PINNED_MODEL,
+                "id":"resp-cap-incomplete",
+                "incomplete_details":{"reason":"max_output_tokens","extra":"DO_NOT_PERSIST_EXTRA"},
+                "usage":{
+                    "input_tokens":17,
+                    "output_tokens":16384,
+                    "total_tokens":16401,
+                    "input_tokens_details":{"cached_tokens":3,"other":999},
+                    "output_tokens_details":{"reasoning_tokens":16384,"other":999},
+                    "unsafe":"DO_NOT_PERSIST_USAGE",
+                },
+                "output":[{"type":"message","content":raw_output_marker}],
+            },
+            attempts=1,
+            retry_events=[],
+        )
+        class T:
+            def request(self,req,total_timeout_seconds): return result
+        with self.assertRaises(CapacityProbeResponseError) as cm:
+            run_capacity_probe(api_key="k",transport=T(),sleep_fn=lambda _: None)
+        self.assertEqual(cm.exception.category,"CAPACITY_RESPONSE_NOT_COMPLETED")
+        detail=cm.exception.public_detail
+        self.assertEqual(detail["response_status"],"incomplete")
+        self.assertEqual(detail["incomplete_reason"],"max_output_tokens")
+        self.assertEqual(detail["returned_model"],PINNED_MODEL)
+        self.assertEqual(detail["requested_max_output_tokens"],MAX_OUTPUT_TOKENS)
+        self.assertEqual(detail["usage"]["output_tokens_details"]["reasoning_tokens"],16384)
+        serialized=json.dumps(detail)
+        self.assertNotIn(raw_output_marker,serialized)
+        self.assertNotIn("DO_NOT_PERSIST_EXTRA",serialized)
+        self.assertNotIn("DO_NOT_PERSIST_USAGE",serialized)
+
+    def test_preflight_seals_capacity_application_failure_context(self):
+        import preflight_002
+        failure=CapacityProbeResponseError("CAPACITY_RESPONSE_NOT_COMPLETED",{
+            "response_status":"incomplete",
+            "incomplete_reason":"max_output_tokens",
+            "returned_model":PINNED_MODEL,
+            "requested_max_output_tokens":MAX_OUTPUT_TOKENS,
+            "usage":{"output_tokens":MAX_OUTPUT_TOKENS},
+        })
+        with tempfile.TemporaryDirectory() as td:
+            out=Path(td)/"build"/"PREFLIGHT_002_PASS.json"
+            with mock.patch.dict(os.environ,{"OPENAI_API_KEY":"test-key"}), mock.patch.object(preflight_002,"run_capacity_probe",side_effect=failure):
+                with self.assertRaises(SystemExit):
+                    preflight_002.run_preflight(
+                        out=out,
+                        perform_checkouts=False,
+                        perform_network_sandbox=False,
+                        perform_capacity_probe=True,
+                    )
+            blocked=load_json(out.with_name("PREFLIGHT_002_BLOCKED.json"))
+            self.assertEqual(blocked["failed_stage"],"capacity_probe")
+            self.assertEqual(blocked["failure_reason"],"CAPACITY_RESPONSE_NOT_COMPLETED")
+            self.assertEqual(blocked["failure_detail"]["response_failure"]["incomplete_reason"],"max_output_tokens")
+            self.assertFalse(blocked["real_assignment_created"])
+            self.assertEqual(blocked["benchmark_model_calls"],0)
+            self.assertFalse(blocked["unblinded"])
 
     def test_pair_runtime_bound_stays_below_60_minute_job_timeout(self):
         self.assertEqual(PAIR_MATRIX_MAX_PARALLEL,1)
@@ -153,7 +220,9 @@ class Test002(unittest.TestCase):
 
     def test_execution_workflow_is_exact_tag_and_serial_pairs(self):
         text=(ROOT.parents[1]/".github/workflows/olp-30pair-002-execution.yml").read_text()
-        self.assertIn('RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_002',text)
+        self.assertIn('RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_002_RETRY1',text)
+        self.assertIn('REAL_RUN_TAG: RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_002_RETRY1',text)
+        self.assertNotIn('\"RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_002\"',text)
         self.assertIn('max-parallel: 1',text)
         self.assertNotIn('max-parallel: 3',text)
         self.assertNotIn('workflow_dispatch',text)
@@ -289,6 +358,21 @@ class Test002(unittest.TestCase):
         self.assertNotIn('score_kappa',workflow)
         self.assertNotIn('decrypt_map',workflow)
         self.assertNotIn('unblind',workflow)
+
+    def test_retry1_preserves_prior_preassignment_failure_receipt(self):
+        receipt=ROOT/'RETRY1_PRIOR_PREASSIGNMENT_FAILURE.json'
+        sidecar=ROOT/'RETRY1_PRIOR_PREASSIGNMENT_FAILURE.json.sha256'
+        self.assertTrue(receipt.exists()); self.assertTrue(sidecar.exists())
+        expected=sidecar.read_text('utf-8').split()[0]
+        self.assertEqual(sha256_file(receipt),expected)
+        self.assertEqual(expected,'3fdbe1621dda0b3aa7dc8f3f46db3cf0bc08449bfb9aace1fd69aa8fe42e641b')
+        obj=load_json(receipt)
+        self.assertEqual(obj['status'],'PREFLIGHT_002_BLOCKED')
+        self.assertEqual(obj['failed_stage'],'capacity_probe')
+        self.assertEqual(obj['failure_reason'],'CAPACITY_RESPONSE_NOT_COMPLETED')
+        self.assertFalse(obj['real_assignment_created'])
+        self.assertEqual(obj['benchmark_model_calls'],0)
+        self.assertFalse(obj['unblinded'])
 
     def test_no_real_assignment_artifact_exists_after_tests(self):
         self.assertFalse((ROOT/'build/assignment').exists())

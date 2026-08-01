@@ -3,7 +3,7 @@ name: OLP 30-pair 002 real execution — exact tag only
 on:
   push:
     tags:
-      - "RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_002"
+      - "RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_002_RETRY1"
 
 permissions:
   contents: read
@@ -15,7 +15,7 @@ concurrency:
 
 env:
   EXEC_ROOT: experiments/paired-mechanism-002
-  REAL_RUN_TAG: RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_002
+  REAL_RUN_TAG: RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_002_RETRY1
 
 jobs:
   pre_run_002:

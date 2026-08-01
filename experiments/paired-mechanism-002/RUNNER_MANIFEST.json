@@ -1,27 +1,32 @@
 {
   "benchmark_model_calls": 0,
   "experiment_id": "olp-core21-paired-mechanism-002",
+  "prior_002_assignment_created": false,
+  "prior_consumed_trigger": "RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_002",
+  "prior_preassignment_failure_sha256": "3fdbe1621dda0b3aa7dc8f3f46db3cf0bc08449bfb9aace1fd69aa8fe42e641b",
   "real_assignment_created": false,
+  "retry1_trigger": "RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_002_RETRY1",
   "runner_files": {
     "LINEAGE_001_ABORT.json": "168a8b68209b48099e112cba2595117d88d0fdc28992dcc36eca0552a55e022a",
     "PARENT_MAP_FROZEN_002.json": "47e971adeaeed613a2a81c6ac2c14004003ca844c32ecf0ff7751222140e194d",
     "PREASSIGNMENT_FREEZE_002.json": "bc5798bf8d413ee04de58b9432bfd8783c0194c4fdc78cb4b8a83bebbf0bd407",
     "api_retry.py": "832db989f2fa72e13bfb76244307c356a24ebf7e35c4efffb077081976a1ea77",
     "assignment.py": "3cd41d919609edc36d72e769c5f383c17f720d92042751a97ca6bf334be5494f",
-    "capacity_probe.py": "4e48f3b55fd5e859dc11ecef9bb15b1efe02c5468fc891c3840e4afbd9fe5d99",
+    "capacity_probe.py": "93c1c85300759e09bcdee3979c962d0333bf0907d70110510029d6e1d4d73baa",
     "collect_execution.py": "bb48b1e581d7c09e6db22ee86d24b89825aa95315449abef1cd43b0b02502f4f",
     "common.py": "d967d4314acc5a136a1c88ce160c2e9af3a4eb72e143671218a78bdd7446b5e9",
     "execute_pair.py": "350019cd69b5e21e613d927c0d41751bc65435e59727712525ab0e82bd48d837",
     "guard_once.py": "6a0f26b7b3eeabec85cd7ac70e9d1f88991e63af114f01794d34afec198bc3d0",
     "perturbation.py": "61ec6c57707e1bf5b621f4f6802e73171bdf5c43d4f310fc24d2b4e40486dfb1",
-    "preflight_002.py": "b9ac4641630ee36840e2c15de7e212232a630cfc4ca84b94bbcd27714f5772e9",
+    "preflight_002.py": "9f88d07041e008230d67cdf8cd8d4050fe34b233fd37e39f56d28d665dbb6b21",
     "release_check.py": "cbf884fa4045880402662e4754a1573199277c778ebb0b375b1b59429f45eb1e",
     "requirements-execution.txt": "ba5dd4592ae2d0d83245ce3e3ef8be50cd4bf93fc2fb9577caf7219d2ac3800d",
     "responses_agent.py": "54c48edc7a43a9f94e07c15e7336cd38d8943ceefbcde24bf24e803c21609545",
-    "tests/test_002.py": "98b82bdaf534ae71bdfd45e2fc866cb770deff7e8d3ddc67d06dd5a33fc0d9d0",
+    "tests/test_002.py": "8a68b211657e650cc52c92223bed4371da82c8bc6e222b65c2660091d7918633",
     "tool_runtime.py": "7b43e1db3fb48b86ba52d6704b9e518110f050b157bb61d4dcd0817012cd6137",
     "trace_format.py": "353b0b51036f25755ec34984f715538711fb49c9b7755157244704e4ab5e427f"
   },
+  "runner_revision": "RETRY1_AFTER_PREASSIGNMENT_CAPACITY_RESPONSE_NOT_COMPLETED",
   "schema": "openline.paired-mechanism-benchmark.002-runner-manifest.v1",
   "scientific_content_changed": false,
   "scientific_payload_hashes": {
@@ -33,7 +38,7 @@
   "source_scientific_experiment_id": "olp-core21-paired-mechanism-001",
   "unblinded": false,
   "workflow_files": {
-    ".github/workflows/olp-30pair-002-execution.yml": "1d59f952e9803f87928c97d901e793fd33050631480ff908aafb54a18bc8211f",
+    ".github/workflows/olp-30pair-002-execution.yml": "5e5dc1cced9cae5a9d094a648e2d4cb9720e98de0bc24cda0c3bf7903538e457",
     ".github/workflows/olp-30pair-002-preflight.yml": "e35d23e9bc36dcde5aeb3521c6b2242297ddd7aa7d3dbc931fe449ff0e754731"
   }
 }

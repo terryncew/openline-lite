@@ -1,69 +1,33 @@
 {
-  "002_execution_infrastructure": {
+  "decision": "READY_FOR_RETRY1_PREFLIGHT_NOT_READY_FOR_ASSIGNMENT",
+  "execution_infrastructure": {
     "capacity_probe": {
-      "actual_external_probe_run_during_build": false,
       "benchmark_content_sent": false,
       "configured_calls": 12,
+      "external_probe_run_during_build": false,
+      "max_output_tokens": 16384,
       "model": "gpt-5.5-2026-04-23",
-      "reason": "build does not possess or expose the investigator GitHub OPENAI_API_KEY; push-only preflight performs it",
       "reasoning_effort": "medium",
       "sequential": true
     },
-    "collector_includes_infrastructure_receipts": true,
     "controlled_worst_case_pair_seconds": 3240,
     "margin_seconds": 360,
     "matrix_job_timeout_seconds": 3600,
     "matrix_max_parallel": 1,
-    "retry_policy": {
-      "backoff_seconds": [
-        2,
-        4,
-        8
-      ],
-      "jitter": false,
-      "max_attempts_per_request": 4,
-      "quota_spend_429_retryable": false,
-      "retry_after_cap_seconds": 15,
-      "retryable_http_statuses": [
-        429,
-        500,
-        502,
-        503,
-        504
-      ]
-    },
-    "sanitized_failure_receipts": "HTTP status, OpenAI type/code, Retry-After, transport category, attempt, timestamp; no response body/message/key/condition labels"
+    "retry_policy_changed_by_retry1": false,
+    "sanitized_application_failure_context": true
   },
-  "decision": "READY_FOR_INDEPENDENT_002_PREFLIGHT_NOT_READY_FOR_ASSIGNMENT",
   "experiment_id": "olp-core21-paired-mechanism-002",
-  "future_workflows": {
-    "future_exact_tag": "RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_002",
-    "future_exact_tag_created_or_pushed": false,
-    "future_real_execution_workflow": ".github/workflows/olp-30pair-002-execution.yml",
-    "preflight_branch": "preflight/olp-core21-paired-mechanism-002",
-    "preflight_workflow": ".github/workflows/olp-30pair-002-preflight.yml"
-  },
-  "lineage": {
-    "001_assignment_created": true,
-    "001_condition_material_accessed_by_002_build": false,
-    "001_kappa_scored": false,
-    "001_paired_missingness_condition_blindness_claim": false,
-    "001_root_cause_claim": "UNRESOLVED; do not claim HTTP 429 without independent account/API telemetry",
-    "001_status": "EXECUTION_INCOMPLETE_BLIND",
-    "001_successful_trace_payloads_inspected_by_002_build": false,
-    "001_unblinded": false,
-    "statement": "fresh preregistered rerun following blinded infrastructure-aborted run; no 001 scoring or unblinding occurred before 002 freeze."
-  },
   "package": {
-    "file_count": 27,
-    "filename": "openline-core21-paired-mechanism-002-preflight-root-ready.zip",
     "root_ready": true,
-    "sha256": "8c2acd31917ac5af5c385dc845fb72ff6229e2b37c9a31d30667c981144e32d8",
-    "wrapper_folder": false
+    "wrapper_folder": false,
+    "zip_sha256": "SEE_EXTERNAL_SHA256_SIDECAR"
   },
-  "schema": "openline.paired-mechanism-benchmark.002-build-audit.v1",
+  "prior_preassignment_failure_sha256": "3fdbe1621dda0b3aa7dc8f3f46db3cf0bc08449bfb9aace1fd69aa8fe42e641b",
+  "repair_receipt_sha256": "51c0756e570a39f1354608a8fdf162147f1dcb2a1785156dda5adbc0d88ba5ac",
+  "schema": "openline.paired-mechanism-benchmark.002-retry1-build-audit.v1",
   "scientific_payload": {
-    "byte_identical_to_001": true,
+    "byte_identical_to_001_and_original_002": true,
     "changed": false,
     "hashes": {
       "BENCHMARK_DESIGN_FROZEN.json": "fd0b9eb2e2f494031bac8448dba3f6344071a4d8f2ea9285d2c3fd8ecc159f7f",
@@ -72,11 +36,9 @@
       "SIGNAL_SCHEMA_FROZEN_SCOPE_REPAIRED.json": "88dbb498881e84e32b7599ec2ec1bf186a923bc17d7e0c67c4d09cf2b9cddb8d"
     }
   },
-  "source_experiment_id": "olp-core21-paired-mechanism-001",
   "state": {
     "002_real_assignment_created": false,
     "benchmark_model_calls": 0,
-    "capacity_probe_api_calls_during_build": 0,
     "unblinded": false
   },
   "statements": [
@@ -85,13 +47,19 @@
     "UNBLINDED_FALSE"
   ],
   "verification": {
-    "clean_extraction_release_check": "PASS",
     "compileall": "PASS",
     "dry_preflight": "PASS",
-    "dry_preflight_external_calls": 0,
-    "dry_receipt_reproduced_byte_identically": true,
-    "dry_receipt_sha256": "1cb71f0c7069ee297074338977d16066b84131b92d243c91c35e26e1cbcac540",
-    "runner_manifest_sha256": "053a7d7bc19a28347c0855c49a0f11013e9f7a404e5ad346f059a30475b4e774",
-    "unit_tests_passed": 23
+    "dry_run_receipt_sha256": "02d4acb401a05086d514e8285d18d4ff55ece28de6f83a9283a2d3bd380d13fb",
+    "release_check": "PASS",
+    "runner_manifest_sha256": "3133f7a19e4300341c69fb3c44bc3b9a3445f80515cd5720815d07dee586c762",
+    "unit_tests_passed": 26
+  },
+  "workflow": {
+    "consumed_original_tag": "RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_002",
+    "preflight_branch": "preflight/olp-core21-paired-mechanism-002",
+    "preflight_workflow": ".github/workflows/olp-30pair-002-preflight.yml",
+    "real_execution_workflow": ".github/workflows/olp-30pair-002-execution.yml",
+    "retry1_exact_tag": "RUN_REAL_OLP_CORE21_PAIRED_MECHANISM_002_RETRY1",
+    "retry1_tag_created_or_pushed": false
   }
 }

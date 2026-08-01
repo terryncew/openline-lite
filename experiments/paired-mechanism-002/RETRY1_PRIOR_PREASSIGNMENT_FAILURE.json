@@ -1,0 +1,278 @@
+{
+  "benchmark_model_calls": 0,
+  "benchmark_revision": "FRESH_RERUN_AFTER_001_INFRASTRUCTURE_ABORT",
+  "capacity_probe_is_non_scientific": true,
+  "execution_config": {
+    "inherited_from_001": true,
+    "pinned": {
+      "external_memory": "disabled",
+      "max_output_tokens": 16384,
+      "max_tool_calls": 40,
+      "max_wall_seconds": 1200,
+      "model": "gpt-5.5-2026-04-23",
+      "network": "disabled",
+      "reasoning_effort": "medium",
+      "shell_timeout_seconds": 120
+    },
+    "status": "PASS",
+    "tools": [
+      "read_file",
+      "list_tree",
+      "search_text",
+      "apply_patch",
+      "run_shell"
+    ]
+  },
+  "experiment_id": "olp-core21-paired-mechanism-002",
+  "failed_stage": "capacity_probe",
+  "failure_detail": {
+    "api_failure": {
+      "attempt": 1,
+      "category": "CAPACITY_RESPONSE_NOT_COMPLETED",
+      "http_status": null,
+      "openai_error_code": null,
+      "openai_error_type": null,
+      "retry_after_header": null,
+      "retry_after_seconds": null,
+      "retryable": false,
+      "timestamp_utc": "2026-07-31T23:55:20.667814+00:00",
+      "transport_category": null
+    },
+    "prior_retry_events": []
+  },
+  "failure_reason": "CAPACITY_RESPONSE_NOT_COMPLETED",
+  "git_parent_checkout_summary": "30/30 PASS",
+  "git_parent_checkouts": [
+    {
+      "pair_id": "P01",
+      "repository": "terryncew/openline-lite",
+      "resolved_parent_sha": "1c37a6a29ad875d279df1ef5d594d489f1a6b19f",
+      "status": "PASS"
+    },
+    {
+      "pair_id": "P02",
+      "repository": "terryncew/openline-lite",
+      "resolved_parent_sha": "7e3027fb6ec8770ea70afdd29a15c12d5b5291d8",
+      "status": "PASS"
+    },
+    {
+      "pair_id": "P03",
+      "repository": "terryncew/openline-swarm-improvement-gate",
+      "resolved_parent_sha": "780eb9fcb6823a673b1e902bbc0d2aa154c4895d",
+      "status": "PASS"
+    },
+    {
+      "pair_id": "P04",
+      "repository": "terryncew/openline-swarm-improvement-gate",
+      "resolved_parent_sha": "7f3494610e798de2a39a0a26905857116f6ec2fc",
+      "status": "PASS"
+    },
+    {
+      "pair_id": "P05",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "97cfc43027f09c17ad81f38227d0b30d0856d8e9",
+      "status": "PASS"
+    },
+    {
+      "pair_id": "P06",
+      "repository": "terryncew/openline-eval-airlock",
+      "resolved_parent_sha": "25f894387ec7058d776054e473536f71cb3a9060",
+      "status": "PASS"
+    },
+    {
+      "pair_id": "P07",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "870c51035f95a085e581e28661dd11b55b48c6aa",
+      "status": "PASS"
+    },
+    {
+      "pair_id": "P08",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "004595e5df019310fede37aa4ac9e236b740ae4b",
+      "status": "PASS"
+    },
+    {
+      "pair_id": "P09",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "309318c7635c73c209c32c38fb475316a67db175",
+      "status": "PASS"
+    },
+    {
+      "pair_id": "P10",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "f9ae467965a5fe12f63387091af8cb694fa893ed",
+      "status": "PASS"
+    },
+    {
+      "pair_id": "P11",
+      "repository": "terryncew/openline-langgraph",
+      "resolved_parent_sha": "6435048e63052109374e8de732d163f580551ad8",
+      "status": "PASS"
+    },
+    {
+      "pair_id": "P12",
+      "repository": "terryncew/openline-half-life",
+      "resolved_parent_sha": "9eee60c2253a6a5ab5432f8ce4646e8f2fef7415",
+      "status": "PASS"
+    },
+    {
+      "pair_id": "P13",
+      "repository": "terryncew/openline-half-life",
+      "resolved_parent_sha": "70121b53e86196d69b2c3457174b38ad32667b43",
+      "status": "PASS"
+    },
+    {
+      "pair_id": "P14",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "ed49641b4f5db7267a5e190a693d8104c9a87028",
+      "status": "PASS"
+    },
+    {
+      "pair_id": "P15",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "4eca0b21f823472e124bfa3b3b20e141702f34d4",
+      "status": "PASS"
+    },
+    {
+      "pair_id": "P16",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "10204008249270f47ef710f437f88ffd9f91ff8c",
+      "status": "PASS"
+    },
+    {
+      "pair_id": "P17",
+      "repository": "terryncew/openline-half-life",
+      "resolved_parent_sha": "9e9d17f424be38681dd65f9fe9ee40c3195a1e78",
+      "status": "PASS"
+    },
+    {
+      "pair_id": "P18",
+      "repository": "terryncew/openline-half-life",
+      "resolved_parent_sha": "d07dfd517e1b86034868a0edb62eacd810a95be5",
+      "status": "PASS"
+    },
+    {
+      "pair_id": "P19",
+      "repository": "terryncew/openline-endurance-gate",
+      "resolved_parent_sha": "cb48b0d276669576f0f6d419c703250185d34dfb",
+      "status": "PASS"
+    },
+    {
+      "pair_id": "P20",
+      "repository": "terryncew/openline-endurance-gate",
+      "resolved_parent_sha": "a04efb86fcc4d1791c8822dad4ec228cdccb59cd",
+      "status": "PASS"
+    },
+    {
+      "pair_id": "P21",
+      "repository": "terryncew/openline-endurance-gate",
+      "resolved_parent_sha": "fd62993d45a4afcf00abdb0a4805650688dfa068",
+      "status": "PASS"
+    },
+    {
+      "pair_id": "P22",
+      "repository": "terryncew/openline-lite",
+      "resolved_parent_sha": "479640a02a8d499de6484119c56ebc73932f28c4",
+      "status": "PASS"
+    },
+    {
+      "pair_id": "P23",
+      "repository": "terryncew/openline-eval-airlock",
+      "resolved_parent_sha": "96c2db31f150fef17b7bf4fe9b0873978d1fefea",
+      "status": "PASS"
+    },
+    {
+      "pair_id": "P24",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "42576862ac8139a4b8ec909391e8d5c9ff71c096",
+      "status": "PASS"
+    },
+    {
+      "pair_id": "P25",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "ebe3dca6047cd66cbf1acf82300868e64443250c",
+      "status": "PASS"
+    },
+    {
+      "pair_id": "P26",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "2d8474f821df1ea4ffdd300f78f039b686811912",
+      "status": "PASS"
+    },
+    {
+      "pair_id": "P27",
+      "repository": "terryncew/openline-proof-adapter",
+      "resolved_parent_sha": "b642ebe3e3abbff0b9d64905e4677e6fc10d2d35",
+      "status": "PASS"
+    },
+    {
+      "pair_id": "P28",
+      "repository": "terryncew/openline-audit-debt-harness",
+      "resolved_parent_sha": "c8a88d0bc5ae4fbd6f38a18a7f554a561dc991ed",
+      "status": "PASS"
+    },
+    {
+      "pair_id": "P29",
+      "repository": "terryncew/openline-otel",
+      "resolved_parent_sha": "3716e26106c2f02e183a66042fb9562b16b23b49",
+      "status": "PASS"
+    },
+    {
+      "pair_id": "P30",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "7d585807c80c8ec704f4b28cd6ff63ff32118752",
+      "status": "PASS"
+    }
+  ],
+  "lineage_statement": "fresh preregistered rerun following blinded infrastructure-aborted run; no 001 scoring or unblinding occurred before 002 freeze.",
+  "network_sandbox": {
+    "agent_tool_network": "DENIED",
+    "status": "PASS"
+  },
+  "predecessor_experiment_id": "olp-core21-paired-mechanism-001",
+  "real_assignment_created": false,
+  "runner_manifest": {
+    "runner_file_count": 18,
+    "sha256": "053a7d7bc19a28347c0855c49a0f11013e9f7a404e5ad346f059a30475b4e774",
+    "status": "PASS",
+    "workflow_file_count": 2
+  },
+  "runtime_bound": {
+    "controlled_worst_case_pair_seconds": 3240,
+    "margin_seconds": 360,
+    "matrix_job_timeout_seconds": 3600,
+    "matrix_max_parallel": 1,
+    "retry_backoff_counted_inside_scientific_wall_budget": true,
+    "status": "PASS"
+  },
+  "schema": "openline.paired-mechanism-benchmark.002-preflight.v1",
+  "scientific_hashes": [
+    {
+      "actual": "fd0b9eb2e2f494031bac8448dba3f6344071a4d8f2ea9285d2c3fd8ecc159f7f",
+      "expected": "fd0b9eb2e2f494031bac8448dba3f6344071a4d8f2ea9285d2c3fd8ecc159f7f",
+      "file": "BENCHMARK_DESIGN_FROZEN.json",
+      "status": "PASS"
+    },
+    {
+      "actual": "5c622e0deaf500f7f39d9c5afece7550c1fa4859155d8b7191eb67bb0a725533",
+      "expected": "5c622e0deaf500f7f39d9c5afece7550c1fa4859155d8b7191eb67bb0a725533",
+      "file": "PAIR_SET_FROZEN.json",
+      "status": "PASS"
+    },
+    {
+      "actual": "88dbb498881e84e32b7599ec2ec1bf186a923bc17d7e0c67c4d09cf2b9cddb8d",
+      "expected": "88dbb498881e84e32b7599ec2ec1bf186a923bc17d7e0c67c4d09cf2b9cddb8d",
+      "file": "SIGNAL_SCHEMA_FROZEN_SCOPE_REPAIRED.json",
+      "status": "PASS"
+    },
+    {
+      "actual": "1a94515d691b86719b17885c3bf983fbe7d052affebc22406ec35b34fc9bc9e4",
+      "expected": "1a94515d691b86719b17885c3bf983fbe7d052affebc22406ec35b34fc9bc9e4",
+      "file": "PERTURBATION_SPEC_FROZEN_SCOPE_REPAIRED.json",
+      "status": "PASS"
+    }
+  ],
+  "scientific_payload_byte_identical_to_001": true,
+  "status": "PREFLIGHT_002_BLOCKED",
+  "unblinded": false
+}
