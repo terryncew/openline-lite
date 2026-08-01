@@ -1,0 +1,18 @@
+{
+  "schema": "openline.capacity-canary-policy.v1",
+  "purpose": "cheap discriminator before any 003 design or assignment",
+  "scientific_status": "NON_SCIENTIFIC_INFRASTRUCTURE_ONLY",
+  "creates_assignment": false,
+  "scores_or_unblinds": false,
+  "live_request_cap": 6,
+  "retry_count": 0,
+  "stop_on_first_failure": true,
+  "minimum_start_interval_seconds": 45,
+  "input_payload_bytes_per_request": 80000,
+  "max_output_tokens_per_request": 256,
+  "requested_model": "gpt-5.5-2026-04-23",
+  "reasoning_effort": "medium",
+  "pass_meaning": "capacity survived only this bounded envelope; full 003 remains forbidden",
+  "fail_meaning": "do not run 003 at this envelope",
+  "dollar_cap_guaranteed": false
+}

@@ -1,43 +1,61 @@
 {
-  "file_count": 32,
-  "files": {
-    ".github/workflows/olp-30pair-002-execution.yml": "5e5dc1cced9cae5a9d094a648e2d4cb9720e98de0bc24cda0c3bf7903538e457",
-    ".github/workflows/olp-30pair-002-preflight.yml": "e35d23e9bc36dcde5aeb3521c6b2242297ddd7aa7d3dbc931fe449ff0e754731",
-    "AUDIT_RECEIPT.json": "4ebfbf60bd52ddc6627e7333bcdd939f6bc88140b5ee966a512f9a73bc4a50ca",
-    "README-002-PREFLIGHT.md": "666acb9b3cd865995028e7ec8fd6f28dedc0aa144f7f99ce44514c636bde8403",
-    "experiments/paired-mechanism-002/DRY_RUN_RECEIPT.json": "02d4acb401a05086d514e8285d18d4ff55ece28de6f83a9283a2d3bd380d13fb",
-    "experiments/paired-mechanism-002/LINEAGE_001_ABORT.json": "168a8b68209b48099e112cba2595117d88d0fdc28992dcc36eca0552a55e022a",
-    "experiments/paired-mechanism-002/PARENT_MAP_FROZEN_002.json": "47e971adeaeed613a2a81c6ac2c14004003ca844c32ecf0ff7751222140e194d",
-    "experiments/paired-mechanism-002/PREASSIGNMENT_FREEZE_002.json": "bc5798bf8d413ee04de58b9432bfd8783c0194c4fdc78cb4b8a83bebbf0bd407",
-    "experiments/paired-mechanism-002/RETRY1_PRIOR_PREASSIGNMENT_FAILURE.json": "3fdbe1621dda0b3aa7dc8f3f46db3cf0bc08449bfb9aace1fd69aa8fe42e641b",
-    "experiments/paired-mechanism-002/RETRY1_PRIOR_PREASSIGNMENT_FAILURE.json.sha256": "343dedf9c2a93aa07b2f494dfb9b67cc2b55b8c0d1c2761b00f873cf28c2de6e",
-    "experiments/paired-mechanism-002/RETRY1_REPAIR_RECEIPT.json": "51c0756e570a39f1354608a8fdf162147f1dcb2a1785156dda5adbc0d88ba5ac",
-    "experiments/paired-mechanism-002/RETRY1_REPAIR_RECEIPT.json.sha256": "5ba78a17d8b8a543bd3de97b3f510026a4bcbcd862b07ba8fe9226816728ffcb",
-    "experiments/paired-mechanism-002/RUNNER_MANIFEST.json": "3133f7a19e4300341c69fb3c44bc3b9a3445f80515cd5720815d07dee586c762",
-    "experiments/paired-mechanism-002/api_retry.py": "832db989f2fa72e13bfb76244307c356a24ebf7e35c4efffb077081976a1ea77",
-    "experiments/paired-mechanism-002/assignment.py": "3cd41d919609edc36d72e769c5f383c17f720d92042751a97ca6bf334be5494f",
-    "experiments/paired-mechanism-002/capacity_probe.py": "93c1c85300759e09bcdee3979c962d0333bf0907d70110510029d6e1d4d73baa",
-    "experiments/paired-mechanism-002/collect_execution.py": "bb48b1e581d7c09e6db22ee86d24b89825aa95315449abef1cd43b0b02502f4f",
-    "experiments/paired-mechanism-002/common.py": "d967d4314acc5a136a1c88ce160c2e9af3a4eb72e143671218a78bdd7446b5e9",
-    "experiments/paired-mechanism-002/execute_pair.py": "350019cd69b5e21e613d927c0d41751bc65435e59727712525ab0e82bd48d837",
-    "experiments/paired-mechanism-002/frozen_scientific/BENCHMARK_DESIGN_FROZEN.json": "fd0b9eb2e2f494031bac8448dba3f6344071a4d8f2ea9285d2c3fd8ecc159f7f",
-    "experiments/paired-mechanism-002/frozen_scientific/PAIR_SET_FROZEN.json": "5c622e0deaf500f7f39d9c5afece7550c1fa4859155d8b7191eb67bb0a725533",
-    "experiments/paired-mechanism-002/frozen_scientific/PERTURBATION_SPEC_FROZEN_SCOPE_REPAIRED.json": "1a94515d691b86719b17885c3bf983fbe7d052affebc22406ec35b34fc9bc9e4",
-    "experiments/paired-mechanism-002/frozen_scientific/SIGNAL_SCHEMA_FROZEN_SCOPE_REPAIRED.json": "88dbb498881e84e32b7599ec2ec1bf186a923bc17d7e0c67c4d09cf2b9cddb8d",
-    "experiments/paired-mechanism-002/guard_once.py": "6a0f26b7b3eeabec85cd7ac70e9d1f88991e63af114f01794d34afec198bc3d0",
-    "experiments/paired-mechanism-002/perturbation.py": "61ec6c57707e1bf5b621f4f6802e73171bdf5c43d4f310fc24d2b4e40486dfb1",
-    "experiments/paired-mechanism-002/preflight_002.py": "9f88d07041e008230d67cdf8cd8d4050fe34b233fd37e39f56d28d665dbb6b21",
-    "experiments/paired-mechanism-002/release_check.py": "cbf884fa4045880402662e4754a1573199277c778ebb0b375b1b59429f45eb1e",
-    "experiments/paired-mechanism-002/requirements-execution.txt": "ba5dd4592ae2d0d83245ce3e3ef8be50cd4bf93fc2fb9577caf7219d2ac3800d",
-    "experiments/paired-mechanism-002/responses_agent.py": "54c48edc7a43a9f94e07c15e7336cd38d8943ceefbcde24bf24e803c21609545",
-    "experiments/paired-mechanism-002/tests/test_002.py": "8a68b211657e650cc52c92223bed4371da82c8bc6e222b65c2660091d7918633",
-    "experiments/paired-mechanism-002/tool_runtime.py": "7b43e1db3fb48b86ba52d6704b9e518110f050b157bb61d4dcd0817012cd6137",
-    "experiments/paired-mechanism-002/trace_format.py": "353b0b51036f25755ec34984f715538711fb49c9b7755157244704e4ab5e427f"
-  },
-  "manifest_excludes_itself": true,
-  "package_purpose": "002 RETRY1 execution-infrastructure repair after pre-assignment capacity-response failure",
-  "schema": "openline.package-manifest.v2",
-  "source_package_sha256": "39b97fcf9d986c2583728f3cd6e6c176e2679e594d62998d92e199eec7340f54",
-  "zip_name": "openline-core21-paired-mechanism-002-retry1-infrastructure-repair-root-ready.zip",
-  "zip_sha256": "SEE_EXTERNAL_SHA256_SIDECAR"
+  "files": [
+    {
+      "bytes": 1271,
+      "path": ".github/workflows/olp-low-cost-capacity-canary.yml",
+      "sha256": "2625b2ea8887f3499e79a01225a45952bb548280ace6f612ab75d5ce34cf6c7c"
+    },
+    {
+      "bytes": 37,
+      "path": ".pytest_cache/.gitignore",
+      "sha256": "3ed731b65d06150c138e2dadb0be0697550888a6b47eb8c45ecc9adba8b8e9bd"
+    },
+    {
+      "bytes": 191,
+      "path": ".pytest_cache/CACHEDIR.TAG",
+      "sha256": "37dc88ef9a0abeddbe81053a6dd8fdfb13afb613045ea1eb4a5c815a74a3bde4"
+    },
+    {
+      "bytes": 302,
+      "path": ".pytest_cache/README.md",
+      "sha256": "73fd6fccdd802c419a6b2d983d6c3173b7da97558ac4b589edec2dfe443db9ad"
+    },
+    {
+      "bytes": 318,
+      "path": ".pytest_cache/v/cache/nodeids",
+      "sha256": "fb6f0f126b8a53cb7377c369fc568407d61829a442d74a00c160a5e9fd0e4349"
+    },
+    {
+      "bytes": 966,
+      "path": "README-CAPACITY-CANARY.md",
+      "sha256": "2688d45bdf1f9213ae32f748ecc72c448f756a971f8bc8d7262744cc1f966dbc"
+    },
+    {
+      "bytes": 706,
+      "path": "experiments/paired-mechanism-capacity-canary/CANARY_POLICY.json",
+      "sha256": "f3cadefffdd7ff78fc2f58a675695ecce762aae8eb6ea97442e25a8cb3529fd3"
+    },
+    {
+      "bytes": 10370,
+      "path": "experiments/paired-mechanism-capacity-canary/__pycache__/canary.cpython-313.pyc",
+      "sha256": "0f48bbdfdde24e55b67496f185db4e91b1a9abec0266a4443f6aa97dffbe33dc"
+    },
+    {
+      "bytes": 7507,
+      "path": "experiments/paired-mechanism-capacity-canary/canary.py",
+      "sha256": "dc59358f2353c02715b0de1cc97349ac92dc91a473b1a27bcaa514b6042b8b22"
+    },
+    {
+      "bytes": 11976,
+      "path": "experiments/paired-mechanism-capacity-canary/tests/__pycache__/test_canary.cpython-313-pytest-9.0.2.pyc",
+      "sha256": "f6eeba1f5ebba28174c374da7918ef05e3d61c6f29eb8f2e5c512b3261123f36"
+    },
+    {
+      "bytes": 2168,
+      "path": "experiments/paired-mechanism-capacity-canary/tests/test_canary.py",
+      "sha256": "f06e41cdab4dbf9df88631524a55a9b012ef62b3ab7e42a91fa3a5222ddf898b"
+    }
+  ],
+  "package": "olp-low-cost-capacity-canary",
+  "schema": "openline.package-manifest.v1"
 }

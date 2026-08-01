@@ -1,0 +1,43 @@
+name: OLP low-cost capacity canary — no assignment
+
+on:
+  workflow_dispatch:
+    inputs:
+      acknowledgement:
+        description: "Enter RUN_LOW_COST_CANARY_ONLY"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: olp-low-cost-capacity-canary
+  cancel-in-progress: false
+
+jobs:
+  canary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Enforce explicit low-cost acknowledgement
+        shell: bash
+        run: test "${{ inputs.acknowledgement }}" = "RUN_LOW_COST_CANARY_ONLY"
+      - name: Run token-bounded canary; stop on first 429; no retries
+        run: python experiments/paired-mechanism-capacity-canary/canary.py --out build/CAPACITY_CANARY_RECEIPT.json
+      - name: Upload canary receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: olp-low-cost-capacity-canary-receipt
+          path: |
+            build/CAPACITY_CANARY_RECEIPT.json
+            build/CAPACITY_CANARY_RECEIPT.json.sha256
+          if-no-files-found: error
+          retention-days: 90
