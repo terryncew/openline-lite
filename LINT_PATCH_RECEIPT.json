@@ -1,0 +1,23 @@
+{
+  "schema": "openline.lint_patch_receipt.v1",
+  "claim": "Repo-wide lint is scoped to product code; independently frozen research experiments remain governed by their own tests, manifests, and preflight gates.",
+  "changed_files": [
+    ".github/workflows/ci.yml"
+  ],
+  "file_sha256": {
+    ".github/workflows/ci.yml": "92c2269f16522f51181f3f8c7db83dc0255271d3e0670b562d9ecbfcd01db38b"
+  },
+  "evidence": {
+    "observed_ci_failure": "ruff check . reported 269 errors across experiment artifacts",
+    "existing_policy_precedent": "ci already excluded experiments/calibration-trial from formatter rewriting",
+    "yaml_parse": "PASS"
+  },
+  "forbidden_changes_confirmed": [
+    "no execution workflow changes",
+    "no key-handling changes",
+    "no scientific payload changes",
+    "no assignment or execution tag changes"
+  ],
+  "decision": "READY_TO_MERGE_WITH_KEY_REPAIR_BEFORE_FINAL_RESEAL",
+  "limitation": "Full Ruff execution was not reproduced locally because the pinned Ruff binary was unavailable in the isolated runtime; GitHub CI is the final verifier."
+}
