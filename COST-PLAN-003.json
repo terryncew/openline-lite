@@ -1,0 +1,35 @@
+{
+  "comfortable_ceiling_usd": 450,
+  "experiment_id": "olp-core21-paired-mechanism-003",
+  "illustrative_cost_usd": {
+    "central": 221.85,
+    "high_planning": 408.5,
+    "low": 103.72
+  },
+  "minimum_credit_i_would_risk_usd": 250,
+  "observed_002": {
+    "api_attempts_first_10_pair_jobs": 555,
+    "completed_responses_first_10_pair_jobs": 507
+  },
+  "planning_assumptions": {
+    "expected_full_run_completed_responses": 1530,
+    "input_tokens_per_response_range": [
+      14215,
+      25000
+    ],
+    "output_tokens_per_response_planning_range": [
+      512,
+      3000
+    ],
+    "retries_expected_to_be_low_under_45_second_pacing": true
+  },
+  "pricing_checked_utc": "2026-08-01",
+  "pricing_source": "Official OpenAI GPT-5.5 launch/pricing page",
+  "pricing_usd_per_million_tokens": {
+    "input": 5.0,
+    "output": 30.0
+  },
+  "recommended_available_credit_usd": 350,
+  "schema": "openline.paired-mechanism-benchmark.003-cost-plan.v1",
+  "warning": "Actual cost is not guaranteed. Output-token use and context growth dominate uncertainty. A billing stop mid-run would invalidate the execution."
+}

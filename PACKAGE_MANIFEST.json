@@ -1,38 +1,174 @@
 {
-  "schema": "openline.package-manifest.v3",
-  "package": "openline-low-cost-capacity-canary-calibrated-retry1",
-  "manifest_excludes_self": true,
-  "file_count_excluding_manifest": 6,
-  "files": [
-    {
-      "path": ".github/workflows/olp-low-cost-capacity-canary.yml",
-      "bytes": 1560,
-      "sha256": "5995029dda8095caffe08045aa71930db044bf0830a2ead45b7c093edec045ea"
+  "canonical_final_result_file": "FINAL_BENCHMARK_RESULT.json",
+  "experiment_id": "olp-core21-paired-mechanism-003",
+  "file_count_excluding_manifest": 39,
+  "files": {
+    ".github/workflows/olp-30pair-003-execution.yml": {
+      "bytes": 14458,
+      "sha256": "1608d825f275345d27564a0e2cd33a69335bcaa62406c62092678b000411e28d"
     },
-    {
-      "path": "AUDIT_RECEIPT.json",
-      "bytes": 2428,
-      "sha256": "747ae3ef0656c50780530cadc9e0290acd74abf7f4f24122ab8c8ae711f47e8f"
+    ".github/workflows/olp-30pair-003-preflight.yml": {
+      "bytes": 1746,
+      "sha256": "abdf1e6d53bce997d4495f0dea42b15adc43ecd672bf5df8e8b43f0def364688"
     },
-    {
-      "path": "README-CAPACITY-CANARY.md",
-      "bytes": 1856,
-      "sha256": "7b3debeff1bdec5bb94da84900b2e5fa7ba46bfd7215d9d5ff7ecbd5799cc2bf"
+    "AUDIT_RECEIPT.json": {
+      "bytes": 4189,
+      "sha256": "05a911e8c8562e65e666b1216b86333f6aa05b037a90a2e3fff6933ff105e78a"
     },
-    {
-      "path": "experiments/paired-mechanism-capacity-canary/CANARY_POLICY.json",
-      "bytes": 1416,
-      "sha256": "48326eba02d14b2d15f6ffc3c438d6000de1ceea357742f82314d12d6f6006a0"
+    "CAPSTONE_VERIFICATION_003.json": {
+      "bytes": 2679,
+      "sha256": "35f4a2f5d9182049293e054d28663f8bb7c695efd7ce16d7a02a6657ff65e599"
     },
-    {
-      "path": "experiments/paired-mechanism-capacity-canary/canary.py",
-      "bytes": 11070,
-      "sha256": "168dec8efe76eccf8400e7361dc5e7cdd6e0495234bd0da91b0884cd93fd6fcb"
+    "COST-PLAN-003.json": {
+      "bytes": 1111,
+      "sha256": "1d6273dce1efe4519cbf3ca1cb43ff49b977d36b27fd8e197e3dec97efefb812"
     },
-    {
-      "path": "experiments/paired-mechanism-capacity-canary/tests/test_canary.py",
-      "bytes": 6514,
-      "sha256": "c900059104d6f51d690deaaf7ae22d0cc542ba12cc15daa482675106ed583f8f"
+    "README-003-PREFLIGHT.md": {
+      "bytes": 7073,
+      "sha256": "567f46ff78592e6a94977a8b3fbcc86aa134f59d2deb5aabdf1002fae0eca1bc"
+    },
+    "experiments/paired-mechanism-003/CAPACITY_CANARY_PASS_BOUND.json": {
+      "bytes": 5258,
+      "sha256": "964397e3dd3f3030844b1947da86141eeabef4883f4a0d450dae65488700df77"
+    },
+    "experiments/paired-mechanism-003/CAPACITY_CANARY_PASS_BOUND.json.sha256": {
+      "bytes": 95,
+      "sha256": "61fc4cb81bf7bb23175b10729189d8056c9d69b2ed3ddb61267947efd8b06dcd"
+    },
+    "experiments/paired-mechanism-003/DRY_RUN_RECEIPT.json": {
+      "bytes": 3627,
+      "sha256": "51fc682911d944cfeb2ab3f408a93e79ba65dcabf8cd8c6b94ba6343f60b8891"
+    },
+    "experiments/paired-mechanism-003/DRY_RUN_RECEIPT.json.sha256": {
+      "bytes": 87,
+      "sha256": "b8a8913b065c427f6d6ed007a33e73c16cb3e2af8697f8c1ed7d0094da98264a"
+    },
+    "experiments/paired-mechanism-003/LINEAGE_001_002_ABORTS_AND_CANARY.json": {
+      "bytes": 3073,
+      "sha256": "4757fbfb2e002c55945697a8db99b66b012d3d18034b1d5176e933c060de1cd4"
+    },
+    "experiments/paired-mechanism-003/PARENT_MAP_FROZEN_003.json": {
+      "bytes": 8938,
+      "sha256": "a9e5d3f81b08ad395688848027688cdd389de8990cb28a6a45ee85793d8542c1"
+    },
+    "experiments/paired-mechanism-003/PREASSIGNMENT_FREEZE_003.json": {
+      "bytes": 4494,
+      "sha256": "fffb008448d78df7f591e9a4249b82a7c9bdf81fc6de471ac9714682e8cf8571"
+    },
+    "experiments/paired-mechanism-003/PUBLICATION_COMMITMENT_003.json": {
+      "bytes": 1686,
+      "sha256": "e90ea4e48eb76e350a3ddc2888e2d164f8b29634b7473a65a3a798c1fda02283"
+    },
+    "experiments/paired-mechanism-003/RUNNER_MANIFEST.json": {
+      "bytes": 4683,
+      "sha256": "bf9759aec5ceb387b069da1f6bf42e37bfc896ab7ffa6787552c6b5cca10490a"
+    },
+    "experiments/paired-mechanism-003/SCORER_FREEZE_003.json": {
+      "bytes": 2870,
+      "sha256": "9f3843685a016f891d59f63abe3c7f8954dfa2bc0ce5c4bd5bb84b8d959870e9"
+    },
+    "experiments/paired-mechanism-003/api_retry.py": {
+      "bytes": 13074,
+      "sha256": "b93e9c52a6aa86c620dac8b95d6c0bbd3d18a7e5dfe44f90999dea71e421d567"
+    },
+    "experiments/paired-mechanism-003/assignment.py": {
+      "bytes": 11305,
+      "sha256": "7e0b0337bd2ddf096ce46d94420e03fffbd05e5993b005644a876a3c1e2e89bc"
+    },
+    "experiments/paired-mechanism-003/blind_score.py": {
+      "bytes": 23779,
+      "sha256": "44f3b76e400f6e34dd79a4f87d75b4ac8a721493581a52dbc915d58cd900e06e"
+    },
+    "experiments/paired-mechanism-003/canary_binding.py": {
+      "bytes": 3384,
+      "sha256": "7c87a65dd477a16b668ddf9d8350bb4769650a21cbabe5f7788affce0fc559f5"
+    },
+    "experiments/paired-mechanism-003/collect_execution.py": {
+      "bytes": 11012,
+      "sha256": "08e67e3f3c0ed2ff6a6ba80c411aa0bc55758b9e2a3a1829426340eac212be2c"
+    },
+    "experiments/paired-mechanism-003/common.py": {
+      "bytes": 4085,
+      "sha256": "0b7c3188456d524560ebbaf96cabcec076fa08f2d65a63c24918d074c6e64ba4"
+    },
+    "experiments/paired-mechanism-003/execute_pair.py": {
+      "bytes": 26191,
+      "sha256": "c59b070bb75977a9de62f31f98ceef0c0767a778ffaa36066236a18a29d43459"
+    },
+    "experiments/paired-mechanism-003/frozen_scientific/BENCHMARK_DESIGN_FROZEN.json": {
+      "bytes": 5756,
+      "sha256": "fd0b9eb2e2f494031bac8448dba3f6344071a4d8f2ea9285d2c3fd8ecc159f7f"
+    },
+    "experiments/paired-mechanism-003/frozen_scientific/PAIR_SET_FROZEN.json": {
+      "bytes": 20303,
+      "sha256": "5c622e0deaf500f7f39d9c5afece7550c1fa4859155d8b7191eb67bb0a725533"
+    },
+    "experiments/paired-mechanism-003/frozen_scientific/PERTURBATION_SPEC_FROZEN_SCOPE_REPAIRED.json": {
+      "bytes": 5507,
+      "sha256": "1a94515d691b86719b17885c3bf983fbe7d052affebc22406ec35b34fc9bc9e4"
+    },
+    "experiments/paired-mechanism-003/frozen_scientific/SIGNAL_SCHEMA_FROZEN_SCOPE_REPAIRED.json": {
+      "bytes": 6547,
+      "sha256": "88dbb498881e84e32b7599ec2ec1bf186a923bc17d7e0c67c4d09cf2b9cddb8d"
+    },
+    "experiments/paired-mechanism-003/guard_once.py": {
+      "bytes": 2754,
+      "sha256": "a1a3f0f4da6b3e7b66e442317166da0a18b0d9cd3f29308842ea49e407be2d43"
+    },
+    "experiments/paired-mechanism-003/independent_verify_scores.py": {
+      "bytes": 17543,
+      "sha256": "5072756df07b9551c60aadbeb914ea5c909ea2e472ee089739e3c7f8175f8699"
+    },
+    "experiments/paired-mechanism-003/perturbation.py": {
+      "bytes": 629,
+      "sha256": "61ec6c57707e1bf5b621f4f6802e73171bdf5c43d4f310fc24d2b4e40486dfb1"
+    },
+    "experiments/paired-mechanism-003/preflight_003.py": {
+      "bytes": 12558,
+      "sha256": "ed0d5439044b8cf8c776cc805a9c6cd3cf91c8455f0f929304b47d9519d64e1b"
+    },
+    "experiments/paired-mechanism-003/release_check.py": {
+      "bytes": 6901,
+      "sha256": "00a660732c2ec49ccd62ec08260f926c46d3592de95b731fdc7b7d3145807b18"
+    },
+    "experiments/paired-mechanism-003/requirements-execution.txt": {
+      "bytes": 21,
+      "sha256": "ba5dd4592ae2d0d83245ce3e3ef8be50cd4bf93fc2fb9577caf7219d2ac3800d"
+    },
+    "experiments/paired-mechanism-003/responses_agent.py": {
+      "bytes": 8270,
+      "sha256": "7532c89c17d69585b06c545c6af85a4f6583a5997c308df09cc8e55cac764eb6"
+    },
+    "experiments/paired-mechanism-003/tests/test_003.py": {
+      "bytes": 19934,
+      "sha256": "de4511420272e9e1c1bfc7639b6ea49ccd9867035e612776a052df16664adf26"
+    },
+    "experiments/paired-mechanism-003/tests/test_capstone.py": {
+      "bytes": 17434,
+      "sha256": "80fc83d8a6d268558e7f00150d899e8208453b0891c67872486a807baaf5000e"
+    },
+    "experiments/paired-mechanism-003/tool_runtime.py": {
+      "bytes": 10069,
+      "sha256": "7b43e1db3fb48b86ba52d6704b9e518110f050b157bb61d4dcd0817012cd6137"
+    },
+    "experiments/paired-mechanism-003/trace_format.py": {
+      "bytes": 5407,
+      "sha256": "353b0b51036f25755ec34984f715538711fb49c9b7755157244704e4ab5e427f"
+    },
+    "experiments/paired-mechanism-003/unblind_publish.py": {
+      "bytes": 26763,
+      "sha256": "d7e8d44c7597fc04ebc0386f31da8958dd94e9af26193d6dfbb6b15133deb39b"
     }
-  ]
+  },
+  "manifest_excludes_self": true,
+  "package": "openline-core21-paired-mechanism-003-publish-regardless-capstone",
+  "root_ready": true,
+  "schema": "openline.paired-mechanism-benchmark.003-package-manifest.v2",
+  "state": {
+    "benchmark_model_calls_during_build": 0,
+    "execution_tag_created_or_pushed": false,
+    "real_assignment_created": false,
+    "unblinded": false
+  },
+  "wrapper_folder": false
 }

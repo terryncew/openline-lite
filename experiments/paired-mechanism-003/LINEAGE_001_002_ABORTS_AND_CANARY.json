@@ -1,0 +1,67 @@
+{
+  "capacity_canary": {
+    "authorizes_assignment_by_itself": false,
+    "disposition": "CAPACITY_CANARY_PASS",
+    "input_tokens_per_request": 14215,
+    "max_output_tokens_per_request": 16384,
+    "minimum_start_interval_seconds": 45,
+    "observed_request_limit": 5000,
+    "observed_token_limit": 2000000,
+    "receipt_sha256": "964397e3dd3f3030844b1947da86141eeabef4883f4a0d450dae65488700df77",
+    "requests_completed": 6
+  },
+  "claim_boundary": "003 may test the frozen directional hypothesis under a fresh assignment, but reporting must disclose the post-retirement inspection of condition-blind 002 signal values.",
+  "experiment_id": "olp-core21-paired-mechanism-003",
+  "predecessors": [
+    {
+      "assignment_created": true,
+      "complete_pairs": 11,
+      "condition_linked_effect_inspected": false,
+      "execution_receipt_sha256": "69bb222222353973761742c31bc35a3f5b05a2d7f9331184ad63f70821b43d57",
+      "experiment_id": "olp-core21-paired-mechanism-001",
+      "instrumentation_invalid_executions": 0,
+      "kappa_scored": false,
+      "missing_opaque_execution_records": 38,
+      "status": "EXECUTION_INCOMPLETE_BLIND",
+      "unblinded": false,
+      "valid_opaque_execution_records": 22
+    },
+    {
+      "assignment_created": true,
+      "benchmark_api_attempt_count": 555,
+      "benchmark_completed_response_count": 507,
+      "benchmark_retry_count": 45,
+      "complete_pairs": 7,
+      "condition_linked_effect_inspected": false,
+      "condition_map_accessed": false,
+      "directional_pair_result_known": false,
+      "disclosure": "After 002 was retired, condition-blind opaque kappa values for the surviving traces were inspected. No CLEAN/PERTURBED mapping or condition-linked direction was available. 003 is therefore not claimed to be independent of all prior signal-distribution information.",
+      "execution_receipt_sha256": "23f58d45a50f94035a1bd97157afaaf799bdaa4625603998df7fd211e43dd54f",
+      "experiment_id": "olp-core21-paired-mechanism-002",
+      "missing_opaque_execution_records": 46,
+      "opaque_signal_values_inspected_after_retirement": true,
+      "public_bundle_sha256": "495a7965c59d3293b97e16e7b0620ca64eddf8ed309acc623bd1dfddc0f901f0",
+      "status": "EXECUTION_INCOMPLETE_BLIND",
+      "successful_returned_model": "gpt-5.5-2026-04-23",
+      "terminal_failure_class": "HTTP_429_RATE_LIMIT_TRANSIENT",
+      "unblinded": false,
+      "valid_opaque_execution_records": 14
+    }
+  ],
+  "prohibited_access": [
+    "001 secret key",
+    "001 condition plaintext",
+    "002 secret key",
+    "002 condition plaintext"
+  ],
+  "real_003_assignment_created": false,
+  "relationship": "fresh 45-second-paced blinded rerun following two infrastructure-aborted blinded runs; no predecessor condition map, key, assignment, or trace is reused.",
+  "schema": "openline.paired-mechanism-benchmark.rerun-lineage.v3",
+  "scientific_carry_forward": {
+    "condition_assignments_reused": false,
+    "partial_traces_reused": false,
+    "payload_bytes_reused": true,
+    "scores_reused": false
+  },
+  "unblinded": false
+}

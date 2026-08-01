@@ -1,0 +1,188 @@
+{
+  "experiment_id": "olp-core21-paired-mechanism-003",
+  "pairs": {
+    "P01": {
+      "checkpoint_ref": "f0c7e19d73218d0d4f44d9d1ddc10bfa4744db24^1",
+      "repository": "terryncew/openline-lite",
+      "resolved_parent_sha": "1c37a6a29ad875d279df1ef5d594d489f1a6b19f",
+      "task_commit_sha": "f0c7e19d73218d0d4f44d9d1ddc10bfa4744db24"
+    },
+    "P02": {
+      "checkpoint_ref": "1c37a6a29ad875d279df1ef5d594d489f1a6b19f^1",
+      "repository": "terryncew/openline-lite",
+      "resolved_parent_sha": "7e3027fb6ec8770ea70afdd29a15c12d5b5291d8",
+      "task_commit_sha": "1c37a6a29ad875d279df1ef5d594d489f1a6b19f"
+    },
+    "P03": {
+      "checkpoint_ref": "d12fa59ec34e2d6b1e7ba914b4421dc1d5ea61da^1",
+      "repository": "terryncew/openline-swarm-improvement-gate",
+      "resolved_parent_sha": "780eb9fcb6823a673b1e902bbc0d2aa154c4895d",
+      "task_commit_sha": "d12fa59ec34e2d6b1e7ba914b4421dc1d5ea61da"
+    },
+    "P04": {
+      "checkpoint_ref": "780eb9fcb6823a673b1e902bbc0d2aa154c4895d^1",
+      "repository": "terryncew/openline-swarm-improvement-gate",
+      "resolved_parent_sha": "7f3494610e798de2a39a0a26905857116f6ec2fc",
+      "task_commit_sha": "780eb9fcb6823a673b1e902bbc0d2aa154c4895d"
+    },
+    "P05": {
+      "checkpoint_ref": "8840417f58264d047060544947e9ace33a3bda9f^1",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "97cfc43027f09c17ad81f38227d0b30d0856d8e9",
+      "task_commit_sha": "8840417f58264d047060544947e9ace33a3bda9f"
+    },
+    "P06": {
+      "checkpoint_ref": "0be24a2c165d7ff5abadf449f33f1d66e001af8c^1",
+      "repository": "terryncew/openline-eval-airlock",
+      "resolved_parent_sha": "25f894387ec7058d776054e473536f71cb3a9060",
+      "task_commit_sha": "0be24a2c165d7ff5abadf449f33f1d66e001af8c"
+    },
+    "P07": {
+      "checkpoint_ref": "97cfc43027f09c17ad81f38227d0b30d0856d8e9^1",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "870c51035f95a085e581e28661dd11b55b48c6aa",
+      "task_commit_sha": "97cfc43027f09c17ad81f38227d0b30d0856d8e9"
+    },
+    "P08": {
+      "checkpoint_ref": "870c51035f95a085e581e28661dd11b55b48c6aa^1",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "004595e5df019310fede37aa4ac9e236b740ae4b",
+      "task_commit_sha": "870c51035f95a085e581e28661dd11b55b48c6aa"
+    },
+    "P09": {
+      "checkpoint_ref": "004595e5df019310fede37aa4ac9e236b740ae4b^1",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "309318c7635c73c209c32c38fb475316a67db175",
+      "task_commit_sha": "004595e5df019310fede37aa4ac9e236b740ae4b"
+    },
+    "P10": {
+      "checkpoint_ref": "309318c7635c73c209c32c38fb475316a67db175^1",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "f9ae467965a5fe12f63387091af8cb694fa893ed",
+      "task_commit_sha": "309318c7635c73c209c32c38fb475316a67db175"
+    },
+    "P11": {
+      "checkpoint_ref": "c4080db380e4c3d229dea04f7dd424392e65f32d^1",
+      "repository": "terryncew/openline-langgraph",
+      "resolved_parent_sha": "6435048e63052109374e8de732d163f580551ad8",
+      "task_commit_sha": "c4080db380e4c3d229dea04f7dd424392e65f32d"
+    },
+    "P12": {
+      "checkpoint_ref": "7ab1b46fcc19bdcfd43b344a55b43754351d309e^1",
+      "repository": "terryncew/openline-half-life",
+      "resolved_parent_sha": "9eee60c2253a6a5ab5432f8ce4646e8f2fef7415",
+      "task_commit_sha": "7ab1b46fcc19bdcfd43b344a55b43754351d309e"
+    },
+    "P13": {
+      "checkpoint_ref": "9eee60c2253a6a5ab5432f8ce4646e8f2fef7415^1",
+      "repository": "terryncew/openline-half-life",
+      "resolved_parent_sha": "70121b53e86196d69b2c3457174b38ad32667b43",
+      "task_commit_sha": "9eee60c2253a6a5ab5432f8ce4646e8f2fef7415"
+    },
+    "P14": {
+      "checkpoint_ref": "f9ae467965a5fe12f63387091af8cb694fa893ed^1",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "ed49641b4f5db7267a5e190a693d8104c9a87028",
+      "task_commit_sha": "f9ae467965a5fe12f63387091af8cb694fa893ed"
+    },
+    "P15": {
+      "checkpoint_ref": "ed49641b4f5db7267a5e190a693d8104c9a87028^1",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "4eca0b21f823472e124bfa3b3b20e141702f34d4",
+      "task_commit_sha": "ed49641b4f5db7267a5e190a693d8104c9a87028"
+    },
+    "P16": {
+      "checkpoint_ref": "4eca0b21f823472e124bfa3b3b20e141702f34d4^1",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "10204008249270f47ef710f437f88ffd9f91ff8c",
+      "task_commit_sha": "4eca0b21f823472e124bfa3b3b20e141702f34d4"
+    },
+    "P17": {
+      "checkpoint_ref": "70121b53e86196d69b2c3457174b38ad32667b43^1",
+      "repository": "terryncew/openline-half-life",
+      "resolved_parent_sha": "9e9d17f424be38681dd65f9fe9ee40c3195a1e78",
+      "task_commit_sha": "70121b53e86196d69b2c3457174b38ad32667b43"
+    },
+    "P18": {
+      "checkpoint_ref": "9e9d17f424be38681dd65f9fe9ee40c3195a1e78^1",
+      "repository": "terryncew/openline-half-life",
+      "resolved_parent_sha": "d07dfd517e1b86034868a0edb62eacd810a95be5",
+      "task_commit_sha": "9e9d17f424be38681dd65f9fe9ee40c3195a1e78"
+    },
+    "P19": {
+      "checkpoint_ref": "6c6f740f974bbe496146489293d85e4aceaef462^1",
+      "repository": "terryncew/openline-endurance-gate",
+      "resolved_parent_sha": "cb48b0d276669576f0f6d419c703250185d34dfb",
+      "task_commit_sha": "6c6f740f974bbe496146489293d85e4aceaef462"
+    },
+    "P20": {
+      "checkpoint_ref": "cb48b0d276669576f0f6d419c703250185d34dfb^1",
+      "repository": "terryncew/openline-endurance-gate",
+      "resolved_parent_sha": "a04efb86fcc4d1791c8822dad4ec228cdccb59cd",
+      "task_commit_sha": "cb48b0d276669576f0f6d419c703250185d34dfb"
+    },
+    "P21": {
+      "checkpoint_ref": "a04efb86fcc4d1791c8822dad4ec228cdccb59cd^1",
+      "repository": "terryncew/openline-endurance-gate",
+      "resolved_parent_sha": "fd62993d45a4afcf00abdb0a4805650688dfa068",
+      "task_commit_sha": "a04efb86fcc4d1791c8822dad4ec228cdccb59cd"
+    },
+    "P22": {
+      "checkpoint_ref": "7e3027fb6ec8770ea70afdd29a15c12d5b5291d8^1",
+      "repository": "terryncew/openline-lite",
+      "resolved_parent_sha": "479640a02a8d499de6484119c56ebc73932f28c4",
+      "task_commit_sha": "7e3027fb6ec8770ea70afdd29a15c12d5b5291d8"
+    },
+    "P23": {
+      "checkpoint_ref": "25f894387ec7058d776054e473536f71cb3a9060^1",
+      "repository": "terryncew/openline-eval-airlock",
+      "resolved_parent_sha": "96c2db31f150fef17b7bf4fe9b0873978d1fefea",
+      "task_commit_sha": "25f894387ec7058d776054e473536f71cb3a9060"
+    },
+    "P24": {
+      "checkpoint_ref": "10204008249270f47ef710f437f88ffd9f91ff8c^1",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "42576862ac8139a4b8ec909391e8d5c9ff71c096",
+      "task_commit_sha": "10204008249270f47ef710f437f88ffd9f91ff8c"
+    },
+    "P25": {
+      "checkpoint_ref": "42576862ac8139a4b8ec909391e8d5c9ff71c096^1",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "ebe3dca6047cd66cbf1acf82300868e64443250c",
+      "task_commit_sha": "42576862ac8139a4b8ec909391e8d5c9ff71c096"
+    },
+    "P26": {
+      "checkpoint_ref": "ebe3dca6047cd66cbf1acf82300868e64443250c^1",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "2d8474f821df1ea4ffdd300f78f039b686811912",
+      "task_commit_sha": "ebe3dca6047cd66cbf1acf82300868e64443250c"
+    },
+    "P27": {
+      "checkpoint_ref": "e1a36fe0f17fe2fad0e92daf63eb07f4f5c39e76^1",
+      "repository": "terryncew/openline-proof-adapter",
+      "resolved_parent_sha": "b642ebe3e3abbff0b9d64905e4677e6fc10d2d35",
+      "task_commit_sha": "e1a36fe0f17fe2fad0e92daf63eb07f4f5c39e76"
+    },
+    "P28": {
+      "checkpoint_ref": "e14c757a0678622d3e05f8ead96c26067b3cb595^1",
+      "repository": "terryncew/openline-audit-debt-harness",
+      "resolved_parent_sha": "c8a88d0bc5ae4fbd6f38a18a7f554a561dc991ed",
+      "task_commit_sha": "e14c757a0678622d3e05f8ead96c26067b3cb595"
+    },
+    "P29": {
+      "checkpoint_ref": "19bcef659e59704b71ed6f1ac910253a60f369ab^1",
+      "repository": "terryncew/openline-otel",
+      "resolved_parent_sha": "3716e26106c2f02e183a66042fb9562b16b23b49",
+      "task_commit_sha": "19bcef659e59704b71ed6f1ac910253a60f369ab"
+    },
+    "P30": {
+      "checkpoint_ref": "2d8474f821df1ea4ffdd300f78f039b686811912^1",
+      "repository": "terryncew/openline-receipt-gate",
+      "resolved_parent_sha": "7d585807c80c8ec704f4b28cd6ff63ff32118752",
+      "task_commit_sha": "2d8474f821df1ea4ffdd300f78f039b686811912"
+    }
+  },
+  "purpose": "execution-only exact parent binding derived from the independently green 001 preflight; 003 preflight re-verifies all 30 from network before any assignment",
+  "schema": "openline.paired-mechanism-benchmark.parent-map.v1",
+  "source_experiment_id": "olp-core21-paired-mechanism-001"
+}

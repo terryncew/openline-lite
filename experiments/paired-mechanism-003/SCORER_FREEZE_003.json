@@ -1,0 +1,53 @@
+{
+  "assignment_created_at_freeze": false,
+  "benchmark_model_calls_at_freeze": 0,
+  "blind_wall": {
+    "blind_scorer_receives_condition_material": false,
+    "blinded_aggregate_required": true,
+    "condition_material_first_enters_scoring_publication_path_after_independent_verification": true,
+    "exact_public_execution_records_required": 60,
+    "execution_receipt_and_content_manifest_verified": true,
+    "independent_recomputation_required": true,
+    "records_required_before_unblind": 60
+  },
+  "experiment_id": "olp-core21-paired-mechanism-003",
+  "incomplete_execution_policy": "Publish blind infrastructure-aborted result; do not score partial traces and do not unblind.",
+  "independent_verification": {
+    "condition_material_accessed": false,
+    "recomputes_all_kappa_points": true,
+    "recomputes_signal_components": true,
+    "recomputes_signal_series": true,
+    "verifies_exact_60_record_set": true,
+    "verifies_pair_validity_partition": true
+  },
+  "invalid_pair_handling": {
+    "asymmetric availability": "hard error",
+    "if_evaluable_denominator_below_30": "report descriptive counts only; do not apply 15-of-30 interpretation",
+    "pair_is_invalid_only_when_both opaque records were mechanically sealed PAIR_INSTRUMENTATION_INVALID before unblinding": true
+  },
+  "primary_implementation": {
+    "input_validation": "Exact experiment/revision/model/blinding/trace envelope plus canonical integer observations; booleans are not accepted as integers.",
+    "kappa": "Exact integer formula using isqrt from SIGNAL_SCHEMA_FROZEN_SCOPE_REPAIRED.json.",
+    "pair_statistic": "Count evaluable pairs where perturbation kappa exceeds control kappa; ties separate.",
+    "signal_components": "Exact integer formulas from SIGNAL_SCHEMA_FROZEN_SCOPE_REPAIRED.json.",
+    "smoothing_window": 1,
+    "source_trace_binding": "Each score record binds the exact source trace SHA-256.",
+    "threshold_claim_allowed": false
+  },
+  "primary_metric": "kappa_micros",
+  "schema": "openline.paired-mechanism-benchmark.scorer-freeze.v1",
+  "scientific_payload_changed": false,
+  "secondary_metric": {
+    "cannot_rescue_primary": true,
+    "name": "delta_hol",
+    "reason": "The inherited design names delta_hol as secondary, but the frozen operational trace schema supplies no exact delta_hol transform. No formula is invented after predecessor opaque values were inspected.",
+    "status": "UNAVAILABLE_NO_FROZEN_OPERATIONAL_TRANSFORM"
+  },
+  "source_files": {
+    "blind_score.py": "44f3b76e400f6e34dd79a4f87d75b4ac8a721493581a52dbc915d58cd900e06e",
+    "independent_verify_scores.py": "5072756df07b9551c60aadbeb914ea5c909ea2e472ee089739e3c7f8175f8699",
+    "unblind_publish.py": "d7e8d44c7597fc04ebc0386f31da8958dd94e9af26193d6dfbb6b15133deb39b"
+  },
+  "status": "SCORING_AND_PUBLICATION_PATH_FROZEN_BEFORE_ASSIGNMENT",
+  "unblinded_at_freeze": false
+}

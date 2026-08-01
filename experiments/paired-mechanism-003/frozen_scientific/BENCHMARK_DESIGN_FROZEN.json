@@ -1,0 +1,107 @@
+{
+  "anti_rescue_rules": [
+    "No post-assignment change to perturbation definition.",
+    "No post-assignment change to operational signal construction.",
+    "No post-result change to smoothing, graph encoding, anchor, weights, or thresholds.",
+    "No substituting a different primary metric if kappa is unimpressive.",
+    "Delta_hol is secondary and cannot rescue kappa.",
+    "No dropping pairs after unblinding except exclusions already mechanically sealed before scoring."
+  ],
+  "blinding": {
+    "assignment": "For each pair, cryptographically random assignment chooses which opaque ID is CLEAN and which is PERTURBED. Execution order is independently randomized.",
+    "claim_afterward": "Condition assignment was mechanically hidden from the scoring path until all 60 measurement records and the blinded aggregate were sealed.",
+    "condition_values": [
+      "CLEAN",
+      "PERTURBED"
+    ],
+    "forbidden_claims": [
+      "double blind",
+      "independent blind"
+    ],
+    "opaque_ids": "P01-X/P01-Y through P30-X/P30-Y",
+    "public_manifest_contains": [
+      "pair_id",
+      "opaque_execution_id",
+      "task_id",
+      "checkpoint_id",
+      "execution_order"
+    ],
+    "scorer_must_not_receive": [
+      "plaintext condition map",
+      "decryption key",
+      "condition-specific filenames",
+      "condition-specific metadata",
+      "condition-specific receipts",
+      "condition-specific logs"
+    ],
+    "secret_condition_map_contains": [
+      "pair_id",
+      "opaque_execution_id",
+      "condition"
+    ],
+    "unblind": "Unblind once, only after all 60 score records and the aggregate blinded-score receipt are sealed. Decryption must reproduce the pre-run plaintext SHA-256 commitment.",
+    "unit": "execution condition within matched pair",
+    "wall": "The condition map is hashed in plaintext, encrypted with AES-256-GCM, and the plaintext is removed. The AES key is written only to a separately specified secret directory and must be moved outside the scoring environment before any execution or score."
+  },
+  "claim_boundary": "This benchmark tests whether the frozen Core 2.1 measurement path responds directionally to a controlled upstream execution perturbation. It does not establish predictive validity for real failures; the prospective Calibration Trial is the predictive-validity test.",
+  "current_stop_condition": "Do not generate real condition assignments until the exact 30-pair set and one mechanical upstream perturbation spec are both frozen and hashed.",
+  "denominator_and_exclusions": {
+    "default_denominator": 30,
+    "exclusion_timing": "Any instrumentation-invalid decision must be sealed before condition unblinding and before inspecting condition-linked pair effects.",
+    "not_valid_exclusions": [
+      "model behaved strangely",
+      "unexpected answer",
+      "weak effect",
+      "metric moved in the wrong direction",
+      "result hurts the hypothesis"
+    ],
+    "rule": "All 30 randomized pairs remain in the denominator unless a mechanically declared pre-scoring instrumentation-validity rule marks a pair invalid."
+  },
+  "experiment_id": "olp-core21-paired-mechanism-001",
+  "fixed_sample": {
+    "executions": 60,
+    "extension_after_result": "forbidden",
+    "matched_pair_rule": "Each pair uses the same frozen task/checkpoint and the same declared model, configuration, tool permissions, and other controllable starting conditions.",
+    "optional_stopping": "forbidden",
+    "pairs": 30
+  },
+  "interpretation": {
+    "15_of_30_primary_wins": "chance-level directional result; no useful separation claim",
+    "greater_than_15": "Report exact paired win count/rate and effect distribution. Directional sensitivity only unless a valid pre-frozen threshold supports a stronger claim.",
+    "less_than_15": "Adverse result: perturbation more often failed to raise kappa; report without rescue.",
+    "no_post_unblind_redefinition": true,
+    "ties": "reported explicitly"
+  },
+  "ordering": [
+    "freeze benchmark design",
+    "freeze and hash exact 30-pair set",
+    "freeze and hash one perturbation spec",
+    "run blind assignment in a non-scoring environment",
+    "hash plaintext condition map",
+    "encrypt condition map and remove plaintext",
+    "move key outside scoring environment",
+    "run 60 executions under opaque IDs",
+    "score all 60 executions blind",
+    "seal 60 score records",
+    "seal aggregate blinded-score receipt",
+    "verify all expected score records exist",
+    "decrypt condition map once",
+    "verify plaintext condition-map hash commitment",
+    "compute and seal paired unblinded result"
+  ],
+  "pre_assignment_requirements": {
+    "operational_signal_schema": "The scoring signal/schema must already be frozen before assignment. No semantic condition feature may be added afterward.",
+    "pair_set": "Exactly 30 eligible pair descriptors must be frozen and hashed before assignment.",
+    "perturbation_spec": "One mechanical upstream perturbation must be frozen and hashed before assignment. It must occur before instrumentation records the affected execution and must not write condition labels into scorer-visible traces, filenames, receipts, or metadata."
+  },
+  "schema": "openline.paired-mechanism-benchmark.design.v1",
+  "scoring": {
+    "primary_metric": "kappa",
+    "primary_pair_statistic": "count of pairs with kappa(PERTURBED) > kappa(CLEAN)",
+    "secondary_cannot_rescue_primary": true,
+    "secondary_metric": "delta_hol",
+    "threshold_claim": "No detection/threshold-separation claim is allowed unless the applicable threshold was independently calibrated and frozen before assignment.",
+    "ties": "count separately; do not award half-wins"
+  },
+  "status": "DESIGN_FROZEN_BEFORE_PAIR_ASSIGNMENT"
+}

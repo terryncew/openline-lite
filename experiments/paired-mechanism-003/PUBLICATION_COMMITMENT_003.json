@@ -1,0 +1,28 @@
+{
+  "allowed_final_dispositions": [
+    "DIRECTIONAL_SENSITIVITY",
+    "CHANCE_LEVEL_NO_USEFUL_SEPARATION",
+    "ADVERSE_RESULT",
+    "DESCRIPTIVE_ONLY_FROZEN_30_PAIR_DENOMINATOR_NOT_MET",
+    "FINAL_CAPSTONE_INFRASTRUCTURE_ABORTED_BLIND"
+  ],
+  "assignment_created_at_freeze": false,
+  "benchmark_model_calls_at_freeze": 0,
+  "commitments": [
+    "Publish the exact primary kappa result whether directional, chance-level, adverse, tied, or not evaluable.",
+    "Publish the frozen denominator, every mechanically invalid pair, the exact win/loss/tie counts, and the effect distribution when evaluable.",
+    "If execution is incomplete, publish a blind infrastructure-aborted capstone disposition and do not score or stitch partial traces.",
+    "Do not suppress, relabel, substitute another primary metric, extend the sample, replace pairs, or redefine the interpretation after result access.",
+    "Do not rerun this same 30-pair design and do not create experiment 004 as a rescue response to the result.",
+    "Keep the claim within directional sensitivity to the one frozen silent read-tail truncation; predictive validity remains outside this benchmark."
+  ],
+  "experiment_id": "olp-core21-paired-mechanism-003",
+  "publication_independent_of_result_favorability": true,
+  "publication_required": true,
+  "purpose": "Make experiment 003 the final publish-regardless capstone for this exact 30-pair paired-mechanism design.",
+  "same_design_rerun_authorized": false,
+  "schema": "openline.paired-mechanism-benchmark.publish-regardless-commitment.v1",
+  "status": "FROZEN_BEFORE_003_ASSIGNMENT",
+  "successor_rescue_experiment_authorized": false,
+  "unblinded_at_freeze": false
+}

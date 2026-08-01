@@ -1,58 +1,88 @@
 {
-  "schema": "openline.capacity-canary-audit.v3",
-  "claim": "Narrow execution-only repair of the capacity canary after the first live request succeeded but was rejected by an incorrect local input-token range.",
-  "decision": "READY_TO_PUSH_NOT_RUN",
-  "engineering_repairs": [
-    "recalibrate provider-reported input-token acceptance from 18000..40000 to 13000..16000 around the observed 14215-token deterministic request",
-    "rotate the exact one-shot trigger from RUN_LOW_COST_CAPACITY_CANARY_ONLY to RUN_LOW_COST_CAPACITY_CANARY_ONLY_RETRY1",
-    "add a regression test binding the observed 14215-token usage inside the frozen range",
-    "preserve every other request, model, reasoning, pacing, retry, payload, output-reservation, fail-fast, and no-assignment bound"
-  ],
-  "prior_canary_evidence": {
-    "receipt_zip_sha256": "444899a7a9c67975d345228e79bd763042be74c485fdddfe1d6440550baf3203",
-    "receipt_json_sha256": "3f7e8bbe0788fe6099974b52cdd9203d5a51d1f517439c3989086d98c7fb09c5",
-    "disposition": "CAPACITY_CANARY_BLOCKED",
-    "failure_category": "INPUT_TOKEN_RANGE_MISMATCH",
-    "http_status": 200,
-    "response_status": "completed",
-    "returned_model": "gpt-5.5-2026-04-23",
-    "input_tokens": 14215,
-    "output_tokens": 17,
-    "output_text_exact_ok": true,
-    "http_429_observed": false,
-    "requests_started": 1
+  "bound_capacity_canary": {
+    "disposition": "CAPACITY_CANARY_PASS",
+    "input_tokens_per_request": 14215,
+    "live_calls_repeated_in_003_build": 0,
+    "model": "gpt-5.5-2026-04-23",
+    "reasoning_effort": "medium",
+    "receipt_sha256": "964397e3dd3f3030844b1947da86141eeabef4883f4a0d450dae65488700df77",
+    "requests_completed": 6
   },
-  "bounds": {
-    "assignment_created": false,
-    "benchmark_model_calls_during_build": 0,
-    "live_api_calls_during_repair": 0,
-    "requests_cap": 6,
-    "retries": 0,
-    "minimum_start_interval_seconds": 45,
-    "input_payload_bytes_per_request": 80000,
-    "required_observed_input_token_range": [
-      13000,
-      16000
+  "capstone_pipeline": {
+    "blind_score_records_sealed": 60,
+    "blinded_aggregate_sealed_before_unblind": true,
+    "complete_execution_requires_exact_60_records": true,
+    "condition_material_available_to_blind_scorer": false,
+    "condition_material_available_to_independent_verifier": false,
+    "final_result_file": "FINAL_BENCHMARK_RESULT.json",
+    "incomplete_execution_policy": "Publish blind infrastructure-aborted disposition; no partial score and no unblind.",
+    "independent_recomputation_required": true,
+    "plaintext_commitment_verified_before_pair_join": true
+  },
+  "claim": "Builds the full publish-regardless 003 path: paced blind execution, deterministic frozen kappa scoring, 60 sealed blind score records, independent recomputation, one-time scoring-path unblinding, paired result computation, and final publication sealing without creating a real assignment or making a benchmark call.",
+  "cost_planning": {
+    "comfortable_ceiling_usd": 450,
+    "exact_cost_guaranteed": false,
+    "minimum_credit_i_would_risk_usd": 250,
+    "recommended_available_credit_usd": 350
+  },
+  "decision": "READY_TO_PUSH_PREFLIGHT_NOT_AUTHORIZED_FOR_ASSIGNMENT_UNTIL_GREEN_PREFLIGHT",
+  "execution_infrastructure": {
+    "backoff_seconds": [
+      2,
+      4,
+      8
     ],
-    "max_output_tokens_per_request": 16384,
-    "expected_output": "OK",
-    "stop_on_first_failure": true,
-    "unblinded": false,
-    "creates_or_authorizes_003": false
+    "completed_response_or_whole_pair_replay": false,
+    "controlled_margin_seconds": 3420,
+    "controlled_worst_case_pair_seconds": 14580,
+    "global_minimum_request_start_interval_seconds": 45,
+    "max_attempts_per_request": 4,
+    "pair_job_timeout_minutes": 300,
+    "pair_matrix_max_parallel": 1,
+    "public_token_usage_receipts": true,
+    "retry_after_cap_seconds": 15
   },
-  "trigger": {
-    "event": "exact tag push",
-    "historical_tag_preserved": "RUN_LOW_COST_CAPACITY_CANARY_ONLY",
-    "new_tag": "RUN_LOW_COST_CAPACITY_CANARY_ONLY_RETRY1",
-    "created_or_pushed_during_repair": false
+  "experiment_id": "olp-core21-paired-mechanism-003",
+  "hashes": {
+    "capstone_verification_sha256": "35f4a2f5d9182049293e054d28663f8bb7c695efd7ce16d7a02a6657ff65e599",
+    "dry_run_receipt_sha256": "51fc682911d944cfeb2ab3f408a93e79ba65dcabf8cd8c6b94ba6343f60b8891",
+    "lineage_sha256": "4757fbfb2e002c55945697a8db99b66b012d3d18034b1d5176e933c060de1cd4",
+    "parent_map_sha256": "a9e5d3f81b08ad395688848027688cdd389de8990cb28a6a45ee85793d8542c1",
+    "preassignment_freeze_sha256": "fffb008448d78df7f591e9a4249b82a7c9bdf81fc6de471ac9714682e8cf8571",
+    "publication_commitment_sha256": "e90ea4e48eb76e350a3ddc2888e2d164f8b29634b7473a65a3a798c1fda02283",
+    "runner_manifest_sha256": "bf9759aec5ceb387b069da1f6bf42e37bfc896ab7ffa6787552c6b5cca10490a",
+    "scorer_freeze_sha256": "9f3843685a016f891d59f63abe3c7f8954dfa2bc0ce5c4bd5bb84b8d959870e9"
   },
+  "lineage_disclosure": {
+    "001_unblinded": false,
+    "002_condition_blind_opaque_signal_values_inspected_after_retirement": true,
+    "002_unblinded": false,
+    "condition_linked_predecessor_effect_known": false
+  },
+  "schema": "openline.paired-mechanism-benchmark.003-build-audit.v2",
+  "scientific_payload_hashes": {
+    "BENCHMARK_DESIGN_FROZEN.json": "fd0b9eb2e2f494031bac8448dba3f6344071a4d8f2ea9285d2c3fd8ecc159f7f",
+    "PAIR_SET_FROZEN.json": "5c622e0deaf500f7f39d9c5afece7550c1fa4859155d8b7191eb67bb0a725533",
+    "PERTURBATION_SPEC_FROZEN_SCOPE_REPAIRED.json": "1a94515d691b86719b17885c3bf983fbe7d052affebc22406ec35b34fc9bc9e4",
+    "SIGNAL_SCHEMA_FROZEN_SCOPE_REPAIRED.json": "88dbb498881e84e32b7599ec2ec1bf186a923bc17d7e0c67c4d09cf2b9cddb8d"
+  },
+  "statements": [
+    "REAL_ASSIGNMENT_NOT_CREATED",
+    "BENCHMARK_MODEL_CALLS_0",
+    "UNBLINDED_FALSE"
+  ],
   "verification": {
-    "tests_passed": 8,
-    "tests_failed": 0,
+    "cache_artifacts": 0,
     "clean_extraction_reverified": true,
-    "manifest_files_verified": 6,
-    "cache_artifacts_in_zip": 0,
-    "python_compile_check": "PASS"
-  },
-  "warning": "A pass clears only this bounded canary envelope. It does not authorize a full benchmark or guarantee cost."
+    "live_model_calls_during_build": 0,
+    "python_ast_parse": "PASS",
+    "randomized_candidate_vs_independent_scorer_cases": 10000,
+    "randomized_scorer_mismatches": 0,
+    "real_assignment_artifacts": 0,
+    "release_check": "DRY_RUN_PASS",
+    "unit_tests_failed": 0,
+    "unit_tests_passed": 38,
+    "workflow_yaml_parse": "PASS"
+  }
 }

@@ -1,0 +1,115 @@
+{
+  "001_unblinded": false,
+  "002_condition_blind_signal_values_inspected_after_retirement": true,
+  "002_unblinded": false,
+  "003_real_assignment_created": false,
+  "benchmark_model_calls": 0,
+  "checks": [
+    {
+      "check": "scientific_hash:BENCHMARK_DESIGN_FROZEN.json",
+      "sha256": "fd0b9eb2e2f494031bac8448dba3f6344071a4d8f2ea9285d2c3fd8ecc159f7f",
+      "status": "PASS"
+    },
+    {
+      "check": "scientific_hash:PAIR_SET_FROZEN.json",
+      "sha256": "5c622e0deaf500f7f39d9c5afece7550c1fa4859155d8b7191eb67bb0a725533",
+      "status": "PASS"
+    },
+    {
+      "check": "scientific_hash:SIGNAL_SCHEMA_FROZEN_SCOPE_REPAIRED.json",
+      "sha256": "88dbb498881e84e32b7599ec2ec1bf186a923bc17d7e0c67c4d09cf2b9cddb8d",
+      "status": "PASS"
+    },
+    {
+      "check": "scientific_hash:PERTURBATION_SPEC_FROZEN_SCOPE_REPAIRED.json",
+      "sha256": "1a94515d691b86719b17885c3bf983fbe7d052affebc22406ec35b34fc9bc9e4",
+      "status": "PASS"
+    },
+    {
+      "check": "hash:PARENT_MAP_FROZEN_003.json",
+      "sha256": "a9e5d3f81b08ad395688848027688cdd389de8990cb28a6a45ee85793d8542c1",
+      "status": "PASS"
+    },
+    {
+      "check": "hash:LINEAGE_001_002_ABORTS_AND_CANARY.json",
+      "sha256": "4757fbfb2e002c55945697a8db99b66b012d3d18034b1d5176e933c060de1cd4",
+      "status": "PASS"
+    },
+    {
+      "check": "hash:PUBLICATION_COMMITMENT_003.json",
+      "sha256": "e90ea4e48eb76e350a3ddc2888e2d164f8b29634b7473a65a3a798c1fda02283",
+      "status": "PASS"
+    },
+    {
+      "check": "hash:SCORER_FREEZE_003.json",
+      "sha256": "9f3843685a016f891d59f63abe3c7f8954dfa2bc0ce5c4bd5bb84b8d959870e9",
+      "status": "PASS"
+    },
+    {
+      "check": "frozen_scorer_sources",
+      "file_count": 3,
+      "status": "PASS"
+    },
+    {
+      "authorizes_assignment_by_itself": false,
+      "check": "bound_capacity_canary",
+      "minimum_observed_start_gap_seconds": 44.999743,
+      "observed_input_tokens": [
+        14215
+      ],
+      "observed_token_limits": [
+        2000000
+      ],
+      "receipt_sha256": "964397e3dd3f3030844b1947da86141eeabef4883f4a0d450dae65488700df77",
+      "requests_completed": 6,
+      "status": "PASS",
+      "timestamp_tolerance_seconds": 0.01
+    },
+    {
+      "check": "runner_manifest",
+      "runner_files": 30,
+      "sha256": "bf9759aec5ceb387b069da1f6bf42e37bfc896ab7ffa6787552c6b5cca10490a",
+      "status": "PASS",
+      "workflow_files": 2
+    },
+    {
+      "check": "python_ast_parse",
+      "file_count": 18,
+      "status": "PASS"
+    },
+    {
+      "check": "unit_tests",
+      "passed": 38,
+      "status": "PASS"
+    },
+    {
+      "check": "dry_preflight_nested_output",
+      "disposition": "NOT_CLEARED_NO_EXTERNAL_CHECKOUT_OR_SANDBOX",
+      "status": "PASS"
+    },
+    {
+      "check": "real_assignment_absent",
+      "status": "PASS"
+    },
+    {
+      "check": "cache_artifacts_absent",
+      "status": "PASS"
+    }
+  ],
+  "condition_linked_predecessor_effect_known": false,
+  "experiment_id": "olp-core21-paired-mechanism-003",
+  "live_capacity_calls_during_release_check": 0,
+  "publication_commitment_sha256": "e90ea4e48eb76e350a3ddc2888e2d164f8b29634b7473a65a3a798c1fda02283",
+  "publish_regardless_capstone_frozen": true,
+  "schema": "openline.paired-mechanism-benchmark.003-dry-run.v2",
+  "scientific_content_changed": false,
+  "scientific_payload_byte_identical_to_001": true,
+  "scorer_freeze_sha256": "9f3843685a016f891d59f63abe3c7f8954dfa2bc0ce5c4bd5bb84b8d959870e9",
+  "statements": [
+    "REAL_ASSIGNMENT_NOT_CREATED",
+    "BENCHMARK_MODEL_CALLS_0",
+    "UNBLINDED_FALSE"
+  ],
+  "status": "DRY_RUN_PASS",
+  "unblinded": false
+}

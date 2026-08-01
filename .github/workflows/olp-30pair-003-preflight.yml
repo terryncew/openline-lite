@@ -1,0 +1,46 @@
+name: OLP 30-pair 003 paced-run preflight
+
+on:
+  push:
+    branches:
+      - "preflight/olp-core21-paired-mechanism-003"
+    paths:
+      - ".github/workflows/olp-30pair-003-preflight.yml"
+      - ".github/workflows/olp-30pair-003-execution.yml"
+      - "experiments/paired-mechanism-003/**"
+      - "README-003-PREFLIGHT.md"
+
+permissions:
+  contents: read
+
+jobs:
+  preflight-003-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install frozen execution dependency
+        run: python -m pip install --disable-pip-version-check cryptography==46.0.4
+      - name: Confirm no 003 real assignment material exists
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -d experiments/paired-mechanism-003/build/assignment
+          ! find experiments/paired-mechanism-003 -type f \( -name 'secret_key.bin' -o -name 'condition_map.enc' -o -name 'blinded_run_manifest.json' -o -name 'ASSIGNMENT_LOCK.json' \) | grep -q .
+      - name: Run 003 paced-execution preflight without model calls
+        run: python experiments/paired-mechanism-003/preflight_003.py --out experiments/paired-mechanism-003/build/PREFLIGHT_003_PASS.json
+      - name: Upload sealed 003 preflight receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: olp-30pair-003-preflight-receipt
+          path: |
+            experiments/paired-mechanism-003/build/PREFLIGHT_003_*.json
+            experiments/paired-mechanism-003/build/PREFLIGHT_003_*.json.sha256
+          if-no-files-found: error
+          retention-days: 90
