@@ -9,18 +9,34 @@ import urllib.error
 import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Callable
+from typing import Callable, Mapping
 
 API_URL = "https://api.openai.com/v1/responses"
 PINNED_MODEL = "gpt-5.5-2026-04-23"
 REASONING_EFFORT = "medium"
 REQUEST_COUNT = 6
 MIN_INTERVAL_SECONDS = 45
-MAX_OUTPUT_TOKENS = 256
-# ASCII payload chosen to approximate a substantial agent-context envelope while
-# keeping the canary cheap. This is a rate/capacity test, not a benchmark task.
+# Match the benchmark's output-token reservation. The prompt still requires the
+# model to return exactly OK, so this exercises rate-limit admission without
+# inviting a large completion.
+MAX_OUTPUT_TOKENS = 16_384
 PAYLOAD_BYTES = 80_000
-SCHEMA = "openline.capacity-canary.v1"
+# The synthetic payload is designed to land near a substantial benchmark-like
+# input envelope. The provider-reported usage is authoritative at runtime.
+MIN_OBSERVED_INPUT_TOKENS = 18_000
+MAX_OBSERVED_INPUT_TOKENS = 40_000
+REQUEST_TIMEOUT_SECONDS = 180
+SCHEMA = "openline.capacity-canary.v2"
+
+RATE_LIMIT_HEADER_NAMES = (
+    "x-ratelimit-limit-requests",
+    "x-ratelimit-remaining-requests",
+    "x-ratelimit-reset-requests",
+    "x-ratelimit-limit-tokens",
+    "x-ratelimit-remaining-tokens",
+    "x-ratelimit-reset-tokens",
+    "retry-after",
+)
 
 
 def utc_now() -> str:
@@ -35,6 +51,13 @@ def sha256_bytes(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def _safe_headers(headers: Mapping[str, str] | None) -> dict[str, str]:
+    if headers is None:
+        return {}
+    lowered = {str(k).lower(): str(v) for k, v in headers.items()}
+    return {name: lowered[name][:256] for name in RATE_LIMIT_HEADER_NAMES if name in lowered}
+
+
 def _safe_error(exc: urllib.error.HTTPError) -> dict:
     try:
         raw = exc.read()
@@ -47,14 +70,31 @@ def _safe_error(exc: urllib.error.HTTPError) -> dict:
         "http_status": int(exc.code),
         "openai_error_type": str(err.get("type"))[:128] if err.get("type") else None,
         "openai_error_code": str(err.get("code"))[:128] if err.get("code") else None,
-        "retry_after": exc.headers.get("Retry-After") if exc.headers else None,
+        "rate_limit_headers": _safe_headers(exc.headers),
     }
 
 
+def _synthetic_text(index: int) -> str:
+    # Diverse deterministic ASCII avoids the pathological token compression of
+    # a single repeated character while keeping the payload reproducible.
+    lines: list[str] = []
+    n = 0
+    while True:
+        line = (
+            f"CANARY-{index:02d}-{n:06d} repository checkpoint function argument "
+            f"validation boundary evidence receipt mutation tool result alpha{n % 97:02d} "
+            f"beta{(n * 7) % 101:03d} gamma{(n * 13) % 103:03d}.\n"
+        )
+        lines.append(line)
+        text = "".join(lines)
+        if len(text.encode("utf-8")) >= PAYLOAD_BYTES:
+            return text.encode("utf-8")[:PAYLOAD_BYTES].decode("ascii")
+        n += 1
+
+
 def make_payload(index: int) -> dict:
-    marker = f"CANARY-{index:02d}-"
-    repeated = (marker + ("x" * 127) + "\n")
-    text = (repeated * ((PAYLOAD_BYTES // len(repeated)) + 1))[:PAYLOAD_BYTES]
+    text = _synthetic_text(index)
+    assert len(text.encode("utf-8")) == PAYLOAD_BYTES
     return {
         "model": PINNED_MODEL,
         "reasoning": {"effort": REASONING_EFFORT},
@@ -65,12 +105,29 @@ def make_payload(index: int) -> dict:
                 "content": [
                     {
                         "type": "input_text",
-                        "text": "Capacity canary only. Do not solve a task. Reply exactly OK.\n" + text,
+                        "text": (
+                            "Capacity canary only. Do not solve a task. "
+                            "Ignore the synthetic context semantically and reply exactly OK.\n" + text
+                        ),
                     }
                 ],
             }
         ],
     }
+
+
+def _extract_output_text(obj: dict) -> str:
+    direct = obj.get("output_text")
+    if isinstance(direct, str):
+        return direct.strip()
+    parts: list[str] = []
+    for item in obj.get("output", []) if isinstance(obj.get("output"), list) else []:
+        if not isinstance(item, dict):
+            continue
+        for content in item.get("content", []) if isinstance(item.get("content"), list) else []:
+            if isinstance(content, dict) and isinstance(content.get("text"), str):
+                parts.append(content["text"])
+    return "".join(parts).strip()
 
 
 def run_canary(
@@ -113,27 +170,48 @@ def run_canary(
             "max_output_tokens": MAX_OUTPUT_TOKENS,
         }
         try:
-            with urlopen_fn(req, timeout=180) as resp:
+            with urlopen_fn(req, timeout=REQUEST_TIMEOUT_SECONDS) as resp:
                 raw = resp.read()
                 status = int(resp.status)
+                headers = _safe_headers(getattr(resp, "headers", None))
             obj = json.loads(raw.decode("utf-8"))
             usage = obj.get("usage") if isinstance(obj, dict) else None
             usage = usage if isinstance(usage, dict) else {}
+            input_tokens = usage.get("input_tokens")
+            output_text = _extract_output_text(obj) if isinstance(obj, dict) else ""
             row.update(
                 {
                     "http_status": status,
                     "response_status": obj.get("status") if isinstance(obj, dict) else None,
                     "returned_model": obj.get("model") if isinstance(obj, dict) else None,
+                    "rate_limit_headers": headers,
                     "usage": {
-                        "input_tokens": usage.get("input_tokens"),
+                        "input_tokens": input_tokens,
                         "output_tokens": usage.get("output_tokens"),
                         "total_tokens": usage.get("total_tokens"),
                     },
+                    "output_text_sha256": sha256_bytes(output_text.encode("utf-8")),
+                    "output_text_exact_ok": output_text == "OK",
                 }
             )
             if status != 200 or row["response_status"] != "completed" or row["returned_model"] != PINNED_MODEL:
                 disposition = "CAPACITY_CANARY_BLOCKED"
                 row["failure_category"] = "NON_COMPLETED_OR_MODEL_MISMATCH"
+                rows.append(row)
+                break
+            if not isinstance(input_tokens, int):
+                disposition = "CAPACITY_CANARY_BLOCKED"
+                row["failure_category"] = "INPUT_TOKEN_USAGE_UNAVAILABLE"
+                rows.append(row)
+                break
+            if not (MIN_OBSERVED_INPUT_TOKENS <= input_tokens <= MAX_OBSERVED_INPUT_TOKENS):
+                disposition = "CAPACITY_CANARY_BLOCKED"
+                row["failure_category"] = "INPUT_TOKEN_RANGE_MISMATCH"
+                rows.append(row)
+                break
+            if output_text != "OK":
+                disposition = "CAPACITY_CANARY_BLOCKED"
+                row["failure_category"] = "UNEXPECTED_OUTPUT_ENVELOPE"
                 rows.append(row)
                 break
         except urllib.error.HTTPError as exc:
@@ -168,9 +246,11 @@ def run_canary(
             "retries": 0,
             "minimum_start_interval_seconds": MIN_INTERVAL_SECONDS,
             "input_payload_bytes_per_request": PAYLOAD_BYTES,
+            "observed_input_token_range_required": [MIN_OBSERVED_INPUT_TOKENS, MAX_OBSERVED_INPUT_TOKENS],
             "max_output_tokens_per_request": MAX_OUTPUT_TOKENS,
+            "expected_output": "OK",
             "dollar_cap_guaranteed": False,
-            "note": "Token bounded; provider pricing and cached-token treatment determine actual dollars.",
+            "note": "Requests and provider-reported tokens are bounded and recorded; provider pricing determines actual dollars.",
         },
         "requested_model": PINNED_MODEL,
         "reasoning_effort": REASONING_EFFORT,

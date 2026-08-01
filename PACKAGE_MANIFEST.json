@@ -1,61 +1,38 @@
 {
+  "file_count_excluding_manifest": 6,
   "files": [
     {
-      "bytes": 1271,
+      "bytes": 1546,
       "path": ".github/workflows/olp-low-cost-capacity-canary.yml",
-      "sha256": "2625b2ea8887f3499e79a01225a45952bb548280ace6f612ab75d5ce34cf6c7c"
+      "sha256": "7f99fadc87c355cd7924b8fbd2fa47176a20fb0fc4e6bf825f11071d77993a9c"
     },
     {
-      "bytes": 37,
-      "path": ".pytest_cache/.gitignore",
-      "sha256": "3ed731b65d06150c138e2dadb0be0697550888a6b47eb8c45ecc9adba8b8e9bd"
+      "bytes": 2145,
+      "path": "AUDIT_RECEIPT.json",
+      "sha256": "f40bab4d23de9ddffefd3ae23f12d932c83c20cbace11c2df7d0af5ede29c536"
     },
     {
-      "bytes": 191,
-      "path": ".pytest_cache/CACHEDIR.TAG",
-      "sha256": "37dc88ef9a0abeddbe81053a6dd8fdfb13afb613045ea1eb4a5c815a74a3bde4"
-    },
-    {
-      "bytes": 302,
-      "path": ".pytest_cache/README.md",
-      "sha256": "73fd6fccdd802c419a6b2d983d6c3173b7da97558ac4b589edec2dfe443db9ad"
-    },
-    {
-      "bytes": 318,
-      "path": ".pytest_cache/v/cache/nodeids",
-      "sha256": "fb6f0f126b8a53cb7377c369fc568407d61829a442d74a00c160a5e9fd0e4349"
-    },
-    {
-      "bytes": 966,
+      "bytes": 1648,
       "path": "README-CAPACITY-CANARY.md",
-      "sha256": "2688d45bdf1f9213ae32f748ecc72c448f756a971f8bc8d7262744cc1f966dbc"
+      "sha256": "93f3a6a355e374a1411da7a49906b65ddbbb932850c4054b0e99d3762b63448f"
     },
     {
-      "bytes": 706,
+      "bytes": 1069,
       "path": "experiments/paired-mechanism-capacity-canary/CANARY_POLICY.json",
-      "sha256": "f3cadefffdd7ff78fc2f58a675695ecce762aae8eb6ea97442e25a8cb3529fd3"
+      "sha256": "f5d8655e645058d4d9558c36bfcf2b7304d79908e78e446b0b2f06542963b31d"
     },
     {
-      "bytes": 10370,
-      "path": "experiments/paired-mechanism-capacity-canary/__pycache__/canary.cpython-313.pyc",
-      "sha256": "0f48bbdfdde24e55b67496f185db4e91b1a9abec0266a4443f6aa97dffbe33dc"
-    },
-    {
-      "bytes": 7507,
+      "bytes": 10976,
       "path": "experiments/paired-mechanism-capacity-canary/canary.py",
-      "sha256": "dc59358f2353c02715b0de1cc97349ac92dc91a473b1a27bcaa514b6042b8b22"
+      "sha256": "b3e2db63cbc1457831f7294df3ec3619df87d5bab2b128cf84b1533f0763041f"
     },
     {
-      "bytes": 11976,
-      "path": "experiments/paired-mechanism-capacity-canary/tests/__pycache__/test_canary.cpython-313-pytest-9.0.2.pyc",
-      "sha256": "f6eeba1f5ebba28174c374da7918ef05e3d61c6f29eb8f2e5c512b3261123f36"
-    },
-    {
-      "bytes": 2168,
+      "bytes": 6158,
       "path": "experiments/paired-mechanism-capacity-canary/tests/test_canary.py",
-      "sha256": "f06e41cdab4dbf9df88631524a55a9b012ef62b3ab7e42a91fa3a5222ddf898b"
+      "sha256": "7cf59a0ea4f3f1288420c3161bc0a2b31161b033973ea70bbbc24be13d198e94"
     }
   ],
-  "package": "olp-low-cost-capacity-canary",
-  "schema": "openline.package-manifest.v1"
+  "manifest_excludes_self": true,
+  "package": "openline-low-cost-capacity-canary-hardened",
+  "schema": "openline.package-manifest.v2"
 }

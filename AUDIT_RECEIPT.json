@@ -1,19 +1,45 @@
 {
+  "schema": "openline.capacity-canary-audit.v2",
+  "claim": "Repairs the non-scientific capacity canary so its trigger works from an isolated branch and its request envelope meaningfully tests benchmark-like token admission without creating an assignment, benchmark trace, score, or experiment 003.",
+  "decision": "READY_TO_PUSH_NOT_RUN",
+  "engineering_repairs": [
+    "exact tag-push trigger replaces branch-only workflow_dispatch",
+    "max_output_tokens reservation raised from 256 to the benchmark-matching 16384 while expected output remains exactly OK",
+    "deterministic 80000-byte diverse synthetic context replaces highly compressible repeated-character payload",
+    "provider-reported input tokens must fall within the frozen 18000..40000 representative range",
+    "sanitized x-ratelimit and Retry-After headers are preserved in the receipt",
+    "pytest and Python bytecode caches removed from the release package"
+  ],
   "bounds": {
     "assignment_created": false,
     "benchmark_model_calls_during_build": 0,
-    "requests": 6,
+    "live_api_calls_during_build": 0,
+    "requests_cap": 6,
     "retries": 0,
+    "minimum_start_interval_seconds": 45,
+    "input_payload_bytes_per_request": 80000,
+    "required_observed_input_token_range": [18000, 40000],
+    "max_output_tokens_per_request": 16384,
+    "expected_output": "OK",
     "stop_on_first_failure": true,
-    "unblinded": false
+    "unblinded": false,
+    "creates_or_authorizes_003": false
   },
-  "claim": "Adds a request- and token-bounded, no-assignment capacity canary; no live API call made during build.",
-  "decision": "READY_TO_PUSH_NOT_READY_TO_RUN_WITHOUT_USER_ACK",
-  "schema": "openline.capacity-canary-audit.v1",
+  "trigger": {
+    "event": "exact tag push",
+    "tag": "RUN_LOW_COST_CAPACITY_CANARY_ONLY",
+    "created_or_pushed_during_build": false
+  },
+  "verification": {
+    "tests_passed": 7,
+    "tests_failed": 0,
+    "clean_extraction_reverified": true,
+    "cache_artifacts_in_zip": 0
+  },
   "source_evidence": {
     "002_execution_receipt_sha256": "23f58d45a50f94035a1bd97157afaaf799bdaa4625603998df7fd211e43dd54f",
     "002_public_outer_zip_sha256": "96fa551bdb53bff0775ad26de8ddc8eb66780a089fc919168f3c97f3f346776d",
-    "observed_failure": "HTTP_429_RATE_LIMIT_TRANSIENT tokens"
+    "observed_002_failure": "HTTP_429_RATE_LIMIT_TRANSIENT tokens"
   },
-  "warning": "Token bounds are enforceable; exact dollar cost is not guaranteed."
+  "warning": "A pass clears only this bounded canary envelope. It does not authorize a full benchmark or guarantee cost."
 }

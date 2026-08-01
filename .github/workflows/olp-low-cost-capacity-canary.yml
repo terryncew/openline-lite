@@ -1,12 +1,9 @@
-name: OLP low-cost capacity canary — no assignment
+name: OLP low-cost capacity canary — exact tag only
 
 on:
-  workflow_dispatch:
-    inputs:
-      acknowledgement:
-        description: "Enter RUN_LOW_COST_CANARY_ONLY"
-        required: true
-        type: string
+  push:
+    tags:
+      - "RUN_LOW_COST_CAPACITY_CANARY_ONLY"
 
 permissions:
   contents: read
@@ -15,21 +12,32 @@ concurrency:
   group: olp-low-cost-capacity-canary
   cancel-in-progress: false
 
+env:
+  CANARY_TAG: RUN_LOW_COST_CAPACITY_CANARY_ONLY
+
 jobs:
   canary:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Enforce explicit low-cost acknowledgement
+      - name: Require exact one-shot canary tag
         shell: bash
-        run: test "${{ inputs.acknowledgement }}" = "RUN_LOW_COST_CANARY_ONLY"
-      - name: Run token-bounded canary; stop on first 429; no retries
+        run: |
+          set -euo pipefail
+          test "${GITHUB_EVENT_NAME}" = "push"
+          test "${GITHUB_REF_TYPE}" = "tag"
+          test "${GITHUB_REF}" = "refs/tags/${CANARY_TAG}"
+      - name: Verify canary package before live requests
+        run: python -m unittest discover -s experiments/paired-mechanism-capacity-canary/tests -p 'test_*.py' -v
+      - name: Run representative token-capacity canary; no retries
         run: python experiments/paired-mechanism-capacity-canary/canary.py --out build/CAPACITY_CANARY_RECEIPT.json
       - name: Upload canary receipt
         if: always()
