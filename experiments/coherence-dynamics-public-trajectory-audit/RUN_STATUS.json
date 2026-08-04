@@ -1,0 +1,14 @@
+{
+  "api_credit_spend_usd": 0.0,
+  "audit_id": "CD_PUBLIC_CODING_TRAJECTORY_CALIBRATION_001",
+  "disposition": "READY_FOR_NETWORKED_EXECUTION",
+  "implementation_complete": true,
+  "model_api_calls": 0,
+  "protocol_frozen": true,
+  "public_dataset_rows_analyzed": 0,
+  "real_scientific_assignments_created": 0,
+  "reason": "The network-enabled GitHub workflow is the execution boundary. The source status remains NOT_RUN until the workflow emits a bound runtime receipt.",
+  "schema": "coherence-dynamics.public-trajectory.run-status.v2",
+  "scientific_result": "NOT_RUN",
+  "status": "READY_FOR_NETWORKED_EXECUTION"
+}

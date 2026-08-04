@@ -1,0 +1,5 @@
+data/
+artifacts/
+NON_SCIENTIFIC_TEST_ONLY/
+__pycache__/
+*.pyc

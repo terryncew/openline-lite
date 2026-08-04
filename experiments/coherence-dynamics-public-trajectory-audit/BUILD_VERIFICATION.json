@@ -1,0 +1,46 @@
+{
+  "checks": {
+    "api_credit_spend_usd": 0.0,
+    "deterministic_synthetic_end_to_end": {
+      "scientific_status": "NON_SCIENTIFIC_TEST_ONLY",
+      "status": "PASS"
+    },
+    "forbidden_large_fields_loaded": false,
+    "full_repository_identity_parser": "PASS",
+    "model_api_calls": 0,
+    "python_compileall": "PASS",
+    "runtime_receipt_verifier": "PASS",
+    "scientific_result": "NOT_RUN",
+    "source_column_streaming": "PASS",
+    "static_package_verifier": "PASS",
+    "unit_hostile_tests": {
+      "count": 13,
+      "status": "PASS"
+    },
+    "workflow_yaml_parse": "PASS_WITH_GITHUB_YAML_ON_KEY"
+  },
+  "commands": [
+    "PYTHONPATH=src python scripts/run_selftest.py",
+    "PYTHONPATH=src python -m unittest discover -s tests -v",
+    "python -m compileall -q src scripts tests",
+    "python scripts/verify_package.py"
+  ],
+  "important_hashes": {
+    ".github/workflows/nebius-audit.yml": "bc0e1b085407433c10ace59237b0a2269ad9a21cda80bfc92e81b0175141e2f6",
+    "AUDIT_PROTOCOL.json": "baa0ab718d6fc2f82b4b711c0989e095729b804a8f0a7f1808501364fd51383b",
+    "FEATURE_SCHEMA.json": "c7d94995fa2df7b36107040a5e9bb3c863e88eda13006519708ef6befc7bb3c8",
+    "LEAKAGE_POLICY.json": "b1b61f0907bcd28fd229558b7f15afee11d070f7fc2d679b9913316c4588c304",
+    "MANIFEST.json": "87bc8161c42bf0f34ad539ee083838256c7d670b1b66abc87c600da47e8fb730",
+    "RESULT_RULE.json": "4c649a23677cde3dd861eef22de936bc4ac4a8773c87daf84b6a3202e4f9612f",
+    "RUN_STATUS.json": "5586df62726281c8c95bdcd56f9798aa769cc63c2a52b04f7a2dac978e334038",
+    "SOURCE_REGISTER.json": "c41b114477519bce105fba6d73345188c79c72c19c5e40982ee47e9da46ceabc"
+  },
+  "remaining_risks": [
+    "GitHub-hosted runner runtime and disk capacity must survive the 1.11 GB download and full fit.",
+    "Fractional prefixes are retrospective normalized horizons, not deployable real-time cut points.",
+    "No scientific result exists until the networked workflow finishes and its receipt verifies."
+  ],
+  "schema": "coherence-dynamics.public-trajectory.build-verification.v2",
+  "status": "READY_FOR_AUTOMATED_NETWORKED_EXECUTION",
+  "verified_at_utc": "2026-08-04T07:55:14Z"
+}

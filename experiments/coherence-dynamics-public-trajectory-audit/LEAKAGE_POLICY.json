@@ -1,0 +1,40 @@
+{
+  "extractor_allowed_fields": [
+    "instance_id",
+    "model_name",
+    "trajectory"
+  ],
+  "extractor_forbidden_fields": [
+    "target",
+    "exit_status",
+    "generated_patch",
+    "eval_logs",
+    "reward",
+    "pass",
+    "eval_details"
+  ],
+  "hostile_tests": [
+    "label-swap",
+    "forbidden-field",
+    "forbidden-sentinel",
+    "chronology/future-event",
+    "state-swap",
+    "determinism",
+    "tamper binding",
+    "null-result",
+    "offline-network-boundary"
+  ],
+  "identity_usage": {
+    "instance_id": "group identity only, excluded from model features",
+    "model_name": "stratification/subgroup metadata only, excluded from model features",
+    "repository": "split group only, excluded from model features"
+  },
+  "requirements": [
+    "features are computed independently of labels",
+    "prefix features cannot read later trajectory events",
+    "all attempts of one task stay in one partition",
+    "final patch and evaluation logs cannot influence parser, features, or thresholds",
+    "changing labels without changing observable trace cannot change features"
+  ],
+  "schema": "coherence-dynamics.public-trajectory.leakage-policy.v1"
+}

@@ -1,0 +1,36 @@
+{
+  "adapter_paths": {
+    "candidate": "experiments/core21-campaign-2026/paired-mechanism-004/mapper/candidate_adapter.py",
+    "envelope": "experiments/core21-campaign-2026/paired-mechanism-004/mapper/envelope.py",
+    "independent": "experiments/core21-campaign-2026/paired-mechanism-004/verifier/independent_adapter.py"
+  },
+  "configuration_hash": "88dbb498881e84e32b7599ec2ec1bf186a923bc17d7e0c67c4d09cf2b9cddb8d",
+  "dependency_lock_hash": "ba5dd4592ae2d0d83245ce3e3ef8be50cd4bf93fc2fb9577caf7219d2ac3800d",
+  "experiment_id": "olp-core21-contradiction-specificity-004",
+  "missing_disposition": "BLOCKED_MISSING_FROZEN_KAPPA",
+  "repository_relative_paths": {
+    "assignment.py": "experiments/core21-campaign-2026/shared/frozen_003/assignment.py",
+    "blind_score.py": "experiments/core21-campaign-2026/shared/frozen_003/blind_score.py",
+    "common.py": "experiments/core21-campaign-2026/shared/frozen_003/common.py",
+    "independent_verify_scores.py": "experiments/core21-campaign-2026/shared/frozen_003/independent_verify_scores.py",
+    "key_derivation.py": "experiments/core21-campaign-2026/shared/frozen_003/key_derivation.py",
+    "requirements-execution.txt": "experiments/core21-campaign-2026/shared/frozen_003/requirements-execution.txt",
+    "trace_format.py": "experiments/core21-campaign-2026/shared/frozen_003/trace_format.py"
+  },
+  "schema": "openline.core21-campaign.004.kappa-provenance.v1",
+  "scientific_calculation_rewritten": false,
+  "scorer_freeze_sha256": "47839b052d496461e5a613cf268f9d4e85c41ea948ed9c7d95b528a9939e2e6e",
+  "source_archive_sha256": "083896267d9fdb3465eee3eaf8f8d7fd47ffeaa379caab9a8c4f2ee3f5eeb59d",
+  "source_experiment_id": "olp-core21-paired-mechanism-003",
+  "source_final_result_sha256": "c34890e1cd87327949d441376b6523068bcc3d5acb8d384e86bebeb1e5015cdd",
+  "source_hashes": {
+    "assignment.py": "1a8d422c864c4671e07601e89017333df87c5bb0c8ae53350605d2d1f23a7f70",
+    "blind_score.py": "44f3b76e400f6e34dd79a4f87d75b4ac8a721493581a52dbc915d58cd900e06e",
+    "common.py": "d7ca2b817a6d2d97e62044609faffa9ef2817e0faba3c4901ffc8ee22561082f",
+    "independent_verify_scores.py": "5072756df07b9551c60aadbeb914ea5c909ea2e472ee089739e3c7f8175f8699",
+    "key_derivation.py": "833349e10fe1c2ade4f748fcb76281263134609d8acea485cb85c576707d21aa",
+    "requirements-execution.txt": "ba5dd4592ae2d0d83245ce3e3ef8be50cd4bf93fc2fb9577caf7219d2ac3800d",
+    "trace_format.py": "353b0b51036f25755ec34984f715538711fb49c9b7755157244704e4ab5e427f"
+  },
+  "source_preflight_commit_sha": "9106975de2196cf542e91d63883afd6951a2f605"
+}

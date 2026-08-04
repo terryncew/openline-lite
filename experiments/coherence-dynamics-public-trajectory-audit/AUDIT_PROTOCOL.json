@@ -1,0 +1,98 @@
+{
+  "api_credit_budget_usd": 0.0,
+  "audit_id": "CD_PUBLIC_CODING_TRAJECTORY_CALIBRATION_001",
+  "bootstrap": {
+    "confidence_interval": 0.95,
+    "default_iterations": 500,
+    "unit": "instance_id"
+  },
+  "claim_boundary": {
+    "addresses": "coding-agent trajectory success/failure on public benchmark data",
+    "does_not_address": [
+      "human correction after handoff",
+      "universal Coherence Dynamics",
+      "Phi-star calibration",
+      "VKD calibration",
+      "Terrynce Curve",
+      "production action authorization"
+    ]
+  },
+  "created_at_utc": "2026-08-04T05:28:52Z",
+  "development_cv": {
+    "groups": "instance_id",
+    "max_folds": 5,
+    "random_state": 20260804,
+    "type": "StratifiedGroupKFold"
+  },
+  "feature_families": {
+    "cd": "per-channel curvature summaries plus rolling variance and lag-1 ACF over windows 10 and 32",
+    "length": [
+      "action_count",
+      "observable_chars"
+    ],
+    "simple": "all observable non-CD numeric counts/rates",
+    "simple_cd": "simple plus CD"
+  },
+  "grouping": {
+    "repository_group": "full repository identity parsed from instance_id by removing only the terminal issue-number suffix",
+    "same_task_attempts_must_not_cross_development_and_test": true,
+    "task_group": "instance_id"
+  },
+  "implementation_revision": "streaming-source-columns-and-full-repository-identity-v2",
+  "metrics": [
+    "ROC-AUC",
+    "PR-AUC",
+    "Brier score",
+    "recall",
+    "precision",
+    "false-positive rate",
+    "review rate"
+  ],
+  "model": {
+    "C_candidates": [
+      0.01,
+      0.1,
+      1.0,
+      10.0
+    ],
+    "class_weight": "balanced",
+    "selection_metric": "development out-of-fold PR-AUC",
+    "type": "regularized logistic regression"
+  },
+  "model_api_calls_allowed": false,
+  "operating_point": {
+    "maximum_false_positive_rate": 0.2,
+    "selected_on": "development out-of-fold predictions only"
+  },
+  "outcome": {
+    "definition": "linked repository tests evaluate the generated patch as resolving the issue",
+    "labeler_separate_from_extractor": true,
+    "name": "target",
+    "positive": 1
+  },
+  "overall_rule": "At least two of four prefixes must share a directional disposition; otherwise NO_RELIABLE_SIGNAL.",
+  "prefix_horizon_limitation": "Fractions are retrospective normalized horizons because final trajectory length is needed to locate the cut. They are not deployable clock-time thresholds.",
+  "prefixes": [
+    0.25,
+    0.5,
+    0.75,
+    1.0
+  ],
+  "primary_split": {
+    "random_state": 20260804,
+    "reason": "prevents attempts from the same repository appearing in both partitions",
+    "test_fraction": 0.2,
+    "type": "repository holdout"
+  },
+  "publish_regardless": true,
+  "question": "Can observable structural features available in saved coding-agent trajectory prefixes predict independently verified final task success, and do Coherence Dynamics CSD features add held-out signal beyond simple churn baselines?",
+  "result_rule": {
+    "BASELINE_EQUIVALENT": "absolute PR-AUC delta <= 0.01 and interval includes zero",
+    "BASELINE_OUTPERFORMS_CD": "PR-AUC delta < -0.01 and grouped-bootstrap upper 95% bound < 0",
+    "BLOCKED_DATA_NOT_MATERIALIZED": "public trajectory bytes unavailable in execution environment",
+    "CD_ADDS_HELDOUT_SIGNAL": "simple+CD PR-AUC delta > 0.02, grouped-bootstrap lower 95% bound > 0, and ROC-AUC delta >= -0.005",
+    "NO_RELIABLE_SIGNAL": "all other evaluable results"
+  },
+  "schema": "coherence-dynamics.public-trajectory.audit-protocol.v2",
+  "status": "FROZEN_BEFORE_NETWORKED_EXECUTION"
+}

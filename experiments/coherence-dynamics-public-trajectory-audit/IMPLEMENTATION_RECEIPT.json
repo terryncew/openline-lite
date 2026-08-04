@@ -1,0 +1,20 @@
+{
+  "boundaries": [
+    "No model API is referenced or called.",
+    "No OpenAI credit is available to the workflow.",
+    "Only public dataset bytes are downloaded.",
+    "Raw dataset bytes are not uploaded as artifacts.",
+    "Scientific results remain unset until the workflow emits a verified runtime receipt."
+  ],
+  "claim": "Wire the frozen zero-API-spend public trajectory audit to a network-enabled GitHub Actions runner.",
+  "created_at_utc": "2026-08-04T07:54:19Z",
+  "disposition": "READY_FOR_AUTOMATED_NETWORKED_EXECUTION",
+  "evidence": {
+    "protocol_sha256": "baa0ab718d6fc2f82b4b711c0989e095729b804a8f0a7f1808501364fd51383b",
+    "run_status_sha256": "5586df62726281c8c95bdcd56f9798aa769cc63c2a52b04f7a2dac978e334038",
+    "source_register_sha256": "c41b114477519bce105fba6d73345188c79c72c19c5e40982ee47e9da46ceabc",
+    "workflow_sha256": "bc0e1b085407433c10ace59237b0a2269ad9a21cda80bfc92e81b0175141e2f6"
+  },
+  "receipt_id": "CD_PUBLIC_CODING_TRAJECTORY_CALIBRATION_001_NETWORK_RUNNER",
+  "schema": "openline-lite.implementation-receipt.v2"
+}

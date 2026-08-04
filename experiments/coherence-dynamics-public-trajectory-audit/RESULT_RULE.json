@@ -1,0 +1,8 @@
+{
+  "BASELINE_EQUIVALENT": "absolute PR-AUC delta <= 0.01 and interval includes zero",
+  "BASELINE_OUTPERFORMS_CD": "PR-AUC delta < -0.01 and grouped-bootstrap upper 95% bound < 0",
+  "BLOCKED_DATA_NOT_MATERIALIZED": "public trajectory bytes unavailable in execution environment",
+  "CD_ADDS_HELDOUT_SIGNAL": "simple+CD PR-AUC delta > 0.02, grouped-bootstrap lower 95% bound > 0, and ROC-AUC delta >= -0.005",
+  "NO_RELIABLE_SIGNAL": "all other evaluable results",
+  "overall_rule": "At least two of four prefixes must share a directional disposition; otherwise NO_RELIABLE_SIGNAL."
+}

@@ -1,0 +1,35 @@
+{
+  "cd_candidates": {
+    "CSD_1": "rolling variance of kappa_C, windows 10 and 32",
+    "CSD_2": "lag-1 autocorrelation of kappa_C, windows 10 and 32",
+    "kappa_C": "Experiment 003 integer curvature kernel applied separately to each declared channel"
+  },
+  "direct_features": [
+    "action counts/rates by search/read/edit/exec/verify/submit/other",
+    "observable character counts",
+    "explicit error count/rate",
+    "repeated command count/rate",
+    "unique target and revisit counts/rates",
+    "repeated edit target count",
+    "action-switch count/rate",
+    "explicit parser coverage"
+  ],
+  "naming_rule": "A supervised combination is p_success or p_review, never relabeled kappa.",
+  "parser": "deterministic explicit-command lexical parser; rhetorical free text does not create tool events",
+  "schema": "coherence-dynamics.public-trajectory.feature-schema.v1",
+  "trajectory_channels": {
+    "action_switch_rate": "cumulative category changes divided by transitions",
+    "edit_revisit_rate": "cumulative repeated-edit rate among edits",
+    "error_rate": "cumulative explicit observation error rate",
+    "exploration_breadth_rate": "cumulative unique parsed targets divided by actions",
+    "verify_failure_rate": "cumulative explicit failed-verification rate"
+  },
+  "unavailable": {
+    "Phi_star": "No substrate-calibrated Ic, alpha_kappa, alpha_epsilon, delta.",
+    "VKD": "No external kappa star or Phi floor.",
+    "complete_frozen_003_mapper": "No verified mapping from public messages to dependency edges and structured state fields.",
+    "latency_variance": "Reliable event timestamps absent.",
+    "logprob_entropy": "Top-token log probabilities absent.",
+    "synchrony_S": "No pre-campaign phase-extraction mapping."
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "schema": "dsm.coding-trace.experiment-contract.v1",
+  "title": "Observable Coding-Trace Early Warning",
+  "research_question": "Given only an observable execution trace, can DSM issue an earlier reliable warning than conventional session signals?",
+  "product_boundary": {
+    "public_name": "generic normalized coding-trace adapter",
+    "first_source_adapter": "mindwalk.trace.v1",
+    "new_repository": false,
+    "visualizer_competition": false
+  },
+  "source_contract": {
+    "canonical_stream_schema": "dsm.coding-trace.observable-stream.v1",
+    "first_source_format": "mindwalk.trace.v1",
+    "source_version": 1,
+    "upstream_commit": "e208b6b8504138843f671e031f28129b66003a67",
+    "upstream_schema_blob_sha": "6faf7f439cfd02ed0a69bc1bbfa570e7793a784e",
+    "upstream_schema_file_sha256": "2d64c75b4cfe512ddd7e2d89be7c3ac62a39a1e8645269b84304123041fbb358",
+    "unknown_fields": "reject",
+    "duplicate_json_keys": "reject",
+    "nonfinite_numbers": "reject",
+    "metric_process_input": "observable_stream only",
+    "raw_source_hashes_available_to_metric": false,
+    "source_session_metadata_available_to_metric": false
+  },
+  "metric_policy": {
+    "new_coherence_metrics_allowed": false,
+    "existing_metrics": [
+      "kappa_micros",
+      "phi_star_micros",
+      "vkd_micros"
+    ],
+    "required_behavior_when_observables_are_missing": "UNDECIDABLE",
+    "source_free_text_may_supply_missing_state": false,
+    "secondary_metrics_may_rescue_primary_failure": false
+  },
+  "current_source_assessment": {
+    "source_format": "mindwalk.trace.v1",
+    "kappa_micros": "UNDECIDABLE",
+    "phi_star_micros": "UNDECIDABLE",
+    "vkd_micros": "UNDECIDABLE",
+    "reason": "The source schema has no structured hypothesis set, confidence history, evidence relations, discriminating checks, action-pressure state, or fixed tool-call budget.",
+    "warning_profile_may_be_created": false
+  },
+  "hidden_until_scoring": [
+    "final_tests",
+    "human_verdict",
+    "evaluation_report",
+    "completion_status",
+    "failure_label"
+  ],
+  "conventional_prefix_baselines": [
+    "error_rate_micros",
+    "consecutive_error_events",
+    "revisit_rate_micros",
+    "edits_since_latest_successful_verify",
+    "exploration_breadth_micros",
+    "result_bytes_per_event",
+    "compaction_rate_micros",
+    "successful_verify_count"
+  ],
+  "baseline_claim_boundary": "These are ordinary deterministic trajectory summaries, not Coherence Dynamics metrics and not outcome predictions.",
+  "partitions": {
+    "calibration": "May select thresholds using calibration traces and calibration outcomes only.",
+    "freeze": "The metric source, source schema, primary rule, thresholds, false-alarm target, and calibration hashes must be receiver-anchored before held-out outcomes are opened.",
+    "heldout_measurement": "Receives source traces and the frozen profile only.",
+    "heldout_scoring": "Opens hidden outcomes only after measurement hashes and the freeze are verified."
+  },
+  "comparison": {
+    "required_false_alarm_control": "Compare warning time at the same held-out false-alarm rate.",
+    "reported_quantities": [
+      "warning_time_steps",
+      "false_alarms",
+      "misses"
+    ],
+    "success_condition": "DSM must warn earlier than every declared conventional baseline without exceeding the matched false-alarm rate.",
+    "no_result_behavior": "Report HOLD or UNDECIDABLE; do not tune a replacement metric on held-out failures."
+  },
+  "paired_fixture": {
+    "id": "same-aggregate-different-trajectory-v1",
+    "purpose": "Prove that identical final aggregate statistics can conceal different event order.",
+    "outcome_labels_included": false,
+    "predictive_claim_allowed": false
+  },
+  "claim_boundary": "The bundled fixture validates strict normalization, free-text exclusion, trajectory preservation, and fail-closed metric availability. It does not establish predictive usefulness."
+}

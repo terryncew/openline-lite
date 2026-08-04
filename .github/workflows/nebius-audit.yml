@@ -1,0 +1,130 @@
+name: Coherence Dynamics — Nebius Trajectory Calibration Audit
+
+on:
+  workflow_dispatch: {}
+  pull_request:
+    paths:
+      - "experiments/coherence-dynamics-public-trajectory-audit/**"
+      - ".github/workflows/nebius-audit.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nebius-trajectory-audit-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+env:
+  AUDIT_DIR: experiments/coherence-dynamics-public-trajectory-audit
+  HF_HOME: ${{ runner.temp }}/huggingface
+  HF_XET_HIGH_PERFORMANCE: "1"
+  PYTHONUNBUFFERED: "1"
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: experiments/coherence-dynamics-public-trajectory-audit/requirements.txt
+
+      - name: Install pinned execution dependencies
+        working-directory: ${{ env.AUDIT_DIR }}
+        run: python -m pip install -r requirements.txt
+
+      - name: Verify frozen source before network access
+        working-directory: ${{ env.AUDIT_DIR }}
+        run: |
+          python scripts/verify_package.py
+          PYTHONPATH=src python scripts/run_selftest.py
+          python -m compileall -q src scripts tests
+
+      - name: Record runtime environment
+        working-directory: ${{ env.AUDIT_DIR }}
+        run: |
+          mkdir -p artifacts/runtime
+          python -m pip freeze --all > artifacts/runtime/PIP_FREEZE.txt
+          python - <<'PY'
+          import json
+          import os
+          import platform
+          import sys
+          from pathlib import Path
+
+          value = {
+              "schema": "coherence-dynamics.public-trajectory.runtime-environment.v1",
+              "python": sys.version,
+              "platform": platform.platform(),
+              "runner_os": os.environ.get("RUNNER_OS"),
+              "github_run_id": os.environ.get("GITHUB_RUN_ID"),
+              "github_sha": os.environ.get("GITHUB_SHA"),
+              "model_api_calls": 0,
+              "api_credit_spend_usd": 0.0,
+          }
+          Path("artifacts/runtime/ENVIRONMENT.json").write_text(
+              json.dumps(value, indent=2, sort_keys=True) + "\n",
+              encoding="utf-8",
+          )
+          PY
+          df -h . > artifacts/runtime/DISK_BEFORE.txt
+
+      - name: Acquire pinned Nebius dataset
+        working-directory: ${{ env.AUDIT_DIR }}
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: python scripts/acquire_nebius.py --output data/nebius --revision a8a64e5
+
+      - name: Prepare label-blind features
+        working-directory: ${{ env.AUDIT_DIR }}
+        run: |
+          set -euo pipefail
+          mapfile -t INPUTS < <(find data/nebius/data -name 'train-*.parquet' -print | sort)
+          test "${#INPUTS[@]}" -eq 12
+          ARGS=()
+          for file in "${INPUTS[@]}"; do
+            ARGS+=(--input "$file")
+          done
+          PYTHONPATH=src python scripts/run_audit.py prepare \
+            "${ARGS[@]}" \
+            --data-manifest data/nebius/DATA_MANIFEST.json \
+            --output artifacts/prepared
+
+      - name: Run frozen audit
+        working-directory: ${{ env.AUDIT_DIR }}
+        run: |
+          PYTHONPATH=src python scripts/run_audit.py run \
+            --prepared artifacts/prepared \
+            --data-manifest data/nebius/DATA_MANIFEST.json \
+            --output artifacts/result \
+            --bootstrap-iterations 500
+
+      - name: Verify result and receipt bindings
+        working-directory: ${{ env.AUDIT_DIR }}
+        run: |
+          python scripts/verify_package.py \
+            --result-dir artifacts/result \
+            --prepared-dir artifacts/prepared \
+            --data-manifest data/nebius/DATA_MANIFEST.json
+          df -h . > artifacts/runtime/DISK_AFTER.txt
+          cat artifacts/result/EXECUTION_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload bounded audit artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nebius-trajectory-audit-${{ github.run_id }}
+          retention-days: 90
+          if-no-files-found: warn
+          path: |
+            experiments/coherence-dynamics-public-trajectory-audit/artifacts/result/**
+            experiments/coherence-dynamics-public-trajectory-audit/artifacts/prepared/FEATURE_LABEL_BINDING.json
+            experiments/coherence-dynamics-public-trajectory-audit/artifacts/prepared/METRIC_AVAILABILITY.json
+            experiments/coherence-dynamics-public-trajectory-audit/artifacts/runtime/**
+            experiments/coherence-dynamics-public-trajectory-audit/data/nebius/DATA_MANIFEST.json
+            experiments/coherence-dynamics-public-trajectory-audit/NON_SCIENTIFIC_TEST_ONLY/SELFTEST_REPORT.json

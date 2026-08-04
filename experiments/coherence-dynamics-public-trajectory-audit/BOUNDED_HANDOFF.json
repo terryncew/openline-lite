@@ -1,0 +1,11 @@
+{
+  "api_spend_usd": 0.0,
+  "claim": "Execute the frozen public coding-trajectory calibration audit without user labor or API spend.",
+  "disposition": "READY_FOR_AUTOMATED_NETWORKED_EXECUTION",
+  "handoff_id": "CD_PUBLIC_CODING_TRAJECTORY_CALIBRATION_001",
+  "implementation": "COMPLETE_AND_OFFLINE_TESTED",
+  "model_api_calls": 0,
+  "required_next_machine_step": "Pull-request workflow downloads the pinned data, runs the audit, verifies receipts, and returns the artifact.",
+  "schema": "openline-lite.bounded-handoff.v1",
+  "scientific_run": "PENDING_GITHUB_ACTION"
+}

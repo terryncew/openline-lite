@@ -1,0 +1,190 @@
+{
+  "api_credit_spend_usd": 0.0,
+  "audit_id": "CD_PUBLIC_CODING_TRAJECTORY_CALIBRATION_001",
+  "file_count": 36,
+  "files": [
+    {
+      "bytes": 4841,
+      "path": ".github/workflows/nebius-audit.yml",
+      "sha256": "bc0e1b085407433c10ace59237b0a2269ad9a21cda80bfc92e81b0175141e2f6"
+    },
+    {
+      "bytes": 62,
+      "path": ".gitignore",
+      "sha256": "015d00d39bd2b7f28ca103f1fcd7f88963ae7099728cd8634f32828073341558"
+    },
+    {
+      "bytes": 3568,
+      "path": "AUDIT_PROTOCOL.json",
+      "sha256": "baa0ab718d6fc2f82b4b711c0989e095729b804a8f0a7f1808501364fd51383b"
+    },
+    {
+      "bytes": 1729,
+      "path": "AUDIT_REPORT.md",
+      "sha256": "7a717beab76bf0feaee51622b9f00e83d675c1d665c8a52e7fccd2c9e9c2de57"
+    },
+    {
+      "bytes": 572,
+      "path": "BOUNDED_HANDOFF.json",
+      "sha256": "496be71521aef1019187a810a21022babfd4856e520903caeef579eebc714e15"
+    },
+    {
+      "bytes": 923,
+      "path": "DATA_ACQUISITION_ATTEMPTS.json",
+      "sha256": "5cc04d30f3832b8ac84e5efa63077d53c68588618f697e536ce85cebd531c98f"
+    },
+    {
+      "bytes": 1759,
+      "path": "FEATURE_SCHEMA.json",
+      "sha256": "c7d94995fa2df7b36107040a5e9bb3c863e88eda13006519708ef6befc7bb3c8"
+    },
+    {
+      "bytes": 1064,
+      "path": "IMPLEMENTATION_RECEIPT.json",
+      "sha256": "46d09a320a247ef3dde5b8b5bf38a211ae9b86bb8f4acba9e82d5e907a040f20"
+    },
+    {
+      "bytes": 1167,
+      "path": "LEAKAGE_POLICY.json",
+      "sha256": "b1b61f0907bcd28fd229558b7f15afee11d070f7fc2d679b9913316c4588c304"
+    },
+    {
+      "bytes": 3929,
+      "path": "README.md",
+      "sha256": "88925393a95a51292e11f46c464d48652d46fb5bbe8aeba2100226307f8363a7"
+    },
+    {
+      "bytes": 585,
+      "path": "RESULT_RULE.json",
+      "sha256": "4c649a23677cde3dd861eef22de936bc4ac4a8773c87daf84b6a3202e4f9612f"
+    },
+    {
+      "bytes": 619,
+      "path": "RUN_STATUS.json",
+      "sha256": "5586df62726281c8c95bdcd56f9798aa769cc63c2a52b04f7a2dac978e334038"
+    },
+    {
+      "bytes": 3465,
+      "path": "SOURCE_REGISTER.json",
+      "sha256": "c41b114477519bce105fba6d73345188c79c72c19c5e40982ee47e9da46ceabc"
+    },
+    {
+      "bytes": 94,
+      "path": "provenance/Coherence_Dynamics_v1_2.sha256",
+      "sha256": "46ad52a86981f67ce6c4a7a000fcddf2b98a35e849b2206f553dea67f29c3b2c"
+    },
+    {
+      "bytes": 3921,
+      "path": "provenance/DSM_CODING_TRACE_CONTRACT_RC12.json",
+      "sha256": "598d3cc06b5094ebd237d86b30a6585e9f447d40cc65cdeeffca78f55a45a727"
+    },
+    {
+      "bytes": 2573,
+      "path": "provenance/EXPERIMENT_003_KAPPA_PROVENANCE.json",
+      "sha256": "5a237c95e82cb290dcd5d117679c9112e0be8af7d934569d627c6f4ce946c597"
+    },
+    {
+      "bytes": 26348,
+      "path": "provenance/dsm_coding_trace_adapter_rc12.py",
+      "sha256": "22ac420dc431bdf9e6eac32527f0a489753812a20d6903a97a19cb9b395e1454"
+    },
+    {
+      "bytes": 23779,
+      "path": "provenance/experiment_003_blind_score.py",
+      "sha256": "44f3b76e400f6e34dd79a4f87d75b4ac8a721493581a52dbc915d58cd900e06e"
+    },
+    {
+      "bytes": 121,
+      "path": "requirements.txt",
+      "sha256": "4218e0fb61134b7ebdb57fa5bb1e31a82b5fd191d12c8f2cd5e6e311959a4d2a"
+    },
+    {
+      "bytes": 2768,
+      "path": "scripts/acquire_nebius.py",
+      "sha256": "a0021ab29cea7d3f2270cf9e4e0aca9fba41b8ad949e0508f9cd1a265721ab20"
+    },
+    {
+      "bytes": 110,
+      "path": "scripts/run_audit.py",
+      "sha256": "b930b1a7eb079bd97808ee635ebedd10f22406d37d1f0a029e06fbf0c4b13ddd"
+    },
+    {
+      "bytes": 5001,
+      "path": "scripts/run_selftest.py",
+      "sha256": "23fbb7474a544380d231be9e45eb382463fc61e2d8567329aa7936548e2e3567"
+    },
+    {
+      "bytes": 5788,
+      "path": "scripts/verify_package.py",
+      "sha256": "378b021bfb7855320cc0c4fba96708c947f6aae81320c731beed066a9ff07847"
+    },
+    {
+      "bytes": 95,
+      "path": "src/public_trajectory_audit/__init__.py",
+      "sha256": "cf26d228fc25f59dff45b3f3ed23d91ce5d11d478383647e9af8353d2911d396"
+    },
+    {
+      "bytes": 2411,
+      "path": "src/public_trajectory_audit/action_parser.py",
+      "sha256": "20d9582cf1ab11649933d6aa573f478bf3642d769f0b0778b97777c3074bbd3f"
+    },
+    {
+      "bytes": 1342,
+      "path": "src/public_trajectory_audit/canonical.py",
+      "sha256": "ac5fff1af2a226ee329d77a6f4608c0649fc65ea45d561f5f9cf772c72a5f3b6"
+    },
+    {
+      "bytes": 1392,
+      "path": "src/public_trajectory_audit/csd.py",
+      "sha256": "ae6aeb74bd8a09a786929677f5c4ba56b7171bfce4e96ab49280e6bf6a9ad3b5"
+    },
+    {
+      "bytes": 1048,
+      "path": "src/public_trajectory_audit/curvature.py",
+      "sha256": "64f25b4a4c9fa1d740d26de4f16ca247a506e1154fabb820c4867fffa9b903bd"
+    },
+    {
+      "bytes": 1920,
+      "path": "src/public_trajectory_audit/data_io.py",
+      "sha256": "95cf1de832d834fe6a598cce916a9e368b18775bef2d3ce5b47b31c3a10f50ef"
+    },
+    {
+      "bytes": 3991,
+      "path": "src/public_trajectory_audit/evaluate.py",
+      "sha256": "2636526126f2d68eba64b23f53783c357a38481652727dbcf4b8763238180acb"
+    },
+    {
+      "bytes": 6739,
+      "path": "src/public_trajectory_audit/features.py",
+      "sha256": "8b49958b3b31f9a339af59203c2433a2561e45330760008650322a6affd0ec75"
+    },
+    {
+      "bytes": 4758,
+      "path": "src/public_trajectory_audit/modeling.py",
+      "sha256": "f1b2af16e48386be1ed0ee75a04a82bad8cd55c4d39839004bd42063affe9740"
+    },
+    {
+      "bytes": 3914,
+      "path": "src/public_trajectory_audit/nebius.py",
+      "sha256": "9fc8bb11c13c2835e50c4659250a56a89f937982a02b0461bb699153f086fc4c"
+    },
+    {
+      "bytes": 14116,
+      "path": "src/public_trajectory_audit/runner.py",
+      "sha256": "6c08c7a349a3f0195db17ed68ab73097576528c16084fe17c573e3a36f6f7dd4"
+    },
+    {
+      "bytes": 1052,
+      "path": "src/public_trajectory_audit/split.py",
+      "sha256": "d202ba1ff65d6e9895f5ce66b293e336cbf5426714fca2447846162195912c4a"
+    },
+    {
+      "bytes": 6530,
+      "path": "tests/test_audit.py",
+      "sha256": "d4d01e6d194dc0a3d8990a2e1cf8e93b4c7a6b775b75c16babea1b2d3d2945f6"
+    }
+  ],
+  "model_api_calls": 0,
+  "schema": "coherence-dynamics.public-trajectory.source-manifest.v2",
+  "scientific_result": "NOT_RUN"
+}

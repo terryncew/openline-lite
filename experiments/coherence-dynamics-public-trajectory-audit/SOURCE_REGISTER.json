@@ -1,0 +1,84 @@
+{
+  "created_at_utc": "2026-08-04T05:28:52Z",
+  "governing_sources": [
+    {
+      "artifact_sha256": "9315c3dc084a3fe58b3e340fd14c2b57485ab3109dcf7a8417c141a10281c34f",
+      "date": "2025-10-30",
+      "local_hash_record": "provenance/Coherence_Dynamics_v1_2.sha256",
+      "name": "Coherence Dynamics v1.2 \u2014 Erratum & Reframe",
+      "role": "GOVERNS_METRIC_ROLES_AND_FALSIFIERS",
+      "rules": [
+        "kappa is diagnostic/control cost, not universal predictor",
+        "predictive candidates are CSD variance and lag-1 autocorrelation of kappa",
+        "VKD is a policy gate",
+        "per-domain calibration required"
+      ]
+    },
+    {
+      "constraint": "Complete frozen mapper cannot be applied because public trajectory schema lacks verified dependency-edge and structured state-field observations.",
+      "local_path": "provenance/experiment_003_blind_score.py",
+      "name": "Experiment 003 frozen scorer",
+      "role": "EXACT_KERNEL_PROVENANCE_ONLY",
+      "sha256": "44f3b76e400f6e34dd79a4f87d75b4ac8a721493581a52dbc915d58cd900e06e"
+    },
+    {
+      "local_path": "provenance/EXPERIMENT_003_KAPPA_PROVENANCE.json",
+      "name": "Experiment 003 KAPPA_PROVENANCE",
+      "role": "FROZEN_SOURCE_IDENTITY",
+      "sha256": "5a237c95e82cb290dcd5d117679c9112e0be8af7d934569d627c6f4ce946c597"
+    },
+    {
+      "archive_sha256": "0571e51878fb8fdba07a8a85c4413f425c47bd872a90fb97d60be0a4c7ac4865",
+      "local_path": "provenance/dsm_coding_trace_adapter_rc12.py",
+      "name": "DSM generic coding-trace adapter rc12",
+      "role": "PRIOR_PROVIDER_NEUTRAL_ADAPTER_REFERENCE",
+      "sha256": "22ac420dc431bdf9e6eac32527f0a489753812a20d6903a97a19cb9b395e1454"
+    }
+  ],
+  "precedence": [
+    "Coherence Dynamics v1.2 governs scientific roles.",
+    "Exact Experiment 003 source governs only the curvature kernel identity; no prose reconstruction of the complete mapper is allowed.",
+    "Dataset labels define coding-task success only and may not be reinterpreted as human handoff correction labels."
+  ],
+  "public_datasets": [
+    {
+      "current_public_row_count": 80036,
+      "data_tree_url": "https://huggingface.co/datasets/nebius/SWE-agent-trajectories/tree/main/data",
+      "dataset_id": "nebius/SWE-agent-trajectories",
+      "fields": [
+        "instance_id",
+        "model_name",
+        "target",
+        "trajectory",
+        "exit_status",
+        "generated_patch",
+        "eval_logs"
+      ],
+      "format": "12 Parquet shards",
+      "label": "target: independently evaluated issue resolution",
+      "license": "CC-BY-4.0; underlying repository and model-output licenses also apply",
+      "public_size_bytes_approx": 1114367701,
+      "retrieved_at_utc": "2026-08-04T05:28:52Z",
+      "revision_requested": "a8a64e5",
+      "role": "PRIMARY_DEVELOPMENT_AND_REPOSITORY_HELDOUT_DATA",
+      "source_url": "https://huggingface.co/datasets/nebius/SWE-agent-trajectories"
+    },
+    {
+      "access": "GATED_NOT_USED",
+      "benchmarks": [
+        "tau2bench",
+        "swebench",
+        "terminalbench",
+        "mathhay",
+        "search",
+        "mcpbench"
+      ],
+      "dataset_id": "cx-cmu/agent_trajectories",
+      "public_row_count": 8653,
+      "retrieved_at_utc": "2026-08-04T05:28:52Z",
+      "role": "PLANNED_EXTERNAL_REPLICATION_ONLY",
+      "source_url": "https://huggingface.co/datasets/cx-cmu/agent_trajectories"
+    }
+  ],
+  "schema": "coherence-dynamics.public-trajectory.source-register.v1"
+}

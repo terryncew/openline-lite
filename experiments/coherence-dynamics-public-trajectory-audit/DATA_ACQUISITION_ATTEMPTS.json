@@ -1,0 +1,25 @@
+{
+  "attempted_at_utc": "2026-08-04T05:28:52Z",
+  "attempts": [
+    {
+      "bytes_downloaded": 0,
+      "error": "Temporary failure in name resolution",
+      "method": "Python urllib from execution container to Hugging Face dataset server",
+      "result": "FAILED"
+    },
+    {
+      "bytes_downloaded": 0,
+      "error": "download failed at Xet redirect boundary",
+      "method": "container download from Hugging Face resolve URL",
+      "result": "FAILED"
+    },
+    {
+      "bytes_downloaded": 0,
+      "method": "web verification of official dataset card and file tree",
+      "result": "PASS_METADATA_ONLY"
+    }
+  ],
+  "next_machine_action": "Run scripts/acquire_nebius.py in a network-enabled Python environment, then run prepare and run commands unchanged. No model API key is used.",
+  "schema": "coherence-dynamics.public-trajectory.data-acquisition-attempts.v1",
+  "scientific_dataset_materialized": false
+}
