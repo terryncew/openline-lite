@@ -41,7 +41,7 @@ def prepare_source(paths:list[Path],out:Path,expected_hashes:dict[str,str])->dic
             for raw in iter_rows(path):
                 rec=blind_record(sanitize_row(raw)); feature=extract_prefix(rec,0.75); label=label_row(raw)
                 yield feature,label
-    return _write(rows(),out,{"dataset_role":"source_profile_reconstruction","source_hashes":actual})
+    return _write(rows(),out,{"dataset_role":"source_profile_recovery","source_hashes":actual})
 
 def prepare_external(path:Path,out:Path,expected_counts:dict[str,int])->dict[str,Any]:
     source_hash=sha256_file(path)

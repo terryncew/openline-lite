@@ -1,0 +1,47 @@
+{
+  "aborted_attempts": [
+    {
+      "absolute_difference": 1.104367913784543e-08,
+      "expected_simple_brier": 0.2137518053013716,
+      "external_dataset_acquired": false,
+      "external_rows_scored": 0,
+      "github_run_id": "30909808362",
+      "observed_simple_brier": 0.21375179425769247
+    },
+    {
+      "absolute_difference": 2.0190265706543364e-07,
+      "expected_simple_brier": 0.2137518053013716,
+      "external_dataset_acquired": false,
+      "external_rows_scored": 0,
+      "github_run_id": "UNKNOWN_SECOND_RUNTIME_PINNED_RUN",
+      "observed_simple_brier": 0.21375160339871455
+    }
+  ],
+  "claim_boundary": "This is an external transport test of a recovered source-fitted 75% profile. It is not a bitwise reconstruction of a model artifact the source audit failed to save, and it does not establish causality or universal Coherence Dynamics.",
+  "external_blindness": {
+    "alternate_horizon_search": false,
+    "external_feature_selection": false,
+    "external_fitting": false,
+    "external_threshold_tuning": false,
+    "profile_must_be_written_and_hashed_before_external_acquisition": true
+  },
+  "problem": "The Nebius source audit emitted aggregate metrics but did not emit the fitted imputer, scaler, coefficients, intercept, or prediction vector. Retraining the liblinear model and demanding a scalar Brier match within 1e-12 is therefore not a valid model-identity check across GitHub runners.",
+  "repair": "Recover the source model from the exact pinned Nebius bytes, exact feature order, exact repository split, exact C values, and unchanged final-fit pipeline. Serialize the actual fitted preprocessing statistics, coefficients, intercepts, and original source thresholds before any external dataset is acquired. Hash and verify that profile, then apply it without external refitting.",
+  "replication_id": "CD_EXTERNAL_CODING_TRAJECTORY_REPLICATION_002",
+  "schema": "coherence-dynamics.external-replication.source-profile-recovery.v1",
+  "source_identity_gates": {
+    "feature_order": "EXACT_FROM_SOURCE_PROFILE_LOCK",
+    "horizon": 0.75,
+    "repository_split": "EXACT_FROM_SOURCE_PROFILE_LOCK",
+    "selected_C": "EXACT_FROM_SOURCE_PROFILE_LOCK",
+    "source_parquet_hashes": "EXACT_FROM_SOURCE_PROFILE_LOCK",
+    "source_row_count": "EXACT_FROM_SOURCE_PROFILE_LOCK",
+    "source_thresholds": "USE_ORIGINAL_LOCKED_VALUES_UNCHANGED"
+  },
+  "source_metric_sanity": {
+    "justification": "The bound is over 400 times smaller than the source 75% PR-AUC lift of 0.02284 and treats sub-micro numerical solver variation as equivalent while still failing material changes.",
+    "max_absolute_delta_each_metric": 0.0001,
+    "role": "Detect material pipeline drift only; aggregate source metrics are not model identity."
+  },
+  "status": "FROZEN_AFTER_TWO_SOURCE_REPRODUCTION_ABORTS_BEFORE_EXTERNAL_ACQUISITION"
+}

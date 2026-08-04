@@ -62,9 +62,22 @@ jobs:
           test "${#INPUTS[@]}" -eq 12
           ARGS=(); for file in "${INPUTS[@]}"; do ARGS+=(--input "$file"); done
           PYTHONPATH=../coherence-dynamics-public-trajectory-audit/src:src python scripts/run_replication.py prepare-source "${ARGS[@]}" --lock SOURCE_PROFILE_LOCK.json --output artifacts/source_prepared
-      - name: Reproduce and freeze exact Nebius profile
+      - name: Recover and seal Nebius source profile
         working-directory: ${{ env.REPL_DIR }}
-        run: PYTHONPATH=../coherence-dynamics-public-trajectory-audit/src:src python scripts/run_replication.py freeze-source --prepared artifacts/source_prepared --lock SOURCE_PROFILE_LOCK.json --output artifacts/FROZEN_SOURCE_PROFILE.json
+        run: |
+          PYTHONPATH=../coherence-dynamics-public-trajectory-audit/src:src python scripts/run_replication.py recover-source \
+            --prepared artifacts/source_prepared \
+            --lock SOURCE_PROFILE_LOCK.json \
+            --recovery SOURCE_PROFILE_RECOVERY.json \
+            --output artifacts/FROZEN_SOURCE_PROFILE.json
+      - name: Verify source profile was sealed before external access
+        working-directory: ${{ env.REPL_DIR }}
+        run: |
+          PYTHONPATH=src python scripts/verify_recovered_profile.py \
+            --profile artifacts/FROZEN_SOURCE_PROFILE.json \
+            --receipt artifacts/SOURCE_PROFILE_RECOVERY_RECEIPT.json \
+            --lock SOURCE_PROFILE_LOCK.json \
+            --recovery SOURCE_PROFILE_RECOVERY.json
       - name: Acquire pinned external dataset
         working-directory: ${{ env.REPL_DIR }}
         env:
@@ -91,6 +104,7 @@ jobs:
           path: |
             experiments/coherence-dynamics-external-replication/artifacts/runtime/**
             experiments/coherence-dynamics-external-replication/artifacts/FROZEN_SOURCE_PROFILE.json
+            experiments/coherence-dynamics-external-replication/artifacts/SOURCE_PROFILE_RECOVERY_RECEIPT.json
             experiments/coherence-dynamics-external-replication/artifacts/source_prepared/FEATURE_LABEL_BINDING.json
             experiments/coherence-dynamics-external-replication/artifacts/external_prepared/FEATURE_LABEL_BINDING.json
             experiments/coherence-dynamics-external-replication/artifacts/result/**

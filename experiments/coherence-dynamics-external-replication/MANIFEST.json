@@ -1,54 +1,63 @@
 {
   "api_credit_spend_usd": 0.0,
-  "file_count": 27,
+  "bundle_type": "root-ready drop-in for terryncew/openline-lite",
+  "file_count": 30,
   "files": {
     ".github/workflows/cd-external-replication.yml": {
-      "bytes": 5200,
-      "sha256": "df19942c76127271edf0d2d3198a425ca616c28046995fe77024ce8be545feec"
+      "bytes": 5849,
+      "sha256": "4526844dcad00cdddc57cff282035fe315a490bc65cea18211af6df2f52f0add"
     },
     "experiments/coherence-dynamics-external-replication/.gitignore": {
       "bytes": 36,
       "sha256": "245c6529aeb20aa738f6a66ba57e503ea918f7d5e94650053df91e1e4a60a6a1"
     },
     "experiments/coherence-dynamics-external-replication/BOUNDED_HANDOFF.json": {
-      "bytes": 818,
-      "sha256": "93bf3150edeea7bee8823aa611371c8b7bfa15fa8c00bf8abb2cfd4714cdf93e"
+      "bytes": 662,
+      "sha256": "7d7dd8309dee8d340a1f282228807638c087525b2ca6769d25f0e51a26525b52"
     },
     "experiments/coherence-dynamics-external-replication/BUILD_VERIFICATION.json": {
-      "bytes": 1491,
-      "sha256": "9b89044befe6c34b9eb603e14c5583f005ee057fdcf494220befe763ff5fff7f"
+      "bytes": 1626,
+      "sha256": "f383c2a85e6f845743e3a5419030313ec56e08e815bfd3dd369b5548ecd3fedb"
     },
     "experiments/coherence-dynamics-external-replication/IMPLEMENTATION_RECEIPT.json": {
-      "bytes": 831,
-      "sha256": "ec24bbe804a683f0ab2cad908f98e13ea9828d0a2e353b8a8d9e6c8e778fe409"
+      "bytes": 586,
+      "sha256": "f48ce407aeec7868c7fc6babbbf0b1384419cc173d1dcadd5066f7a37a5d1597"
     },
     "experiments/coherence-dynamics-external-replication/ORIGINAL_AUDIT_PIP_FREEZE.txt": {
       "bytes": 475,
       "sha256": "9d13626b9bff42876dbbad520f44337748201bd0c15af42b196732612785d989"
     },
+    "experiments/coherence-dynamics-external-replication/PROFILE_RECOVERY_REPAIR_RECEIPT.json": {
+      "bytes": 921,
+      "sha256": "5e784b78808cd618ae238b14106f1cadd674add46f2ee7a55c7138b6fd85a737"
+    },
     "experiments/coherence-dynamics-external-replication/README.md": {
-      "bytes": 1288,
-      "sha256": "a55b1df59ac938adc6aad1acdfa34590e4003bf19bde1b5bcd3e5db5a3270453"
+      "bytes": 997,
+      "sha256": "0018d9c00939e314f353ab2d0a041006c128f5dc6b8620a27871df6b9b2b5b7b"
     },
     "experiments/coherence-dynamics-external-replication/REPLICATION_PROTOCOL.json": {
-      "bytes": 2016,
-      "sha256": "356a9311d6c11bbae0556e20c4f47434036cb626be428d8a77f005e808c0b226"
+      "bytes": 2443,
+      "sha256": "b171cd21b463eb67acbc7d189ea0a0a16dec08fb6c6d57b67b17e26aa25c244c"
     },
     "experiments/coherence-dynamics-external-replication/RESULT_RULE.json": {
       "bytes": 739,
       "sha256": "00c0870a9d617def2f27b306011267c056b855a6c60f5701eb376afd5ecc1da2"
     },
     "experiments/coherence-dynamics-external-replication/RUNTIME_LOCK.json": {
-      "bytes": 1922,
-      "sha256": "572306c2866ecd2687eea18f94f20315f00d22be594dbae49fb1fc6b80bc6f46"
+      "bytes": 2436,
+      "sha256": "c6c5635c01014b81b02514b8e23803b3d9695205a0db9c8b3eb9b29a7b54743e"
     },
     "experiments/coherence-dynamics-external-replication/RUNTIME_REPAIR_RECEIPT.json": {
-      "bytes": 893,
-      "sha256": "fa09333f8503eb3bf0b9179cf672177b16318cce28d2b7ce77a5742132c04931"
+      "bytes": 675,
+      "sha256": "20e61500e6683f5a418bb402f706cf26c9083af5931d84ace07e4423990a5e8f"
     },
     "experiments/coherence-dynamics-external-replication/SOURCE_PROFILE_LOCK.json": {
       "bytes": 7303,
       "sha256": "3d3d220ee4d96dfb6cef32201d86ca029fdd552a144263d687cdaa1d7a452f82"
+    },
+    "experiments/coherence-dynamics-external-replication/SOURCE_PROFILE_RECOVERY.json": {
+      "bytes": 2854,
+      "sha256": "fd4287f6d40f03f463019a7313b6671b78e52889efe4488aa72eb27beb720281"
     },
     "experiments/coherence-dynamics-external-replication/SOURCE_REGISTER.json": {
       "bytes": 956,
@@ -71,8 +80,12 @@
       "sha256": "387349746362cbbd4bd02f3bec1218ddab718f34a25aa230a0e530f369d55e9e"
     },
     "experiments/coherence-dynamics-external-replication/scripts/verify_package.py": {
-      "bytes": 2123,
-      "sha256": "28413f4cbe99d0ea000a46bb74338898f9dd39961fa32892d8a56bee5d826cac"
+      "bytes": 3255,
+      "sha256": "647ab622b5d879a90d60a6ea85ce34bbec42e0311af07424606b223de72805f5"
+    },
+    "experiments/coherence-dynamics-external-replication/scripts/verify_recovered_profile.py": {
+      "bytes": 1938,
+      "sha256": "16f90703a1420440aceaf7437cabc2facdddf29bc6e5b7c11f9dd1d354eb69aa"
     },
     "experiments/coherence-dynamics-external-replication/scripts/verify_runtime.py": {
       "bytes": 2873,
@@ -91,32 +104,27 @@
       "sha256": "7af7189c84708309045765edd3a430a81a9572aeb2a86d9282c040890db0b2d2"
     },
     "experiments/coherence-dynamics-external-replication/src/external_replication/evaluate.py": {
-      "bytes": 5082,
-      "sha256": "924b1f6c7d86107c1e1aa3538d5dc450d6da3e84b84e797b42c80473c687febf"
+      "bytes": 5132,
+      "sha256": "97949862e60c6c27a242c888189bb47ed627f44f597381cc132e369247f5db35"
     },
     "experiments/coherence-dynamics-external-replication/src/external_replication/prepare.py": {
-      "bytes": 3292,
-      "sha256": "b9ac1f66177e2fc3d53a57a7dfcf260a0693a24c5ed2edd0a67244a5cbbcab48"
+      "bytes": 3286,
+      "sha256": "9135ad572f742075e5894df0c594117fd9734b348020bf76aaa0d62d17a7e32a"
     },
     "experiments/coherence-dynamics-external-replication/src/external_replication/profile.py": {
-      "bytes": 3920,
-      "sha256": "851e9ff9441cc59d4a9e4b27131f01002f37b0a2dccee41e527f34e6c88ec40a"
+      "bytes": 6110,
+      "sha256": "1c8afc976c2ce338810f244a18f4d4e0a56d1a6a2ecea3e179d784b463a61fd7"
     },
     "experiments/coherence-dynamics-external-replication/src/external_replication/runner.py": {
-      "bytes": 1851,
-      "sha256": "894ae6090de90c2a7c949ead7514d36212c0b520f00a54e78883a23ab74c6d5b"
+      "bytes": 2767,
+      "sha256": "69ba803459f9be541a55f3db0161e84b040f5eeceac34959383957e8e222fea5"
     },
     "experiments/coherence-dynamics-external-replication/tests/test_replication.py": {
-      "bytes": 4981,
-      "sha256": "5f4951b457b9afd3163a025df7a4bd2aa744d73189978ac7b1b267f1de50ba77"
+      "bytes": 5836,
+      "sha256": "9bfccc26bbd9d5d34303b51ec37c8a82e2e907cd29d06b718ac831359469666b"
     }
   },
   "model_api_calls": 0,
-  "package": "coherence-dynamics-external-replication-001-runtime-repair",
-  "repair_status": "READY_FOR_NETWORKED_RETRY",
-  "schema": "openline.root-ready-manifest.v1",
-  "scientific_protocol_changed": false,
-  "scientific_status": "FROZEN_BEFORE_EXTERNAL_EXECUTION",
-  "source_profile_lock_changed": false,
-  "wrapper_folder": false
+  "replication_id": "CD_EXTERNAL_CODING_TRAJECTORY_REPLICATION_002",
+  "schema": "coherence-dynamics.external-replication.package-manifest.v2"
 }

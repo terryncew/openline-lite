@@ -48,11 +48,22 @@
     "implementation": "CPython",
     "version": "3.11.15"
   },
-  "repair_boundary": "Pin the original runtime exactly. Do not change expected source metrics, tolerance, features, weights, thresholds, horizon, split, or external result rule.",
-  "schema": "coherence-dynamics.external-replication.runtime-lock.v1",
+  "repair_boundary": "Retain the original runtime pins. Preserve the original 1e-12 source lock as the historical abort rule, but do not claim a scalar aggregate metric is model identity. Replication 002 serializes and hashes the source-fitted model before any external acquisition.",
+  "schema": "coherence-dynamics.external-replication.runtime-lock.v2",
+  "second_runtime_pinned_attempt": {
+    "absolute_difference": 2.0190265706543364e-07,
+    "expected": 0.2137518053013716,
+    "external_dataset_acquired": false,
+    "external_trajectories_scored": 0,
+    "failure_stage": "SOURCE_PROFILE_REPRODUCTION",
+    "family": "simple",
+    "metric": "brier",
+    "observed": 0.21375160339871455,
+    "status": "NOT_RUN_EXTERNAL"
+  },
   "source_audit_commit": "8e83937377fa28944a52893884e53bf1a1770204",
   "source_audit_run_id": "30893758052",
   "source_environment_sha256": "319eb30e843cb92d0719e81296e80ecc84ee445d336b2d639ea490af75e716bb",
   "source_pip_freeze_sha256": "9d13626b9bff42876dbbad520f44337748201bd0c15af42b196732612785d989",
-  "status": "FROZEN_TO_ORIGINAL_AUDIT_RUNTIME"
+  "status": "PINNED_RUNTIME_RETAINED_FOR_EXECUTION_NOT_USED_AS_MODEL_IDENTITY"
 }

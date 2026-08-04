@@ -1,0 +1,15 @@
+{
+  "api_credit_spend_usd": 0.0,
+  "claim": "Replace impossible scalar-metric identity gate with source-profile serialization before external acquisition.",
+  "evidence": [
+    "Two source-only runs aborted before external acquisition with Brier differences of 1.104e-8 and 2.019e-7.",
+    "Original source audit did not save coefficients, intercept, preprocessing statistics, or prediction vector.",
+    "External result rule and source/external data identities remain unchanged."
+  ],
+  "external_data_seen": false,
+  "external_rows_scored": 0,
+  "model_api_calls": 0,
+  "schema": "coherence-dynamics.external-replication.profile-recovery-repair-receipt.v1",
+  "scientific_content_changed": "Source model identity method changed transparently from impossible bitwise reconstruction to pre-external recovered-profile sealing; external question and gate unchanged.",
+  "status": "READY_FOR_REPAIRED_EXTERNAL_EXECUTION"
+}

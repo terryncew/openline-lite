@@ -1,15 +1,18 @@
 {
   "api_credit_spend_usd": 0.0,
-  "expected_artifact": "cd-external-replication-<run_id>",
-  "expected_runtime": "approximately 1-3 hours",
-  "prior_run": "30909808362 aborted before external acquisition due to runtime drift",
-  "runtime_lock": "Python 3.11.15 plus original audit pip freeze",
+  "branch": "experiment/nebius-public-trajectory-audit",
+  "claim": "External replication 002 is repaired and frozen before external acquisition.",
+  "commit_message": "Seal recovered source profile before external replication",
+  "evidence": [
+    "SOURCE_PROFILE_RECOVERY.json",
+    "REPLICATION_PROTOCOL.json",
+    "PROFILE_RECOVERY_REPAIR_RECEIPT.json",
+    "BUILD_VERIFICATION.json"
+  ],
+  "external_data_seen": false,
+  "external_rows_scored": 0,
+  "model_api_calls": 0,
   "schema": "openline.bounded-handoff.v1",
-  "scientific_changes": false,
-  "status": "READY_FOR_NETWORKED_RETRY",
-  "stop_rule": "After this external result, do not expand CD prediction work unless the frozen disposition is CD_ADDS_EXTERNAL_SIGNAL.",
-  "target_branch": "experiment/nebius-public-trajectory-audit",
-  "target_repository": "terryncew/openline-lite",
-  "task": "Rerun frozen external replication under the exact original Nebius audit runtime",
+  "status": "READY_FOR_NETWORKED_EXECUTION",
   "workflow": ".github/workflows/cd-external-replication.yml"
 }

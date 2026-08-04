@@ -1,37 +1,36 @@
 {
-  "alternate_horizon_search_allowed": false,
-  "api_credit_spend_usd": 0.0,
-  "compileall": "PASS",
-  "external_dataset": "thoughtworks/agentic-coding-trajectories",
-  "external_refitting_allowed": false,
-  "external_revision": "cef72d1f4d0caabf85937adf8337a14b7522c782",
-  "external_rows_planned": 10000,
-  "model_api_calls": 0,
-  "nebius_derived_external_rows_excluded": 5000,
-  "package_verify": "PASS",
-  "replication_protocol_sha256": "356a9311d6c11bbae0556e20c4f47434036cb626be428d8a77f005e808c0b226",
-  "runtime_repair": {
-    "numpy": "2.4.6",
-    "original_pip_freeze_sha256": "9d13626b9bff42876dbbad520f44337748201bd0c15af42b196732612785d989",
-    "pandas": "2.3.3",
-    "prior_run_id": "30909808362",
-    "prior_run_status": "NOT_RUN_EXTERNAL",
-    "pyarrow": "23.0.1",
-    "python": "3.11.15",
-    "runtime_lock_sha256": "572306c2866ecd2687eea18f94f20315f00d22be594dbae49fb1fc6b80bc6f46",
-    "scientific_protocol_changed": false,
-    "scikit_learn": "1.9.0",
-    "scipy": "1.17.1",
-    "source_metric_tolerance_changed": false
+  "disposition": "READY_FOR_NETWORKED_EXECUTION",
+  "reason_for_repair": "The source audit omitted the fitted model artifact; two scalar-metric reconstruction attempts aborted before external acquisition despite exact runtime pinning.",
+  "replication_id": "CD_EXTERNAL_CODING_TRAJECTORY_REPLICATION_002",
+  "schema": "coherence-dynamics.external-replication.build-verification.v2",
+  "scientific_boundaries": {
+    "external_dataset_changed": false,
+    "external_result_rule_changed": false,
+    "feature_order_changed": false,
+    "frozen_horizon_changed": false,
+    "profile_identity_method_changed": true,
+    "replication_protocol_sha256": "b171cd21b463eb67acbc7d189ea0a0a16dec08fb6c6d57b67b17e26aa25c244c",
+    "result_rule_sha256": "00c0870a9d617def2f27b306011267c056b855a6c60f5701eb376afd5ecc1da2",
+    "selected_C_changed": false,
+    "source_profile_lock_sha256": "3d3d220ee4d96dfb6cef32201d86ca029fdd552a144263d687cdaa1d7a452f82",
+    "source_profile_recovery_sha256": "fd4287f6d40f03f463019a7313b6671b78e52889efe4488aa72eb27beb720281",
+    "source_thresholds_changed": false
   },
-  "schema": "coherence-dynamics.external-replication.runtime-repair-build-verification.v1",
   "scientific_result": "NOT_RUN",
-  "source_audit_result_sha256": "9b9f3012adc2a3ebed6417986985bce0d8d08ce03c49b9a4969fe7a9d4c4a115",
-  "source_profile_lock_sha256": "3d3d220ee4d96dfb6cef32201d86ca029fdd552a144263d687cdaa1d7a452f82",
-  "status": "READY_FOR_NETWORKED_RETRY",
-  "tests": {
-    "failed": 0,
-    "passed": 15
+  "state": {
+    "api_credit_spend_usd": 0.0,
+    "external_dataset_acquired": false,
+    "external_rows_scored": 0,
+    "model_api_calls": 0
   },
-  "yaml_parse": "PASS"
+  "verification": {
+    "external_refit_forbidden": "PASS",
+    "frozen_application_matches_sklearn": "PASS",
+    "package_verification": "PASS",
+    "python_compileall": "PASS",
+    "source_overlap_exclusion": "PASS",
+    "unit_tests_passed": 18,
+    "workflow_order_profile_sealed_before_external": "PASS",
+    "workflow_yaml_parse": "PASS"
+  }
 }

@@ -1,18 +1,14 @@
 {
   "api_credit_spend_usd": 0.0,
-  "claim": "The external replication runner is repaired and locked to the exact original Nebius audit numerical environment.",
-  "evidence": [
-    "15/15 local tests passed",
-    "Python is pinned to 3.11.15 x64",
-    "the original audit pip freeze is preserved by SHA-256 and installed before source reproduction",
-    "runtime verification runs before any network access",
-    "expected source metrics and the 1e-12 tolerance are unchanged",
-    "failed run 30909808362 is recorded as NOT_RUN_EXTERNAL"
-  ],
-  "limitations": [
-    "Exact source Brier reproduction can only be confirmed on the networked GitHub runner",
-    "Scientific disposition remains NOT_RUN until external trajectories are acquired and scored"
-  ],
+  "claim": "A recovered source profile is serialized and sealed before independent external data acquisition.",
+  "external_dataset_changed": false,
+  "external_result_rule_changed": false,
   "model_api_calls": 0,
-  "schema": "openline.implementation-receipt.v1"
+  "replication_id": "CD_EXTERNAL_CODING_TRAJECTORY_REPLICATION_002",
+  "schema": "coherence-dynamics.external-replication.implementation-receipt.v2",
+  "source_C_changed": false,
+  "source_feature_order_changed": false,
+  "source_horizon_changed": false,
+  "source_thresholds_changed": false,
+  "status": "READY_FOR_NETWORKED_EXECUTION"
 }
