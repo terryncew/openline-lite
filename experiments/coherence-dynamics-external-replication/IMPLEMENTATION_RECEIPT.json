@@ -1,0 +1,17 @@
+{
+  "api_credit_spend_usd": 0.0,
+  "claim": "A frozen, zero-API external replication runner is implemented for the Nebius 75% signal.",
+  "evidence": [
+    "13/13 local tests passed",
+    "profile recreation aborts unless the original Nebius source metrics and thresholds reproduce within 1e-12",
+    "external Nebius-derived cohort is excluded before feature extraction",
+    "external labels cannot change features, weights, thresholds, horizon, or result rule",
+    "workflow uploads bounded result and receipts"
+  ],
+  "limitations": [
+    "External dataset bytes were not available in this network-sandboxed build environment",
+    "Scientific disposition remains NOT_RUN until GitHub Actions executes"
+  ],
+  "model_api_calls": 0,
+  "schema": "openline.implementation-receipt.v1"
+}

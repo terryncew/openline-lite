@@ -1,0 +1,92 @@
+name: Coherence Dynamics — External Replication
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - experiment/nebius-public-trajectory-audit
+    paths:
+      - "experiments/coherence-dynamics-external-replication/**"
+      - ".github/workflows/cd-external-replication.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cd-external-replication-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  BASE_DIR: experiments/coherence-dynamics-public-trajectory-audit
+  REPL_DIR: experiments/coherence-dynamics-external-replication
+  PYTHONUNBUFFERED: "1"
+  HF_XET_HIGH_PERFORMANCE: "1"
+
+jobs:
+  replicate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure Hugging Face cache
+        run: echo "HF_HOME=$RUNNER_TEMP/huggingface" >> "$GITHUB_ENV"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: experiments/coherence-dynamics-external-replication/requirements.txt
+      - name: Install pinned dependencies
+        working-directory: ${{ env.REPL_DIR }}
+        run: python -m pip install -r requirements.txt
+      - name: Verify frozen package before network access
+        working-directory: ${{ env.REPL_DIR }}
+        run: |
+          python scripts/verify_package.py
+          PYTHONPATH=../coherence-dynamics-public-trajectory-audit/src:src python -m unittest discover -s tests -v
+          python -m compileall -q src scripts tests
+      - name: Acquire pinned Nebius source bytes
+        working-directory: ${{ env.REPL_DIR }}
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: python scripts/acquire_nebius.py --output data/nebius --revision a8a64e5
+      - name: Recreate frozen 75% source features
+        working-directory: ${{ env.REPL_DIR }}
+        run: |
+          set -euo pipefail
+          mapfile -t INPUTS < <(find data/nebius/data -name 'train-*.parquet' -print | sort)
+          test "${#INPUTS[@]}" -eq 12
+          ARGS=(); for file in "${INPUTS[@]}"; do ARGS+=(--input "$file"); done
+          PYTHONPATH=../coherence-dynamics-public-trajectory-audit/src:src python scripts/run_replication.py prepare-source "${ARGS[@]}" --lock SOURCE_PROFILE_LOCK.json --output artifacts/source_prepared
+      - name: Reproduce and freeze exact Nebius profile
+        working-directory: ${{ env.REPL_DIR }}
+        run: PYTHONPATH=../coherence-dynamics-public-trajectory-audit/src:src python scripts/run_replication.py freeze-source --prepared artifacts/source_prepared --lock SOURCE_PROFILE_LOCK.json --output artifacts/FROZEN_SOURCE_PROFILE.json
+      - name: Acquire pinned external dataset
+        working-directory: ${{ env.REPL_DIR }}
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: PYTHONPATH=src python scripts/acquire_external.py --output data/thoughtworks --revision cef72d1f4d0caabf85937adf8337a14b7522c782
+      - name: Prepare label-blind external features
+        working-directory: ${{ env.REPL_DIR }}
+        run: PYTHONPATH=../coherence-dynamics-public-trajectory-audit/src:src python scripts/run_replication.py prepare-external --input data/thoughtworks/sessions.parquet --protocol REPLICATION_PROTOCOL.json --output artifacts/external_prepared
+      - name: Apply frozen profile and issue disposition
+        working-directory: ${{ env.REPL_DIR }}
+        run: PYTHONPATH=../coherence-dynamics-public-trajectory-audit/src:src python scripts/run_replication.py run-external --prepared artifacts/external_prepared --profile artifacts/FROZEN_SOURCE_PROFILE.json --protocol REPLICATION_PROTOCOL.json --output artifacts/result --bootstrap-iterations 1000
+      - name: Verify final bindings
+        working-directory: ${{ env.REPL_DIR }}
+        run: |
+          python scripts/verify_package.py
+          cat artifacts/result/EXECUTION_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload bounded replication artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cd-external-replication-${{ github.run_id }}
+          retention-days: 90
+          if-no-files-found: warn
+          path: |
+            experiments/coherence-dynamics-external-replication/artifacts/FROZEN_SOURCE_PROFILE.json
+            experiments/coherence-dynamics-external-replication/artifacts/source_prepared/FEATURE_LABEL_BINDING.json
+            experiments/coherence-dynamics-external-replication/artifacts/external_prepared/FEATURE_LABEL_BINDING.json
+            experiments/coherence-dynamics-external-replication/artifacts/result/**
+            experiments/coherence-dynamics-external-replication/data/nebius/DATA_MANIFEST.json
+            experiments/coherence-dynamics-external-replication/data/thoughtworks/DATA_MANIFEST.json

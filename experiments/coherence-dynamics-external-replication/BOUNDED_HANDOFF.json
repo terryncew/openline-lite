@@ -1,0 +1,12 @@
+{
+  "api_credit_spend_usd": 0.0,
+  "expected_artifact": "cd-external-replication-<run_id>",
+  "expected_runtime": "approximately 1-3 hours",
+  "schema": "openline.bounded-handoff.v1",
+  "status": "READY_FOR_NETWORKED_EXECUTION",
+  "stop_rule": "After this external result, do not expand CD prediction work unless the frozen disposition is CD_ADDS_EXTERNAL_SIGNAL.",
+  "target_branch": "experiment/nebius-public-trajectory-audit",
+  "target_repository": "terryncew/openline-lite",
+  "task": "Run frozen external replication of the Nebius 75% profile",
+  "workflow": ".github/workflows/cd-external-replication.yml"
+}

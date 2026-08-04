@@ -1,0 +1,40 @@
+{
+  "api_credit_spend_usd": 0.0,
+  "api_or_model_calls": 0,
+  "claim_boundary": "A positive result supports cross-dataset transport of one frozen coding-agent trajectory profile. It does not establish causality, universal Coherence Dynamics, human handoff correction prediction, Phi-star, VKD, or the Terrynce Curve.",
+  "external_dataset": {
+    "excluded_sources": [
+      "nebius-swe-rebench-openhands"
+    ],
+    "expected_included_rows": 10000,
+    "expected_total_rows": 15000,
+    "file": "sessions.parquet",
+    "included_sources": {
+      "kwai-klear-swe-smith-mini": 5000,
+      "swe-smith-claude-3-7-sonnet": 5000
+    },
+    "label": "ground_truth_meta_json.resolved",
+    "label_type": "binary independently evaluated task resolution",
+    "repo_id": "thoughtworks/agentic-coding-trajectories",
+    "revision": "cef72d1f4d0caabf85937adf8337a14b7522c782"
+  },
+  "frozen_horizon": 0.75,
+  "modeling": "No external fitting, feature selection, hyperparameter selection, threshold tuning, or calibration. Apply source-fitted imputer, scaler, coefficients, intercepts, and source thresholds unchanged.",
+  "negative_gate": {
+    "bootstrap_upper_95_lt": 0.0,
+    "pr_auc_delta_lt": -0.01
+  },
+  "positive_gate": {
+    "bootstrap_lower_95_gt": 0.0,
+    "both_included_source_deltas_gt": 0.0,
+    "pr_auc_delta_gt": 0.02,
+    "roc_auc_delta_gte": -0.005
+  },
+  "primary_metric": "PR-AUC delta: frozen simple-plus-CD minus frozen simple",
+  "primary_question": "Does the frozen Nebius 75%-horizon simple-plus-CD profile improve prediction of independently evaluated coding-task success over the frozen simple profile on non-Nebius external trajectories?",
+  "replication_id": "CD_EXTERNAL_CODING_TRAJECTORY_REPLICATION_001",
+  "schema": "coherence-dynamics.external-replication.protocol.v1",
+  "source_profile_lock_sha256": "3d3d220ee4d96dfb6cef32201d86ca029fdd552a144263d687cdaa1d7a452f82",
+  "status": "FROZEN_BEFORE_EXTERNAL_EXECUTION",
+  "uncertainty": "1000 task-group bootstrap iterations, seed 20260804"
+}

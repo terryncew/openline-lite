@@ -1,0 +1,9 @@
+{
+  "equivalent": "BASELINE_EQUIVALENT when |delta| <= 0.01 and the interval includes zero.",
+  "mixed": "MIXED_EXTERNAL_SIGNAL when the overall positive numeric gate passes but cohort sign consistency fails.",
+  "negative": "BASELINE_OUTPERFORMS_CD when delta < -0.01 and 95% upper bound < 0.",
+  "no_rescue": "Secondary metrics, post-hoc subgroups, alternate horizons, changed features, or refitting cannot rescue the primary disposition.",
+  "otherwise": "NO_RELIABLE_EXTERNAL_SIGNAL",
+  "primary": "CD_ADDS_EXTERNAL_SIGNAL when delta > 0.02, 95% task-bootstrap lower bound > 0, ROC-AUC delta >= -0.005, and each included source cohort has positive PR-AUC delta.",
+  "schema": "coherence-dynamics.external-replication.result-rule.v1"
+}

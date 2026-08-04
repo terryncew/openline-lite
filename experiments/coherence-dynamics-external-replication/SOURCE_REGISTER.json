@@ -1,0 +1,24 @@
+{
+  "internet_research_date": "2026-08-04",
+  "schema": "coherence-dynamics.external-replication.source-register.v1",
+  "source_audit_result_sha256": "9b9f3012adc2a3ebed6417986985bce0d8d08ce03c49b9a4969fe7a9d4c4a115",
+  "sources": [
+    {
+      "license_note": "CC-BY-4.0; underlying repository and model-output licenses also apply",
+      "name": "Nebius SWE-agent trajectories",
+      "repo_id": "nebius/SWE-agent-trajectories",
+      "revision": "a8a64e57e7bd7ccbd1add6c4f8637c5d3834570b",
+      "role": "development_profile",
+      "rows": 80036
+    },
+    {
+      "license_note": "Derivative multi-source; preserve upstream terms. Nebius-derived cohort excluded.",
+      "name": "Thoughtworks agentic coding trajectories",
+      "repo_id": "thoughtworks/agentic-coding-trajectories",
+      "revision": "cef72d1f4d0caabf85937adf8337a14b7522c782",
+      "role": "external_replication",
+      "rows_planned": 10000,
+      "rows_total": 15000
+    }
+  ]
+}

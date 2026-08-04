@@ -1,0 +1,23 @@
+{
+  "alternate_horizon_search_allowed": false,
+  "api_credit_spend_usd": 0.0,
+  "compileall": "PASS",
+  "external_dataset": "thoughtworks/agentic-coding-trajectories",
+  "external_refitting_allowed": false,
+  "external_revision": "cef72d1f4d0caabf85937adf8337a14b7522c782",
+  "external_rows_planned": 10000,
+  "model_api_calls": 0,
+  "nebius_derived_external_rows_excluded": 5000,
+  "package_verify": "PASS",
+  "replication_protocol_sha256": "356a9311d6c11bbae0556e20c4f47434036cb626be428d8a77f005e808c0b226",
+  "schema": "coherence-dynamics.external-replication.build-verification.v1",
+  "scientific_result": "NOT_RUN",
+  "source_audit_result_sha256": "9b9f3012adc2a3ebed6417986985bce0d8d08ce03c49b9a4969fe7a9d4c4a115",
+  "source_profile_lock_sha256": "3d3d220ee4d96dfb6cef32201d86ca029fdd552a144263d687cdaa1d7a452f82",
+  "status": "READY_FOR_NETWORKED_EXTERNAL_REPLICATION",
+  "tests": {
+    "failed": 0,
+    "passed": 13
+  },
+  "yaml_parse": "PASS"
+}
