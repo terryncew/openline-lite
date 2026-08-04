@@ -1,9 +1,9 @@
-# Coherence Dynamics External Replication 002
+# Coherence Dynamics External Replication 003
 
-This package repairs a reproducibility defect discovered before external execution. The original Nebius audit did not serialize its trained model artifact. Two attempts to retrain that model and match one aggregate Brier value within `1e-12` aborted before acquiring external data, including after exact package-version pinning.
+Replication 002 stopped before external scoring because the pinned Thoughtworks corpus is not outcome-complete across both planned non-Nebius cohorts. The first visible exception came from a null `recorded_model` in a Klear row, but `recorded_model` is provenance metadata rather than trajectory identity. More importantly, the Klear rows in the pinned file do not contain an independently evaluated `resolved` outcome, so they cannot support predictive validation.
 
-The repaired workflow preserves the source dataset hashes, 75% horizon, repository split, feature order, selected C values, original source thresholds, external cohorts, and external result rule. It fits the final source models once, serializes the imputer, scaler, coefficients, and intercept, hashes and verifies that recovered profile, and only then downloads the independent Thoughtworks data.
+Replication 003 is a preregistered schema repair, not a result rescue. It preserves the recovered Nebius source profile, 75% horizon, feature order, selected C values, source thresholds, bootstrap rule, and external numeric pass/fail gate. It scores only the 5,000-row label-complete `swe-smith-claude-3-7-sonnet` cohort. The 5,000 Nebius-derived rows remain excluded for source overlap, and the 5,000 Klear rows are explicitly recorded as `EXCLUDED_NO_OUTCOME_LABEL`; no labels are invented or inferred.
 
-The profile is explicitly labeled recovered rather than an exact reconstruction of an artifact the source run did not save. No external fitting or threshold tuning is permitted.
+The workflow writes an external schema audit before scoring and fails closed if source counts or included-label completeness differ from the frozen protocol. No external fitting or threshold tuning is permitted.
 
 API/model calls: 0. API credit spend: $0.

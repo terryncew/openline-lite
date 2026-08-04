@@ -1,4 +1,4 @@
-name: Coherence Dynamics — External Replication
+name: Coherence Dynamics — External Replication 003
 
 on:
   workflow_dispatch: {}
@@ -82,8 +82,8 @@ jobs:
         working-directory: ${{ env.REPL_DIR }}
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: PYTHONPATH=src python scripts/acquire_external.py --output data/thoughtworks --revision cef72d1f4d0caabf85937adf8337a14b7522c782
-      - name: Prepare label-blind external features
+        run: PYTHONPATH=src python scripts/acquire_external.py --output data/thoughtworks --revision cef72d1f4d0caabf85937adf8337a14b7522c782 --expected-sha256 3dd8ec3546cf771ce4ab2ac6c51ccefdd621197fa997a2cefb430b50df808fb6
+      - name: Audit external schema and prepare label-blind labeled features
         working-directory: ${{ env.REPL_DIR }}
         run: PYTHONPATH=../coherence-dynamics-public-trajectory-audit/src:src python scripts/run_replication.py prepare-external --input data/thoughtworks/sessions.parquet --protocol REPLICATION_PROTOCOL.json --output artifacts/external_prepared
       - name: Apply frozen profile and issue disposition
@@ -93,6 +93,11 @@ jobs:
         working-directory: ${{ env.REPL_DIR }}
         run: |
           python scripts/verify_package.py
+          python scripts/verify_final.py \
+            --result-dir artifacts/result \
+            --prepared-dir artifacts/external_prepared \
+            --profile artifacts/FROZEN_SOURCE_PROFILE.json \
+            --protocol REPLICATION_PROTOCOL.json
           cat artifacts/result/EXECUTION_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
       - name: Upload bounded replication artifacts
         if: always()
@@ -107,6 +112,7 @@ jobs:
             experiments/coherence-dynamics-external-replication/artifacts/SOURCE_PROFILE_RECOVERY_RECEIPT.json
             experiments/coherence-dynamics-external-replication/artifacts/source_prepared/FEATURE_LABEL_BINDING.json
             experiments/coherence-dynamics-external-replication/artifacts/external_prepared/FEATURE_LABEL_BINDING.json
+            experiments/coherence-dynamics-external-replication/artifacts/external_prepared/EXTERNAL_SCHEMA_AUDIT.json
             experiments/coherence-dynamics-external-replication/artifacts/result/**
             experiments/coherence-dynamics-external-replication/data/nebius/DATA_MANIFEST.json
             experiments/coherence-dynamics-external-replication/data/thoughtworks/DATA_MANIFEST.json

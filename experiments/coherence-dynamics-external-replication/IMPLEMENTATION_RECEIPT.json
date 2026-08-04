@@ -1,14 +1,15 @@
 {
   "api_credit_spend_usd": 0.0,
-  "claim": "A recovered source profile is serialized and sealed before independent external data acquisition.",
-  "external_dataset_changed": false,
-  "external_result_rule_changed": false,
+  "claim": "The external adapter now distinguishes optional model provenance from identity and excludes a cohort that lacks an independently evaluated outcome instead of fabricating labels.",
+  "external_numeric_result_rule_changed": false,
+  "external_scope_changed": "NARROWED_TO_LABEL_COMPLETE_COHORT_BEFORE_SCORING",
   "model_api_calls": 0,
-  "replication_id": "CD_EXTERNAL_CODING_TRAJECTORY_REPLICATION_002",
-  "schema": "coherence-dynamics.external-replication.implementation-receipt.v2",
+  "replication_id": "CD_EXTERNAL_CODING_TRAJECTORY_REPLICATION_003",
+  "schema": "coherence-dynamics.external-replication.implementation-receipt.v3",
   "source_C_changed": false,
   "source_feature_order_changed": false,
   "source_horizon_changed": false,
+  "source_profile_changed": false,
   "source_thresholds_changed": false,
   "status": "READY_FOR_NETWORKED_EXECUTION"
 }

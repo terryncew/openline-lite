@@ -57,7 +57,7 @@ def main() -> None:
         result = prepare_external(
             Path(arguments.input),
             Path(arguments.output),
-            protocol["external_dataset"]["included_sources"],
+            protocol["external_dataset"],
         )
     else:
         result = run_external(

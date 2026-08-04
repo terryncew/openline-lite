@@ -1,0 +1,30 @@
+{
+  "api_credit_spend_usd": 0.0,
+  "api_or_model_calls": 0,
+  "causal_failure": {
+    "deeper_protocol_defect": "the pinned Thoughtworks Klear cohort has no resolved outcome in ground_truth_meta_json and therefore cannot support predictive validation",
+    "first_exception": "recorded_model was null in a Klear row but was incorrectly treated as an identity field",
+    "not_a_valid_fix": [
+      "invent or infer Klear labels",
+      "treat missing labels as failures",
+      "drop rows silently",
+      "relax the performance gate"
+    ]
+  },
+  "prior_external_predictions_created": 0,
+  "prior_external_rows_scored": 0,
+  "repair": {
+    "confirmatory_included_source": "swe-smith-claude-3-7-sonnet",
+    "confirmatory_rows": 5000,
+    "excluded_overlap_source": "nebius-swe-rebench-openhands",
+    "excluded_unscorable_source": "kwai-klear-swe-smith-mini",
+    "external_result_rule_changed": false,
+    "horizon_changed": false,
+    "model_provenance_null_normalization": "unknown",
+    "numeric_thresholds_changed": false,
+    "source_profile_changed": false
+  },
+  "replication_002_status": "ABORTED_BEFORE_EXTERNAL_SCORING",
+  "replication_003_status": "FROZEN_BEFORE_EXTERNAL_OUTCOME_SCORING",
+  "schema": "coherence-dynamics.external-replication.schema-repair-receipt.v1"
+}

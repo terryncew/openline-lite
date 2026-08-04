@@ -1,16 +1,18 @@
 {
   "api_credit_spend_usd": 0.0,
   "branch": "experiment/nebius-public-trajectory-audit",
-  "claim": "External replication 002 is repaired and frozen before external acquisition.",
-  "commit_message": "Seal recovered source profile before external replication",
+  "claim": "Replication 003 is frozen after schema-only discovery and before any external outcome scoring.",
+  "commit_message": "Repair external cohort admissibility before scoring",
   "evidence": [
-    "SOURCE_PROFILE_RECOVERY.json",
+    "EXTERNAL_SCHEMA_REPAIR_RECEIPT.json",
     "REPLICATION_PROTOCOL.json",
-    "PROFILE_RECOVERY_REPAIR_RECEIPT.json",
+    "RESULT_RULE.json",
     "BUILD_VERIFICATION.json"
   ],
-  "external_data_seen": false,
+  "external_outcome_values_used_for_repair": false,
+  "external_predictions_created": 0,
   "external_rows_scored": 0,
+  "external_schema_seen": true,
   "model_api_calls": 0,
   "schema": "openline.bounded-handoff.v1",
   "status": "READY_FOR_NETWORKED_EXECUTION",
