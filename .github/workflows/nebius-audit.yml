@@ -2,6 +2,12 @@ name: Coherence Dynamics — Nebius Trajectory Calibration Audit
 
 on:
   workflow_dispatch: {}
+  push:
+    branches:
+      - experiment/nebius-public-trajectory-audit
+    paths:
+      - "experiments/coherence-dynamics-public-trajectory-audit/**"
+      - ".github/workflows/nebius-audit.yml"
   pull_request:
     paths:
       - "experiments/coherence-dynamics-public-trajectory-audit/**"
@@ -16,7 +22,6 @@ concurrency:
 
 env:
   AUDIT_DIR: experiments/coherence-dynamics-public-trajectory-audit
-  HF_HOME: ${{ runner.temp }}/huggingface
   HF_XET_HIGH_PERFORMANCE: "1"
   PYTHONUNBUFFERED: "1"
 
@@ -27,6 +32,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Configure Hugging Face cache
+        run: echo "HF_HOME=$RUNNER_TEMP/huggingface" >> "$GITHUB_ENV"
 
       - uses: actions/setup-python@v5
         with:
