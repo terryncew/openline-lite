@@ -21,7 +21,8 @@ from external_replication.adapter import (
     repository_from_external,
     source_admissibility,
 )
-from external_replication.evaluate import bootstrap, disposition
+from external_replication.canonical import canonical_bytes
+from external_replication.evaluate import bootstrap, disposition, operating_metrics_for_result
 from external_replication.prepare import prepare_external
 from external_replication.profile import apply_profile, serialize_pipeline
 
@@ -158,6 +159,25 @@ class Tests(unittest.TestCase):
         profile = serialize_pipeline(pipeline, family="simple", columns=columns, C=1.0, threshold=0.5)
         np.testing.assert_allclose(apply_profile(frame, profile), pipeline.predict_proba(frame)[:, 1], rtol=0, atol=1e-15)
 
+
+    def test_zero_review_precision_is_explicit_null_not_nan(self):
+        y = pd.Series([0, 1, 0, 1])
+        probability = np.array([0.10, 0.20, 0.30, 0.40])
+        result = operating_metrics_for_result(y, probability, 0.99)
+        self.assertEqual(result["true_positive"], 0)
+        self.assertEqual(result["false_positive"], 0)
+        self.assertIsNone(result["precision"])
+        self.assertEqual(result["metric_status"]["precision"], "UNDEFINED_NO_PREDICTED_POSITIVES")
+        canonical_bytes(result)
+
+    def test_available_operating_metrics_remain_numeric(self):
+        y = pd.Series([0, 1, 0, 1])
+        probability = np.array([0.10, 0.90, 0.20, 0.80])
+        result = operating_metrics_for_result(y, probability, 0.50)
+        self.assertEqual(result["precision"], 1.0)
+        self.assertEqual(result["metric_status"]["precision"], "AVAILABLE")
+        canonical_bytes(result)
+
     def test_positive_disposition_single_included_cohort(self):
         self.assertEqual(disposition(0.03, 0.0, {"lower_95": 0.01, "upper_95": 0.05}, {"swe": 0.03}), "CD_ADDS_EXTERNAL_SIGNAL")
 
@@ -218,6 +238,15 @@ class Tests(unittest.TestCase):
         source = (root / "src/external_replication/profile.py").read_text()
         self.assertNotIn("fit_family", source)
         self.assertIn("pipeline(columns, C=C)", source)
+
+    def test_result_serialization_repair_is_representational_only(self):
+        root = Path(__file__).resolve().parents[1]
+        receipt = json.loads((root / "RESULT_SERIALIZATION_REPAIR_RECEIPT.json").read_text())
+        self.assertFalse(receipt["repair"]["source_profile_changed"])
+        self.assertFalse(receipt["repair"]["source_thresholds_changed"])
+        self.assertFalse(receipt["repair"]["external_result_rule_changed"])
+        self.assertTrue(receipt["repair"]["strict_json_preserved"])
+        self.assertEqual(receipt["scientific_status"], "RESULT_NOT_PERSISTED_RERUN_REQUIRED")
 
     def test_runtime_lock_retained_not_identity(self):
         root = Path(__file__).resolve().parents[1]

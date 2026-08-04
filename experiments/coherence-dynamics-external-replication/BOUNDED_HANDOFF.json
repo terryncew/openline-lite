@@ -1,20 +1,20 @@
 {
   "api_credit_spend_usd": 0.0,
   "branch": "experiment/nebius-public-trajectory-audit",
-  "claim": "Replication 003 is frozen after schema-only discovery and before any external outcome scoring.",
-  "commit_message": "Repair external cohort admissibility before scoring",
+  "claim": "Replication 003 reached external prediction and metric calculation, then failed on strict JSON encoding of an undefined secondary precision diagnostic. The representational repair preserves all scientific inputs and gates.",
+  "commit_message": "Encode undefined operating precision without NaN",
   "evidence": [
-    "EXTERNAL_SCHEMA_REPAIR_RECEIPT.json",
+    "RESULT_SERIALIZATION_REPAIR_RECEIPT.json",
     "REPLICATION_PROTOCOL.json",
     "RESULT_RULE.json",
     "BUILD_VERIFICATION.json"
   ],
   "external_outcome_values_used_for_repair": false,
-  "external_predictions_created": 0,
-  "external_rows_scored": 0,
+  "external_predictions_created": "YES_IN_FAILED_RUN_NOT_PERSISTED",
+  "external_rows_scored": "5000_IN_FAILED_RUN_RESULT_NOT_PERSISTED",
   "external_schema_seen": true,
   "model_api_calls": 0,
   "schema": "openline.bounded-handoff.v1",
-  "status": "READY_FOR_NETWORKED_EXECUTION",
+  "status": "READY_FOR_SAME_FROZEN_RERUN",
   "workflow": ".github/workflows/cd-external-replication.yml"
 }

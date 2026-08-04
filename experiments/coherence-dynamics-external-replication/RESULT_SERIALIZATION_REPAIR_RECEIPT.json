@@ -1,0 +1,29 @@
+{
+  "api_credit_spend_usd": 0.0,
+  "api_or_model_calls": 0,
+  "causal_diagnosis": {
+    "external_predictions_created": true,
+    "external_rows_prepared": 5000,
+    "primary_metrics_calculated": true,
+    "result_persisted": false,
+    "why_nan_occurred": "At least one frozen source threshold selected zero external trajectories. Precision has denominator TP+FP=0 and is mathematically undefined.",
+    "why_this_is_not_a_scientific_failure": "The exception occurred after prediction and metric calculation while encoding a secondary source-threshold operating diagnostic. It did not change or evaluate the preregistered pass/fail rule in a persisted artifact."
+  },
+  "failed_stage": "APPLY_FROZEN_PROFILE_AND_ISSUE_DISPOSITION",
+  "failure": "Strict JSON serialization rejected a non-finite diagnostic value: precision=NaN at a frozen source threshold.",
+  "repair": {
+    "bootstrap_nonfinite_metrics": "fail closed with a named error",
+    "external_features_changed": false,
+    "external_labels_changed": false,
+    "external_refit_added": false,
+    "external_result_rule_changed": false,
+    "primary_nonfinite_metrics": "fail closed with a named error",
+    "source_profile_changed": false,
+    "source_thresholds_changed": false,
+    "strict_json_preserved": true,
+    "undefined_precision_representation": "JSON null with metric_status=UNDEFINED_NO_PREDICTED_POSITIVES"
+  },
+  "replication_id": "CD_EXTERNAL_CODING_TRAJECTORY_REPLICATION_003",
+  "schema": "coherence-dynamics.external-replication.result-serialization-repair.v1",
+  "scientific_status": "RESULT_NOT_PERSISTED_RERUN_REQUIRED"
+}

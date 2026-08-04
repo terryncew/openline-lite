@@ -1,15 +1,19 @@
 {
   "api_credit_spend_usd": 0.0,
-  "claim": "The external adapter now distinguishes optional model provenance from identity and excludes a cohort that lacks an independently evaluated outcome instead of fabricating labels.",
+  "claim": "Undefined source-threshold precision is now represented explicitly as JSON null with a reason, while all primary scientific metrics remain finite-only and fail closed.",
   "external_numeric_result_rule_changed": false,
+  "external_outcome_scoring_reached_in_prior_run": true,
   "external_scope_changed": "NARROWED_TO_LABEL_COMPLETE_COHORT_BEFORE_SCORING",
   "model_api_calls": 0,
+  "prior_result_persisted": false,
   "replication_id": "CD_EXTERNAL_CODING_TRAJECTORY_REPLICATION_003",
+  "result_serialization_repair": true,
   "schema": "coherence-dynamics.external-replication.implementation-receipt.v3",
   "source_C_changed": false,
   "source_feature_order_changed": false,
   "source_horizon_changed": false,
   "source_profile_changed": false,
   "source_thresholds_changed": false,
-  "status": "READY_FOR_NETWORKED_EXECUTION"
+  "status": "READY_FOR_SAME_FROZEN_RERUN",
+  "strict_json_preserved": true
 }

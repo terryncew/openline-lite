@@ -8,6 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 REQUIRED = [
     "REPLICATION_PROTOCOL.json",
     "EXTERNAL_SCHEMA_REPAIR_RECEIPT.json",
+    "RESULT_SERIALIZATION_REPAIR_RECEIPT.json",
     "SOURCE_PROFILE_LOCK.json",
     "SOURCE_PROFILE_RECOVERY.json",
     "PROFILE_RECOVERY_REPAIR_RECEIPT.json",
@@ -70,6 +71,21 @@ def main() -> None:
         "roc_auc_delta_gte": -0.005,
     }:
         raise SystemExit("numeric positive gate changed")
+    serialization_receipt = json.loads((ROOT / "RESULT_SERIALIZATION_REPAIR_RECEIPT.json").read_text())
+    repair = serialization_receipt["repair"]
+    if not repair["strict_json_preserved"]:
+        raise SystemExit("strict JSON was weakened")
+    if any(repair[name] for name in (
+        "source_profile_changed",
+        "source_thresholds_changed",
+        "external_features_changed",
+        "external_labels_changed",
+        "external_result_rule_changed",
+        "external_refit_added",
+    )):
+        raise SystemExit("serialization repair crossed a scientific boundary")
+    if serialization_receipt["scientific_status"] != "RESULT_NOT_PERSISTED_RERUN_REQUIRED":
+        raise SystemExit("serialization repair status mismatch")
     schema_receipt = json.loads((ROOT / "EXTERNAL_SCHEMA_REPAIR_RECEIPT.json").read_text())
     if schema_receipt["prior_external_rows_scored"] != 0:
         raise SystemExit("schema repair occurred after external scoring")

@@ -68,7 +68,7 @@ def main() -> None:
             Path(arguments.output),
             arguments.bootstrap_iterations,
         )
-    print(json.dumps(result, indent=2, sort_keys=True))
+    print(json.dumps(result, indent=2, sort_keys=True, allow_nan=False))
 
 
 if __name__ == "__main__":
