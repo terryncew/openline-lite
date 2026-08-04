@@ -10,14 +10,28 @@
   "nebius_derived_external_rows_excluded": 5000,
   "package_verify": "PASS",
   "replication_protocol_sha256": "356a9311d6c11bbae0556e20c4f47434036cb626be428d8a77f005e808c0b226",
-  "schema": "coherence-dynamics.external-replication.build-verification.v1",
+  "runtime_repair": {
+    "numpy": "2.4.6",
+    "original_pip_freeze_sha256": "9d13626b9bff42876dbbad520f44337748201bd0c15af42b196732612785d989",
+    "pandas": "2.3.3",
+    "prior_run_id": "30909808362",
+    "prior_run_status": "NOT_RUN_EXTERNAL",
+    "pyarrow": "23.0.1",
+    "python": "3.11.15",
+    "runtime_lock_sha256": "572306c2866ecd2687eea18f94f20315f00d22be594dbae49fb1fc6b80bc6f46",
+    "scientific_protocol_changed": false,
+    "scikit_learn": "1.9.0",
+    "scipy": "1.17.1",
+    "source_metric_tolerance_changed": false
+  },
+  "schema": "coherence-dynamics.external-replication.runtime-repair-build-verification.v1",
   "scientific_result": "NOT_RUN",
   "source_audit_result_sha256": "9b9f3012adc2a3ebed6417986985bce0d8d08ce03c49b9a4969fe7a9d4c4a115",
   "source_profile_lock_sha256": "3d3d220ee4d96dfb6cef32201d86ca029fdd552a144263d687cdaa1d7a452f82",
-  "status": "READY_FOR_NETWORKED_EXTERNAL_REPLICATION",
+  "status": "READY_FOR_NETWORKED_RETRY",
   "tests": {
     "failed": 0,
-    "passed": 13
+    "passed": 15
   },
   "yaml_parse": "PASS"
 }

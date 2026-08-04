@@ -1,0 +1,25 @@
+{
+  "api_credit_spend_usd": 0.0,
+  "changes": [
+    "Python pinned to 3.11.15 x64",
+    "Complete original pip freeze preserved and installed",
+    "Runtime verifier runs before any network access",
+    "Runtime receipt uploaded even on failure"
+  ],
+  "claim": "External replication runner is repinned to the exact original Nebius audit runtime without changing the scientific freeze.",
+  "failed_run_id": "30909808362",
+  "failed_run_status": "NOT_RUN_EXTERNAL",
+  "model_api_calls": 0,
+  "root_cause": "Numerical environment drift changed source logistic-regression probabilities by 1.104e-8.",
+  "schema": "openline.repair-receipt.v1",
+  "scientific_result": "NOT_RUN",
+  "unchanged": [
+    "Expected Brier metrics",
+    "1e-12 source tolerance",
+    "Feature order",
+    "Model C values and coefficients",
+    "Thresholds",
+    "75% horizon",
+    "External cohorts and result rule"
+  ]
+}

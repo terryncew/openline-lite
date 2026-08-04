@@ -32,16 +32,21 @@ jobs:
         run: echo "HF_HOME=$RUNNER_TEMP/huggingface" >> "$GITHUB_ENV"
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.11.15"
+          architecture: "x64"
           cache: pip
           cache-dependency-path: experiments/coherence-dynamics-external-replication/requirements.txt
       - name: Install pinned dependencies
         working-directory: ${{ env.REPL_DIR }}
-        run: python -m pip install -r requirements.txt
-      - name: Verify frozen package before network access
+        run: |
+          python -m pip install --upgrade pip==26.1.2 setuptools==79.0.1
+          python -m pip install --upgrade --force-reinstall -r requirements.txt
+          python -m pip check
+      - name: Verify frozen package and original runtime before network access
         working-directory: ${{ env.REPL_DIR }}
         run: |
           python scripts/verify_package.py
+          python scripts/verify_runtime.py --lock RUNTIME_LOCK.json --output artifacts/runtime/RUNTIME_VERIFICATION.json
           PYTHONPATH=../coherence-dynamics-public-trajectory-audit/src:src python -m unittest discover -s tests -v
           python -m compileall -q src scripts tests
       - name: Acquire pinned Nebius source bytes
@@ -84,6 +89,7 @@ jobs:
           retention-days: 90
           if-no-files-found: warn
           path: |
+            experiments/coherence-dynamics-external-replication/artifacts/runtime/**
             experiments/coherence-dynamics-external-replication/artifacts/FROZEN_SOURCE_PROFILE.json
             experiments/coherence-dynamics-external-replication/artifacts/source_prepared/FEATURE_LABEL_BINDING.json
             experiments/coherence-dynamics-external-replication/artifacts/external_prepared/FEATURE_LABEL_BINDING.json

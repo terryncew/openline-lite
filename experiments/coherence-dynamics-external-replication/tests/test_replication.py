@@ -44,4 +44,9 @@ class Tests(unittest.TestCase):
  def test_no_external_refit_language(self):
   root=Path(__file__).resolve().parents[1]; p=json.loads((root/"REPLICATION_PROTOCOL.json").read_text()); self.assertIn("No external fitting",p["modeling"])
 
+ def test_runtime_lock_exact(self):
+  root=Path(__file__).resolve().parents[1]; r=json.loads((root/"RUNTIME_LOCK.json").read_text()); self.assertEqual(r["python"]["version"],"3.11.15"); self.assertEqual(r["packages"]["numpy"],"2.4.6"); self.assertEqual(r["packages"]["pandas"],"2.3.3"); self.assertEqual(r["packages"]["scikit-learn"],"1.9.0"); self.assertEqual(r["packages"]["scipy"],"1.17.1"); self.assertEqual(r["failed_replication_attempt"]["source_tolerance_unchanged"],1e-12)
+ def test_workflow_verifies_runtime_before_network(self):
+  root=Path(__file__).resolve().parents[3]; w=(root/".github/workflows/cd-external-replication.yml").read_text(); self.assertIn('python-version: "3.11.15"',w); self.assertLess(w.index("verify_runtime.py"),w.index("Acquire pinned Nebius source bytes"))
+
 if __name__=="__main__": unittest.main()

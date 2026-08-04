@@ -14,12 +14,14 @@ narwhals==2.24.0
 numpy==2.4.6
 packaging==26.2
 pandas==2.3.3
+pip==26.1.2
 pyarrow==23.0.1
 python-dateutil==2.9.0.post0
 pytz==2026.3.post1
 PyYAML==6.0.3
 scikit-learn==1.9.0
 scipy==1.17.1
+setuptools==79.0.1
 six==1.17.0
 threadpoolctl==3.6.0
 tqdm==4.70.0
