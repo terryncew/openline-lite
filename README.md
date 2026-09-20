@@ -143,6 +143,44 @@ QUARANTINE
 
 This is not dependency discovery or a second authority layer. The receiver owns the declarations; Receipt Gate still owns the signed disposition. See [SELECTIVE_REVERIFICATION.md](SELECTIVE_REVERIFICATION.md).
 
+## Living-wiki standing
+
+My living wiki compounds. What happens when an old source changes?
+
+LLM-maintained wikis compile raw sources (`raw/`) into persistent pages
+(`wiki/`). The useful property: knowledge compounds instead of being
+reconstructed from scratch. The failure mode: a compiled page can keep
+influencing later work after a source that justified it changed,
+disappeared, or was superseded.
+
+`openline-wiki` records which source versions each compiled page was
+declared to depend on, then deterministically flags the page for
+reconsideration when those recorded sources change or disappear. It does
+not judge whether a wiki claim is true — it knows which pages lost the
+source standing they were recorded against.
+
+```bash
+git clone https://github.com/terryncew/openline-lite
+cd openline-lite && pip install .
+cd my-wiki
+openline-wiki init
+openline-wiki record topic.md --source raw/paper-a.md --complete
+openline-wiki scan
+```
+
+```text
+REOPEN        topic.md (source_changed:raw/paper-a.md)
+RETAIN        glossary.md
+UNDETERMINED  notes.md (incomplete_capture)
+```
+
+Short version: your wiki remembers when its sources stopped matching.
+REOPEN means reconsider the page; RETAIN means its recorded sources are
+byte-identical and the dependency declaration was marked complete;
+UNDETERMINED means standing cannot be established — treat it as
+unresolved, never as current. For agent workflows see
+[integrations/living-wiki/SKILL.md](integrations/living-wiki/SKILL.md).
+
 ## Install and run
 
 ```bash
@@ -152,6 +190,7 @@ pip install .
 
 openline-check --help
 openline-impact --help
+openline-wiki --help
 olp-lite demo
 python -m examples.impact
 ```

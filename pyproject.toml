@@ -44,6 +44,7 @@ Changelog = "https://github.com/terryncew/openline-lite/blob/main/CHANGELOG.md"
 olp-lite = "openline_lite.cli:main"
 openline-check = "openline_lite.check:main"
 openline-impact = "openline_lite.impact_cli:main"
+openline-wiki = "openline_lite.wiki_cli:main"
 openline-handoff = "openline_lite.model_cli:main"
 openline-funes-handoff = "openline_lite.funes_handoff:main"
 
