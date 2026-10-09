@@ -8,6 +8,8 @@
 
 Run a local example, see what OpenLine can do today, and choose the right path for coding agents, provider changes, or guarded tool calls.
 
+[Agent protocol comparison: MCP, A2A, AP2, Microsoft AGT and OpenLine](AGENT_PROTOCOLS.md) — a source-backed, reproducible provider-switch test and its limits.
+
 **This repository is the front door.** [The Start Here guide](START_HERE.md) connects Lite, Airlock, Wallet, and Receipt Gate without requiring you to install the whole stack.
 
 ## What Lite does
